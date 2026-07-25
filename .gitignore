@@ -1,9 +1,20 @@
-.env
-*.db
-*.sqlite
+# FastF1 cache
+data/cache/
+
+# pytest
+.pytest_cache/
+
+# Python
 __pycache__/
-*.pyc
-venv/
-.streamlit/secrets.toml
-chroma_db/
+*.py[cod]
 .ipynb_checkpoints/
+
+# Virtual environment
+venv/
+.venv/
+
+# OS
+.DS_Store
+Thumbs.db
+
+.env
