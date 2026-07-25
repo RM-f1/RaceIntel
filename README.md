@@ -108,7 +108,7 @@ RaceIntel/
 ## 1. Clone the repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/RaceIntel.git
+git clone https://github.com/RM-f1/RaceIntel.git
 cd RaceIntel
 ```
 
