@@ -12,7 +12,7 @@ VALID_SESSION_TYPES = {"R", "Q", "S", "FP1", "FP2", "FP3"}
 
 
 def enable_cache() -> None:
-   
+
     CACHE_DIR.mkdir(parents=True, exist_ok=True)
     fastf1.Cache.enable_cache(str(CACHE_DIR))
 
@@ -22,7 +22,7 @@ def load_session(
     grand_prix: str,
     session_type: str,
 ) -> Session:
-  
+
     if year < 1950:
         raise ValueError("Year must be 1950 or later.")
 
