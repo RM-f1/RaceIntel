@@ -5,14 +5,13 @@ This module provides:
 - SQLAlchemy engine
 - Session factory
 - Declarative base
-- SQLite database configuration
-
-All database interactions throughout the project should use this module.
+- Helper for executing SQL queries
 """
 
 from pathlib import Path
 
-from sqlalchemy import create_engine
+import pandas as pd
+from sqlalchemy import create_engine, text
 from sqlalchemy.orm import DeclarativeBase, sessionmaker
 
 # ---------------------------------------------------------------------
@@ -58,3 +57,35 @@ class Base(DeclarativeBase):
     """Base class inherited by every ORM model."""
 
     pass
+
+
+# ---------------------------------------------------------------------
+# Helper Functions
+# ---------------------------------------------------------------------
+
+
+def query_to_dataframe(
+    query: str,
+    params: dict | None = None,
+) -> pd.DataFrame:
+    """
+    Execute a SQL query and return the results as a pandas DataFrame.
+
+    Args:
+        query: SQL query string.
+        params: Optional SQL parameters.
+
+    Returns:
+        pandas.DataFrame containing query results.
+    """
+
+    with SessionLocal() as session:
+        result = session.execute(
+            text(query),
+            params or {},
+        )
+
+        return pd.DataFrame(
+            result.fetchall(),
+            columns=result.keys(),
+        )

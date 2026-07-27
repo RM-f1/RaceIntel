@@ -6,9 +6,8 @@ the RaceIntel SQLite database.
 """
 
 import pandas as pd
-from sqlalchemy import text
 
-from src.database.connection import SessionLocal
+from src.database.connection import query_to_dataframe
 
 
 def get_driver_standings(session_id: int) -> pd.DataFrame:
@@ -26,7 +25,7 @@ def get_driver_standings(session_id: int) -> pd.DataFrame:
         Driver standings sorted by points.
     """
 
-    query = text("""
+    query = """
         SELECT
             d.driver_code,
             d.driver_full_name,
@@ -42,20 +41,12 @@ def get_driver_standings(session_id: int) -> pd.DataFrame:
         ORDER BY
             rr.points_scored DESC,
             rr.finish_position ASC;
-    """)
+    """
 
-    with SessionLocal() as session:
-        result = session.execute(
-            query,
-            {"session_id": session_id}
-        )
-
-        dataframe = pd.DataFrame(
-            result.fetchall(),
-            columns=result.keys()
-        )
-
-    return dataframe
+    return query_to_dataframe(
+        query,
+        {"session_id": session_id},
+    )
 
 
 def get_constructor_standings(session_id: int) -> pd.DataFrame:
@@ -63,7 +54,7 @@ def get_constructor_standings(session_id: int) -> pd.DataFrame:
     Return constructor standings for a race session.
     """
 
-    query = text("""
+    query = """
         SELECT
             c.constructor_name,
             SUM(rr.points_scored) AS total_points
@@ -75,17 +66,9 @@ def get_constructor_standings(session_id: int) -> pd.DataFrame:
             c.constructor_name
         ORDER BY
             total_points DESC;
-    """)
+    """
 
-    with SessionLocal() as session:
-        result = session.execute(
-            query,
-            {"session_id": session_id}
-        )
-
-        dataframe = pd.DataFrame(
-            result.fetchall(),
-            columns=result.keys()
-        )
-
-    return dataframe
+    return query_to_dataframe(
+        query,
+        {"session_id": session_id},
+    )

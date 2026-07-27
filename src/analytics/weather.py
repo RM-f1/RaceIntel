@@ -1,17 +1,16 @@
 """
-RaceIntel Weather Analytics.
+RaceIntel Weather Analysis.
 
 Provides analytics related to:
-- Weather summary
-- Rain periods
+- Average weather conditions
+- Rainfall periods
 - Temperature trends
-- Weather extremes
+- Wind conditions
 """
 
 import pandas as pd
-from sqlalchemy import text
 
-from src.database.connection import SessionLocal
+from src.database.connection import query_to_dataframe
 
 
 def get_weather_summary(session_id: int) -> pd.DataFrame:
@@ -19,31 +18,29 @@ def get_weather_summary(session_id: int) -> pd.DataFrame:
     Return average weather conditions during the race.
     """
 
-    query = text("""
+    query = """
         SELECT
-            ROUND(AVG(air_temperature_celsius),2) AS average_air_temperature,
-            ROUND(AVG(track_temperature_celsius),2) AS average_track_temperature,
-            ROUND(AVG(humidity_percent),2) AS average_humidity,
-            ROUND(AVG(wind_speed_mps),2) AS average_wind_speed
+            ROUND(AVG(air_temperature_celsius), 2) AS average_air_temperature,
+            ROUND(AVG(track_temperature_celsius), 2) AS average_track_temperature,
+            ROUND(AVG(humidity_percent), 2) AS average_humidity,
+            ROUND(AVG(wind_speed_mps), 2) AS average_wind_speed,
+            ROUND(AVG(pressure_mbar), 2) AS average_pressure
         FROM weather_observations
         WHERE session_id = :session_id;
-    """)
+    """
 
-    with SessionLocal() as session:
-        result = session.execute(query, {"session_id": session_id})
-
-        return pd.DataFrame(
-            result.fetchall(),
-            columns=result.keys()
-        )
+    return query_to_dataframe(
+        query,
+        {"session_id": session_id},
+    )
 
 
 def get_rain_periods(session_id: int) -> pd.DataFrame:
     """
-    Return all weather observations where rainfall occurred.
+    Return all observations where rainfall was recorded.
     """
 
-    query = text("""
+    query = """
         SELECT
             observation_time,
             air_temperature_celsius,
@@ -56,23 +53,20 @@ def get_rain_periods(session_id: int) -> pd.DataFrame:
             session_id = :session_id
             AND rainfall = 1
         ORDER BY observation_time;
-    """)
+    """
 
-    with SessionLocal() as session:
-        result = session.execute(query, {"session_id": session_id})
-
-        return pd.DataFrame(
-            result.fetchall(),
-            columns=result.keys()
-        )
+    return query_to_dataframe(
+        query,
+        {"session_id": session_id},
+    )
 
 
 def get_temperature_trend(session_id: int) -> pd.DataFrame:
     """
-    Return the temperature trend throughout the race.
+    Return air and track temperature throughout the race.
     """
 
-    query = text("""
+    query = """
         SELECT
             observation_time,
             air_temperature_celsius,
@@ -80,23 +74,39 @@ def get_temperature_trend(session_id: int) -> pd.DataFrame:
         FROM weather_observations
         WHERE session_id = :session_id
         ORDER BY observation_time;
-    """)
+    """
 
-    with SessionLocal() as session:
-        result = session.execute(query, {"session_id": session_id})
-
-        return pd.DataFrame(
-            result.fetchall(),
-            columns=result.keys()
-        )
+    return query_to_dataframe(
+        query,
+        {"session_id": session_id},
+    )
 
 
+def get_wind_conditions(session_id: int) -> pd.DataFrame:
+    """
+    Return wind conditions throughout the race.
+    """
+
+    query = """
+        SELECT
+            observation_time,
+            wind_speed_mps,
+            wind_direction_degrees
+        FROM weather_observations
+        WHERE session_id = :session_id
+        ORDER BY observation_time;
+    """
+
+    return query_to_dataframe(
+        query,
+        {"session_id": session_id},
+    )
 def get_weather_extremes(session_id: int) -> pd.DataFrame:
     """
-    Return weather extremes observed during the race.
+    Return minimum/maximum weather values recorded.
     """
 
-    query = text("""
+    query = """
         SELECT
             MIN(air_temperature_celsius) AS minimum_air_temperature,
             MAX(air_temperature_celsius) AS maximum_air_temperature,
@@ -105,12 +115,9 @@ def get_weather_extremes(session_id: int) -> pd.DataFrame:
             MAX(wind_speed_mps) AS maximum_wind_speed
         FROM weather_observations
         WHERE session_id = :session_id;
-    """)
+    """
 
-    with SessionLocal() as session:
-        result = session.execute(query, {"session_id": session_id})
-
-        return pd.DataFrame(
-            result.fetchall(),
-            columns=result.keys()
-        )
+    return query_to_dataframe(
+        query,
+        {"session_id": session_id},
+    )
