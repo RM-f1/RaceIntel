@@ -19,3 +19,7 @@ Thumbs.db
 
 .env
 data/*.db
+
+# ChromaDB
+data/chroma/*
+!data/chroma/.gitkeep

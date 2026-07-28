@@ -2,6 +2,9 @@ from pathlib import Path
 
 import chromadb
 from chromadb.api.models.Collection import Collection
+from chromadb.utils.embedding_functions import (
+    SentenceTransformerEmbeddingFunction,
+)
 
 from raceintel.retrieval.schemas import RaceDocument
 
@@ -45,3 +48,17 @@ class ChromaClient:
        
 
         return self.collection.count()
+
+    def reset_collection(self) -> None:
+   
+
+    self.client.delete_collection("raceintel_knowledge")
+
+    embedding_function = SentenceTransformerEmbeddingFunction(
+        model_name="all-MiniLM-L6-v2"
+    )
+
+    self.collection = self.client.get_or_create_collection(
+        name="raceintel_knowledge",
+        embedding_function=embedding_function,
+    )
