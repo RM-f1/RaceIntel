@@ -10,7 +10,7 @@ from sqlalchemy import (DateTime, Float, ForeignKey, Integer, String,
                         UniqueConstraint)
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from src.database.connection import Base
+from database.connection import Base
 
 # ---------------------------------------------------------------------
 # Seasons

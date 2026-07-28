@@ -1,25 +1,18 @@
-from src.analytics.standings import (
-    get_driver_standings,
-    get_constructor_standings,
-)
-
-def test_driver_standings_not_empty():
-
-    df = get_driver_standings(1)
-
-    assert not df.empty
-
-    assert "driver_code" in df.columns
-
-    assert "points_scored" in df.columns
+from .conftest import client
 
 
-def test_constructor_standings_not_empty():
+def test_get_standings():
+    response = client.get("/standings/drivers/1")
 
-    df = get_constructor_standings(1)
+    assert response.status_code == 200
 
-    assert not df.empty
+    data = response.json()
 
-    assert "constructor_name" in df.columns
+    assert isinstance(data, list)
+    assert len(data) > 0
 
-    assert "total_points" in df.columns
+    assert "driver_code" in data[0]
+    assert "driver_full_name" in data[0]
+    assert "constructor_name" in data[0]
+    assert "finish_position" in data[0]
+    assert "points_scored" in data[0]
