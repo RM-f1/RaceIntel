@@ -1,25 +1,30 @@
 # FastF1 cache
 data/cache/
 
-# pytest
-.pytest_cache/
+# ChromaDB
+data/chroma/*
+!data/chroma/.gitkeep
+
+# Database
+data/*.db
 
 # Python
 __pycache__/
 *.py[cod]
+.pytest_cache/
 .ipynb_checkpoints/
+*.log
 
 # Virtual environment
 venv/
 .venv/
 
+# Environment variables
+.env
+
+# VS Code
+.vscode/
+
 # OS
 .DS_Store
 Thumbs.db
-
-.env
-data/*.db
-
-# ChromaDB
-data/chroma/*
-!data/chroma/.gitkeep

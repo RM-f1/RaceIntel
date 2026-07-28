@@ -1,0 +1,3 @@
+MODEL_NAME = "gemini-2.5-flash"
+TEMPERATURE = 0.2
+MAX_OUTPUT_TOKENS = 1024
