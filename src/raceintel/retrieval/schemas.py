@@ -1,9 +1,10 @@
 from dataclasses import dataclass
-from typing import Dict
+from typing import Any
 
 
 @dataclass
 class RaceDocument:
+
     id: str
     text: str
-    metadata: Dict
+    metadata: dict[str, Any]
