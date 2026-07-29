@@ -2,8 +2,7 @@
 data/cache/
 
 # ChromaDB
-data/chroma/*
-!data/chroma/.gitkeep
+data/chroma/
 
 # Database
 data/*.db

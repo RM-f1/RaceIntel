@@ -103,3 +103,10 @@ class DriverStandingResponse(BaseModel):
 class ConstructorStandingResponse(BaseModel):
     constructor_name: str
     total_points: float
+
+class ChatRequest(BaseModel):
+    question: str
+
+
+class ChatResponse(BaseModel):
+    answer: str

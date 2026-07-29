@@ -7,7 +7,7 @@ the RaceIntel SQLite database.
 
 import pandas as pd
 
-from src.database.connection import query_to_dataframe
+from database.connection import query_to_dataframe
 
 
 def get_driver_standings(session_id: int) -> pd.DataFrame:

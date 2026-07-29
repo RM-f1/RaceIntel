@@ -2,33 +2,38 @@ from raceintel.retrieval.chroma_client import ChromaClient
 
 
 class Retriever:
-   
 
     def __init__(self):
         self.client = ChromaClient()
 
-    def search(
+    def retrieve(
         self,
-        query: str,
+        question: str,
         n_results: int = 5,
-    ) -> dict:
-        
+    ) -> str:
 
-        return self.client.collection.query(
-            query_texts=[query],
+        question_lower = question.lower()
+
+        race_keywords = [
+            "winner",
+            "won",
+            "podium",
+            "fastest lap",
+            "race",
+            "grand prix",
+        ]
+
+        if any(keyword in question_lower for keyword in race_keywords):
+            where = {"source": "race_report"}
+        else:
+            where = {"source": "driver_summary"}
+
+        results = self.client.collection.query(
+            query_texts=[question],
             n_results=n_results,
+            where=where,
         )
 
-    def search_by_metadata(
-        self,
-        query: str,
-        metadata_filter: dict[str,Any],
-        n_results: int = 5,
-    ) -> dict:
-       
+        documents = results.get("documents", [[]])[0]
 
-        return self.client.collection.query(
-            query_texts=[query],
-            where=metadata_filter,
-            n_results=n_results,
-        )
+        return "\n\n".join(documents)

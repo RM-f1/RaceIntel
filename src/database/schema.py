@@ -1,5 +1,5 @@
-from src.database.connection import engine
-from src.database.models import Base
+from database.connection import engine
+from database.models import Base
 
 
 def create_database() -> None:

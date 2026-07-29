@@ -1,19 +1,24 @@
 from fastapi import APIRouter
 
+from raceintel.api.schemas import ChatRequest, ChatResponse
 from raceintel.chat.chat_service import ChatService
-from raceintel.chat.schemas import ChatQueryRequest
 
 router = APIRouter(
     prefix="/chat",
-    tags=["Chat"],
+    tags=["AI"],
 )
 
 chat_service = ChatService()
 
 
-@router.post("/query")
-def query(request: ChatQueryRequest):
-    
-    return chat_service.retrieve_context(
-        request.question
+@router.post(
+    "",
+    response_model=ChatResponse,
+)
+def ask_chat(request: ChatRequest):
+
+    answer = chat_service.ask(request.question)
+
+    return ChatResponse(
+        answer=answer,
     )

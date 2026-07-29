@@ -1,6 +1,5 @@
 from pydantic import BaseModel
 
 
-class LLMResponse(BaseModel):
+class AIResponse(BaseModel):
     answer: str
-    confidence: float

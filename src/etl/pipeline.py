@@ -1,12 +1,12 @@
 from sqlalchemy.exc import SQLAlchemyError
 
-from src.database.connection import SessionLocal
-from src.etl.extract import extract_session
-from src.etl.load import (delete_session_data, get_existing_session,
+from database.connection import SessionLocal
+from etl.extract import extract_session
+from etl.load import (delete_session_data, get_existing_session,
                           load_constructors, load_drivers, load_event,
                           load_laps, load_race_results, load_season,
                           load_session, load_weather)
-from src.etl.transform import (transform_constructors, transform_drivers,
+from etl.transform import (transform_constructors, transform_drivers,
                                transform_laps, transform_race_results,
                                transform_session_metadata, transform_weather)
 

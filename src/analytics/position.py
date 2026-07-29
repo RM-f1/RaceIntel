@@ -10,7 +10,7 @@ Provides analytics related to:
 
 import pandas as pd
 
-from src.database.connection import query_to_dataframe
+from database.connection import query_to_dataframe
 
 
 def get_position_changes(session_id: int) -> pd.DataFrame:

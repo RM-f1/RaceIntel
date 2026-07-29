@@ -1,7 +1,7 @@
 from sqlalchemy import delete
 from sqlalchemy.orm import Session as DBSession
 
-from src.database.models import (Constructor, Driver, Event, Lap, RaceResult,
+from database.models import (Constructor, Driver, Event, Lap, RaceResult,
                                  Season, Session, WeatherObservation)
 
 
