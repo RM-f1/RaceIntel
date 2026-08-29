@@ -16,6 +16,7 @@ class RaceDocumentGenerator:
         classification,
         fastest_lap,
         summary,
+        country,
     ) -> RaceDocument:
 
         text = f"""
@@ -46,9 +47,9 @@ Race Summary:
         metadata = {
             "season": season,
             "round": round_number,
-            "grand_prix": grand_prix,
-            "winner": winner,
-            "source": "race_report",
+            "race_name": grand_prix,
+            "document_type": "race_report",
+            "country": country,
         }
 
         return RaceDocument(
@@ -66,6 +67,7 @@ Race Summary:
         constructor: str,
         finish_position: int,
         points: float,
+        country: str,
     ) -> RaceDocument:
 
         text = f"""
@@ -91,10 +93,11 @@ Points:
         metadata = {
             "season": season,
             "round": round_number,
-            "grand_prix": grand_prix,
+            "race_name": grand_prix,
             "driver": driver,
-            "constructor": constructor,
-            "source": "driver_summary",
+            "team": constructor,
+            "country": country,
+            "document_type": "driver_report",
         }
 
         return RaceDocument(

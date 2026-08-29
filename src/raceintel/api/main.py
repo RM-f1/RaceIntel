@@ -1,6 +1,5 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from raceintel.api.chat import router as chat_router
 
 from raceintel.api.routers import (
     health,
@@ -11,6 +10,7 @@ from raceintel.api.routers import (
     weather,
     pace,
     standings,
+    chat,
 )
 
 app = FastAPI(
@@ -19,14 +19,21 @@ app = FastAPI(
     version="1.0.0",
 )
 
-# Allow frontend applications (e.g. Streamlit) to access the API
+# ---------------------------------------------------------------------
+# CORS
+# ---------------------------------------------------------------------
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],      # For development
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# ---------------------------------------------------------------------
+# Routers
+# ---------------------------------------------------------------------
 
 app.include_router(health.router)
 app.include_router(sessions.router)
@@ -36,8 +43,12 @@ app.include_router(races.router)
 app.include_router(weather.router)
 app.include_router(pace.router)
 app.include_router(standings.router)
-app.include_router(chat_router)
+app.include_router(chat.router)
 
+
+# ---------------------------------------------------------------------
+# Root endpoint
+# ---------------------------------------------------------------------
 
 @app.get("/")
 def root():

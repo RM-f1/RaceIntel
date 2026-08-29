@@ -14,13 +14,14 @@ def main():
             s.session_id,
             se.season_year,
             e.event_id,
-            e.event_name
+            e.event_name,
+            e.country_name
         FROM sessions s
         JOIN events e
             ON s.event_id = e.event_id
         JOIN seasons se
             ON e.season_id = se.season_id
-        WHERE s.session_type='Race'
+        WHERE s.session_type = 'Race'
         ORDER BY se.season_year, e.event_id
         """
     )
@@ -42,9 +43,10 @@ def main():
             classification=report["classification"],
             fastest_lap=report["fastest_lap"]["driver"],
             summary=report["summary"],
+            country=row["country_name"],
         )
 
-        client.add_document(race_doc)
+        documents = [race_doc]
 
         drivers = get_driver_standings(row["session_id"])
 
@@ -58,11 +60,17 @@ def main():
                 constructor=driver["constructor_name"],
                 finish_position=int(driver["finish_position"]),
                 points=float(driver["points_scored"]),
+                country=row["country_name"],
             )
 
-            client.add_document(driver_doc)
+            documents.append(driver_doc)
 
-        print(f"Indexed {row['event_name']}")
+        client.add_documents(documents)
+
+        print(
+            f"Indexed {row['event_name']} "
+            f"({len(documents)} documents)"
+        )
 
     print(f"\nTotal indexed documents: {client.count()}")
 

@@ -1,7 +1,0 @@
-MODEL_NAME = "qwen2.5:3b"
-
-TEMPERATURE = 0.2
-
-MAX_OUTPUT_TOKENS = 1024
-
-OLLAMA_HOST = "http://localhost:11434"

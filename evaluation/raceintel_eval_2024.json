@@ -1,0 +1,285 @@
+{
+  "schema_version": "1.0",
+  "evaluation": "RaceIntel 2024 evaluation baseline",
+  "season": 2024,
+  "cases": [
+    {
+      "id": 1,
+      "question": "Who won the Monaco Grand Prix?",
+      "category": "race_winner",
+      "expected_answer": "Charles Leclerc"
+    },
+    {
+      "id": 2,
+      "question": "Who won the Canadian Grand Prix?",
+      "category": "race_winner",
+      "expected_answer": "Max Verstappen"
+    },
+    {
+      "id": 3,
+      "question": "Who won the British Grand Prix?",
+      "category": "race_winner",
+      "expected_answer": "Lewis Hamilton"
+    },
+    {
+      "id": 4,
+      "question": "Who won the Singapore Grand Prix?",
+      "category": "race_winner",
+      "expected_answer": "Lando Norris"
+    },
+    {
+      "id": 5,
+      "question": "How did Max Verstappen perform in the Canadian Grand Prix?",
+      "category": "driver_performance",
+      "expected_answer": {
+        "driver": "Max Verstappen",
+        "race": "Canadian Grand Prix",
+        "position": "P1",
+        "points": 25.0
+      }
+    },
+    {
+      "id": 6,
+      "question": "How did Charles Leclerc perform in the Canadian Grand Prix?",
+      "category": "driver_performance",
+      "expected_answer": {
+        "driver": "Charles Leclerc",
+        "race": "Canadian Grand Prix",
+        "position": "P19",
+        "points": 0.0
+      }
+    },
+    {
+      "id": 7,
+      "question": "How did George Russell perform in the Canadian Grand Prix?",
+      "category": "driver_performance",
+      "expected_answer": {
+        "driver": "George Russell",
+        "race": "Canadian Grand Prix",
+        "position": "P3",
+        "points": 15.0
+      }
+    },
+    {
+      "id": 8,
+      "question": "How did Lewis Hamilton perform in the Canadian Grand Prix?",
+      "category": "driver_performance",
+      "expected_answer": {
+        "driver": "Lewis Hamilton",
+        "race": "Canadian Grand Prix",
+        "position": "P4",
+        "points": 13.0
+      }
+    },
+    {
+      "id": 9,
+      "question": "How did Lando Norris perform in the Abu Dhabi Grand Prix?",
+      "category": "driver_performance",
+      "expected_answer": {
+        "driver": "Lando Norris",
+        "race": "Abu Dhabi Grand Prix",
+        "position": "P1",
+        "points": 25.0
+      }
+    },
+    {
+      "id": 10,
+      "question": "How did Oscar Piastri perform in the Abu Dhabi Grand Prix?",
+      "category": "driver_performance",
+      "expected_answer": {
+        "driver": "Oscar Piastri",
+        "race": "Abu Dhabi Grand Prix",
+        "position": "P10",
+        "points": 1.0
+      }
+    },
+    {
+      "id": 11,
+      "question": "What was Ferrari's result in Monaco?",
+      "category": "team_performance",
+      "expected_answer": {
+        "team": "Ferrari",
+        "race": "Monaco Grand Prix",
+        "drivers": [
+          {
+            "driver": "Charles Leclerc",
+            "position": "P1",
+            "points": 25.0
+          },
+          {
+            "driver": "Carlos Sainz",
+            "position": "P3",
+            "points": 15.0
+          }
+        ]
+      }
+    },
+    {
+      "id": 12,
+      "question": "How did Mercedes perform in Canada?",
+      "category": "team_performance",
+      "expected_answer": {
+        "team": "Mercedes",
+        "race": "Canadian Grand Prix",
+        "drivers": [
+          {
+            "driver": "George Russell",
+            "position": "P3",
+            "points": 15.0
+          },
+          {
+            "driver": "Lewis Hamilton",
+            "position": "P4",
+            "points": 13.0
+          }
+        ]
+      }
+    },
+    {
+      "id": 13,
+      "question": "Summarise McLaren's Abu Dhabi result.",
+      "category": "team_performance",
+      "expected_answer": {
+        "team": "McLaren",
+        "race": "Abu Dhabi Grand Prix",
+        "drivers": [
+          {
+            "driver": "Lando Norris",
+            "position": "P1",
+            "points": 25.0
+          },
+          {
+            "driver": "Oscar Piastri",
+            "position": "P10",
+            "points": 1.0
+          }
+        ]
+      }
+    },
+    {
+      "id": 14,
+      "question": "Which Ferrari driver finished higher in Monaco?",
+      "category": "team_comparison",
+      "expected_answer": "Charles Leclerc"
+    },
+    {
+      "id": 15,
+      "question": "Which Mercedes driver finished higher in Canada?",
+      "category": "team_comparison",
+      "expected_answer": "George Russell"
+    },
+    {
+      "id": 16,
+      "question": "Who scored the most points for Mercedes in Canada?",
+      "category": "points",
+      "expected_answer": "George Russell"
+    },
+    {
+      "id": 17,
+      "question": "Who scored the most points for Ferrari in Monaco?",
+      "category": "points",
+      "expected_answer": "Charles Leclerc"
+    },
+    {
+      "id": 18,
+      "question": "Who scored the most points for McLaren in Abu Dhabi?",
+      "category": "points",
+      "expected_answer": "Lando Norris"
+    },
+    {
+      "id": 19,
+      "question": "Who scored points in Abu Dhabi?",
+      "category": "points",
+      "expected_answer": [
+        "Lando Norris",
+        "Carlos Sainz",
+        "Charles Leclerc",
+        "Lewis Hamilton",
+        "George Russell",
+        "Max Verstappen",
+        "Oscar Piastri",
+        "Nico Hulkenberg",
+        "Fernando Alonso",
+        "Pierre Gasly"
+      ]
+    },
+    {
+      "id": 20,
+      "question": "Who finished on the podium in Monaco?",
+      "category": "race_result",
+      "expected_answer": [
+        "Charles Leclerc",
+        "Oscar Piastri",
+        "Carlos Sainz"
+      ]
+    },
+    {
+      "id": 21,
+      "question": "Who finished on the podium in Canada?",
+      "category": "race_result",
+      "expected_answer": [
+        "Max Verstappen",
+        "Lando Norris",
+        "George Russell"
+      ]
+    },
+    {
+      "id": 22,
+      "question": "Who finished on the podium in the British Grand Prix?",
+      "category": "race_result",
+      "expected_answer": [
+        "Lewis Hamilton",
+        "Max Verstappen",
+        "Lando Norris"
+      ]
+    },
+    {
+      "id": 23,
+      "question": "Which driver won the Abu Dhabi Grand Prix?",
+      "category": "race_winner",
+      "expected_answer": "Lando Norris"
+    },
+    {
+      "id": 24,
+      "question": "Which driver won the Singapore Grand Prix?",
+      "category": "race_winner",
+      "expected_answer": "Lando Norris"
+    },
+    {
+      "id": 25,
+      "question": "What position did Charles Leclerc finish in Monaco?",
+      "category": "finishing_position",
+      "expected_answer": "P1"
+    },
+    {
+      "id": 26,
+      "question": "What position did Carlos Sainz finish in Monaco?",
+      "category": "finishing_position",
+      "expected_answer": "P3"
+    },
+    {
+      "id": 27,
+      "question": "What position did George Russell finish in Canada?",
+      "category": "finishing_position",
+      "expected_answer": "P3"
+    },
+    {
+      "id": 28,
+      "question": "What position did Lewis Hamilton finish in Canada?",
+      "category": "finishing_position",
+      "expected_answer": "P4"
+    },
+    {
+      "id": 29,
+      "question": "How many points did Lando Norris score in Abu Dhabi?",
+      "category": "points",
+      "expected_answer": 25.0
+    },
+    {
+      "id": 30,
+      "question": "How many points did Oscar Piastri score in Abu Dhabi?",
+      "category": "points",
+      "expected_answer": 1.0
+    }
+  ]
+}

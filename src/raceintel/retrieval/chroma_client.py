@@ -29,7 +29,7 @@ class ChromaClient:
         )
 
     def add_document(self, document: RaceDocument) -> None:
-        self.collection.add(
+        self.collection.upsert(
             ids=[document.id],
             documents=[document.text],
             metadatas=[document.metadata],
@@ -39,7 +39,7 @@ class ChromaClient:
         self,
         documents: list[RaceDocument],
     ) -> None:
-        self.collection.add(
+        self.collection.upsert(
             ids=[doc.id for doc in documents],
             documents=[doc.text for doc in documents],
             metadatas=[doc.metadata for doc in documents],
