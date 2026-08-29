@@ -16,8 +16,10 @@ def test_add_document():
             "Max Verstappen",
             "Lando Norris",
         ],
+        classification="1. Lewis Hamilton\n2. Max Verstappen\n3. Lando Norris",
         fastest_lap="Carlos Sainz",
         summary="Hamilton won after changing to intermediate tyres late in the race.",
+        country="United Kingdom",
     )
 
     client.add_document(document)

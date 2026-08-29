@@ -2,7 +2,7 @@ from .conftest import client
 
 
 def test_get_pace():
-    response = client.get("/pace/1")
+    response = client.get("/pace/2")
 
     assert response.status_code == 200
 

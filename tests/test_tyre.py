@@ -8,7 +8,7 @@ from src.analytics.tyre import (
 
 def test_tyre_usage():
 
-    df = get_tyre_usage(1)
+    df = get_tyre_usage(2)
 
     assert not df.empty
     assert "laps_completed" in df.columns
@@ -16,7 +16,7 @@ def test_tyre_usage():
 
 def test_compound_performance():
 
-    df = get_compound_performance(1)
+    df = get_compound_performance(2)
 
     assert not df.empty
     assert "average_lap_time_seconds" in df.columns
@@ -24,7 +24,7 @@ def test_compound_performance():
 
 def test_tyre_degradation():
 
-    df = get_tyre_degradation(1)
+    df = get_tyre_degradation(2)
 
     assert not df.empty
     assert "tyre_age_laps" in df.columns
@@ -32,7 +32,7 @@ def test_tyre_degradation():
 
 def test_stint_summary():
 
-    df = get_stint_summary(1)
+    df = get_stint_summary(2)
 
     assert not df.empty
     assert "stint_length" in df.columns

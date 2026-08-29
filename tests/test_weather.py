@@ -2,7 +2,7 @@ from .conftest import client
 
 
 def test_get_weather():
-    response = client.get("/weather/1")
+    response = client.get("/weather/2")
 
     assert response.status_code == 200
 

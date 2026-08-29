@@ -2,13 +2,13 @@ from .conftest import client
 
 
 def test_get_race_report():
-    response = client.get("/races/1")
+    response = client.get("/races/2")
 
     assert response.status_code == 200
 
     data = response.json()
 
-    assert data["session_id"] == 1
+    assert data["session_id"] == 2
     assert "winner" in data
     assert "podium" in data
     assert "top_constructor" in data

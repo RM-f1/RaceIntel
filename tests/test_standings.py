@@ -2,7 +2,7 @@ from .conftest import client
 
 
 def test_get_standings():
-    response = client.get("/standings/drivers/1")
+    response = client.get("/standings/drivers/2")
 
     assert response.status_code == 200
 
