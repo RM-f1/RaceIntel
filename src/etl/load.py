@@ -20,7 +20,7 @@ def delete_session_data(
 
     db.execute(delete(Session).where(Session.session_id == session_id))
 
-    db.commit()
+
 
 
 def get_existing_session(
@@ -72,9 +72,7 @@ def load_season(
     season = Season(**season_data)
 
     db.add(season)
-    db.commit()
-    db.refresh(season)
-
+    db.flush()
     return season
 
 
@@ -102,8 +100,8 @@ def load_event(
     )
 
     db.add(event)
-    db.commit()
-    db.refresh(event)
+    db.flush()
+
 
     return event
 
@@ -132,8 +130,9 @@ def load_session(
     )
 
     db.add(session)
-    db.commit()
-    db.refresh(session)
+    db.flush()
+
+
 
     return session
 
@@ -158,8 +157,8 @@ def load_constructors(
         if constructor is None:
             constructor = Constructor(**data)
             db.add(constructor)
-            db.commit()
-            db.refresh(constructor)
+            db.flush()
+
 
         constructors.append(constructor)
 
@@ -197,8 +196,9 @@ def load_drivers(
             )
 
             db.add(driver)
-            db.commit()
-            db.refresh(driver)
+            db.flush()
+
+
 
         drivers.append(driver)
 
@@ -233,10 +233,6 @@ def load_race_results(
         db.add(result)
         race_results.append(result)
 
-    db.commit()
-
-    for result in race_results:
-        db.refresh(result)
 
     return race_results
 
@@ -265,7 +261,7 @@ def load_laps(
         db.add(lap)
         laps.append(lap)
 
-    db.commit()
+
 
     return laps
 
@@ -298,6 +294,6 @@ def load_weather(
         db.add(weather)
         weather_records.append(weather)
 
-    db.commit()
+
 
     return weather_records

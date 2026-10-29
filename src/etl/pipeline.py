@@ -103,9 +103,10 @@ def run_pipeline(
             weather_data,
         )
 
+        db.commit()
         print("ETL pipeline completed successfully!")
 
-    except SQLAlchemyError:
+    except Exception:
         db.rollback()
         raise
 
