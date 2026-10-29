@@ -1,0 +1,52 @@
+{
+  "evaluation": "RaceIntel RAGAS evaluation",
+  "status": "historical_pre_index_correction",
+  "season": 2024,
+  "pilot_size": 3,
+  "cases": 3,
+  "ragas_version": "0.2.15",
+  "metrics": [
+    "faithfulness",
+    "context_precision",
+    "context_recall",
+    "answer_relevancy"
+  ],
+  "results": [
+    {
+      "user_input": "Who won the Monaco Grand Prix?",
+      "retrieved_contexts": [
+        "Season: 2024\n\nRound: 9\n\nGrand Prix: Monaco Grand Prix\n\nWinner:\nCharles Leclerc\n\nPodium:\n1. Charles Leclerc\n2. Oscar Piastri\n3. Carlos Sainz\n\nClassification:\nP1 Charles Leclerc\nP2 Oscar Piastri\nP3 Carlos Sainz\nP4 Lando Norris\nP5 George Russell\nP6 Max Verstappen\nP7 Lewis Hamilton\nP8 Yuki Tsunoda\nP9 Alexander Albon\nP10 Pierre Gasly\nP11 Fernando Alonso\nP12 Daniel Ricciardo\nP13 Valtteri Bottas\nP14 Lance Stroll\nP15 Logan Sargeant\nP16 Guanyu Zhou\nP17 Esteban Ocon\nP18 Sergio Perez\nP19 Nico Hulkenberg\nP20 Kevin Magnussen\n\nFastest Lap:\nLewis Hamilton\n\nRace Summary:\nCharles Leclerc won the race. The podium consisted of Charles Leclerc, Oscar Piastri, Carlos Sainz. Valtteri Bottas gained 4 positions. The fastest lap was set by Lewis Hamilton."
+      ],
+      "response": "Charles Leclerc won the race.",
+      "reference": "Charles Leclerc",
+      "faithfulness": 1.0,
+      "context_precision": 0.9999999999,
+      "context_recall": 1.0,
+      "answer_relevancy": 0.7116353702047773
+    },
+    {
+      "user_input": "Who won the Canadian Grand Prix?",
+      "retrieved_contexts": [
+        "Season: 2024\n\nRound: 10\n\nGrand Prix: Canadian Grand Prix\n\nWinner:\nMax Verstappen\n\nPodium:\n1. Max Verstappen\n2. Lando Norris\n3. George Russell\n\nClassification:\nP1 Max Verstappen\nP2 Lando Norris\nP3 George Russell\nP4 Lewis Hamilton\nP5 Oscar Piastri\nP6 Fernando Alonso\nP7 Lance Stroll\nP8 Daniel Ricciardo\nP9 Pierre Gasly\nP10 Esteban Ocon\nP11 Nico Hulkenberg\nP12 Kevin Magnussen\nP13 Valtteri Bottas\nP14 Yuki Tsunoda\nP15 Guanyu Zhou\nP16 Carlos Sainz\nP17 Alexander Albon\nP18 Sergio Perez\nP19 Charles Leclerc\nP20 Logan Sargeant\n\nFastest Lap:\nLewis Hamilton\n\nRace Summary:\nMax Verstappen won the race. The podium consisted of Max Verstappen, Lando Norris, George Russell. Esteban Ocon gained 8 positions. The fastest lap was set by Lewis Hamilton."
+      ],
+      "response": "Max Verstappen won the race.",
+      "reference": "Max Verstappen",
+      "faithfulness": 1.0,
+      "context_precision": 0.9999999999,
+      "context_recall": 1.0,
+      "answer_relevancy": 0.7126324933407702
+    },
+    {
+      "user_input": "Who won the British Grand Prix?",
+      "retrieved_contexts": [
+        "Season: 2024\n\nRound: 1\n\nGrand Prix: British Grand Prix\n\nWinner:\nLewis Hamilton\n\nPodium:\n1. Lewis Hamilton\n2. Max Verstappen\n3. Lando Norris\n\nClassification:\nP1 Lewis Hamilton\nP2 Max Verstappen\nP3 Lando Norris\nP4 Oscar Piastri\nP5 Carlos Sainz\nP6 Nico Hulkenberg\nP7 Lance Stroll\nP8 Fernando Alonso\nP9 Alexander Albon\nP10 Yuki Tsunoda\nP11 Logan Sargeant\nP12 Kevin Magnussen\nP13 Daniel Ricciardo\nP14 Charles Leclerc\nP15 Valtteri Bottas\nP16 Esteban Ocon\nP17 Sergio Perez\nP18 Guanyu Zhou\nP19 George Russell\nP20 Pierre Gasly\n\nFastest Lap:\nCarlos Sainz\n\nRace Summary:\nLewis Hamilton won the race. The podium consisted of Lewis Hamilton, Max Verstappen, Lando Norris. Kevin Magnussen gained 5 positions. The fastest lap was set by Carlos Sainz.\n\nSeason: 2024\n\nRound: 12\n\nGrand Prix: British Grand Prix\n\nWinner:\nLewis Hamilton\n\nPodium:\n1. Lewis Hamilton\n2. Max Verstappen\n3. Lando Norris\n\nClassification:\n1. Lewis Hamilton\n2. Max Verstappen\n3. Lando Norris\n\nFastest Lap:\nCarlos Sainz\n\nRace Summary:\nHamilton won after changing to intermediate tyres late in the race."
+      ],
+      "response": "Lewis Hamilton won the race.",
+      "reference": "Lewis Hamilton",
+      "faithfulness": 1.0,
+      "context_precision": 0.9999999999,
+      "context_recall": 1.0,
+      "answer_relevancy": 0.7023385323284356
+    }
+  ]
+}
