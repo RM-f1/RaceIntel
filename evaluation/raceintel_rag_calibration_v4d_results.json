@@ -1,0 +1,152 @@
+{
+  "mode": "offline_deterministic_calibration",
+  "ragas_live_api_status": "skipped_in_offline_mode_requires_live_gemini_judge_and_embeddings",
+  "external_gemini_calls": 0,
+  "metrics": {
+    "production_probe_pass_rate": 1.0,
+    "abstention_accuracy": 1.0,
+    "answerable_groundedness": 1.0,
+    "isolated_context_precision": 1.0,
+    "isolated_context_recall": 1.0,
+    "conflict_detection_rate": 1.0,
+    "retrieval_error_containment_rate": 1.0
+  },
+  "probe_results": [
+    {
+      "id": "P4D-01",
+      "category": "ungrounded_team_upgrades",
+      "question": "What upgrades did McLaren bring to the Austrian Grand Prix?",
+      "retrieval_status": "ok",
+      "retrieved_count": 2,
+      "distances": [
+        0.0,
+        0.0
+      ],
+      "answer": "I couldn't find that information in the retrieved race data.",
+      "passed": true
+    },
+    {
+      "id": "P4D-02",
+      "category": "ungrounded_team_aero",
+      "question": "Explain Red Bull's aerodynamic philosophy in 2024",
+      "retrieval_status": "low_confidence",
+      "retrieved_count": 0,
+      "distances": [
+        0.6171320676803589,
+        0.6231908798217773,
+        0.6247085332870483,
+        0.6301067471504211,
+        0.6313920021057129,
+        0.6329368948936462,
+        0.6343255043029785,
+        0.6363925933837891
+      ],
+      "answer": "I couldn't find that information in the retrieved race data.",
+      "passed": true
+    },
+    {
+      "id": "P4D-03",
+      "category": "out_of_calendar_gp",
+      "question": "Tell me about the 2024 Swiss Grand Prix",
+      "retrieval_status": "event_mismatch",
+      "retrieved_count": 0,
+      "distances": [],
+      "answer": "I couldn't find that information in the retrieved race data. That event is not part of the Formula 1 2024 calendar.",
+      "passed": true
+    },
+    {
+      "id": "P4D-04",
+      "category": "historical_entity_mismatch",
+      "question": "What happened to Ayrton Senna in the 2024 Monaco Grand Prix?",
+      "retrieval_status": "entity_mismatch",
+      "retrieved_count": 0,
+      "distances": [],
+      "answer": "I couldn't find that information in the retrieved race data.",
+      "passed": true
+    },
+    {
+      "id": "P4D-05",
+      "category": "non_f1_empty_retrieval",
+      "question": "What is the recipe for chocolate cake?",
+      "retrieval_status": "low_confidence",
+      "retrieved_count": 0,
+      "distances": [
+        0.829265296459198,
+        0.8440814018249512,
+        0.8443904519081116,
+        0.8454773426055908,
+        0.8473178744316101,
+        0.8486489653587341,
+        0.8498953580856323,
+        0.8500519394874573
+      ],
+      "answer": "I couldn't find that information in the retrieved race data.",
+      "passed": true
+    },
+    {
+      "id": "P4D-06",
+      "category": "missing_technical_docs",
+      "question": "Explain how Formula 1 DRS works",
+      "retrieval_status": "low_confidence",
+      "retrieved_count": 0,
+      "distances": [
+        0.8253470063209534,
+        0.825416624546051,
+        0.8270381093025208,
+        0.8277057409286499,
+        0.832441508769989,
+        0.833469808101654,
+        0.8379146456718445,
+        0.8381941318511963
+      ],
+      "answer": "I couldn't find that information in the retrieved race data.",
+      "passed": true
+    },
+    {
+      "id": "P4D-07",
+      "category": "unsupported_season",
+      "question": "Explain how Ferrari performed in the 2020 Italian Grand Prix",
+      "retrieval_status": "empty",
+      "retrieved_count": 0,
+      "distances": [],
+      "answer": "I couldn't find that information in the retrieved race data. Historical data for season 2020 is not available.",
+      "passed": true
+    },
+    {
+      "id": "P4D-08",
+      "category": "grounded_race_summary",
+      "question": "Give a brief race summary of the 2024 Monaco Grand Prix",
+      "retrieval_status": "ok",
+      "retrieved_count": 1,
+      "distances": [
+        0.0
+      ],
+      "answer": "Charles Leclerc won the race. The podium consisted of Charles Leclerc, Oscar Piastri, Carlos Sainz. Valtteri Bottas gained 4 positions. The fastest lap was set by Lewis Hamilton.",
+      "passed": true
+    },
+    {
+      "id": "P4D-09",
+      "category": "grounded_victory_verification",
+      "question": "Did Lando Norris win the Miami Grand Prix?",
+      "retrieval_status": "ok",
+      "retrieved_count": 1,
+      "distances": [
+        0.0
+      ],
+      "answer": "Lando Norris won the Miami Grand Prix in 2024.",
+      "passed": true
+    },
+    {
+      "id": "P4D-10",
+      "category": "grounded_rag_narrative",
+      "question": "Give an overview of what happened in the 2024 British Grand Prix race summary",
+      "retrieval_status": "ok",
+      "retrieved_count": 1,
+      "distances": [
+        0.0
+      ],
+      "answer": "Hamilton won after changing to intermediate tyres late in the race.",
+      "passed": true
+    }
+  ]
+}

@@ -78,6 +78,11 @@ class Event(Base):
         nullable=True,
     )
 
+    round_number: Mapped[int | None] = mapped_column(
+        Integer,
+        nullable=True,
+    )
+
     season: Mapped["Season"] = relationship(
         back_populates="events",
     )
@@ -502,3 +507,123 @@ class ETLRun(Base):
         String(1000),
         nullable=True,
     )
+
+
+# ---------------------------------------------------------------------
+# Session Sync Status (Multi-Season Lifecycle)
+# ---------------------------------------------------------------------
+
+
+class SessionSyncStatus(Base):
+    """Detailed lifecycle tracking for season/round data synchronization."""
+
+    __tablename__ = "session_sync_status"
+
+    __table_args__ = (
+        UniqueConstraint(
+            "season_year",
+            "round_number",
+            "session_type",
+            name="uq_sync_season_round_type",
+        ),
+    )
+
+    sync_id: Mapped[int] = mapped_column(
+        Integer,
+        primary_key=True,
+        autoincrement=True,
+    )
+
+    season_year: Mapped[int] = mapped_column(
+        Integer,
+        index=True,
+        nullable=False,
+    )
+
+    round_number: Mapped[int] = mapped_column(
+        Integer,
+        index=True,
+        nullable=False,
+    )
+
+    event_id: Mapped[int | None] = mapped_column(
+        ForeignKey("events.event_id"),
+        index=True,
+        nullable=True,
+    )
+
+    session_id: Mapped[int | None] = mapped_column(
+        ForeignKey("sessions.session_id"),
+        index=True,
+        nullable=True,
+    )
+
+    event_name: Mapped[str] = mapped_column(
+        String(100),
+        nullable=False,
+    )
+
+    session_type: Mapped[str] = mapped_column(
+        String(20),
+        nullable=False,
+        default="Race",
+    )
+
+    session_name: Mapped[str] = mapped_column(
+        String(50),
+        nullable=False,
+        default="Race",
+    )
+
+    event: Mapped["Event | None"] = relationship()
+    session: Mapped["Session | None"] = relationship()
+
+    status: Mapped[str] = mapped_column(
+        String(20),
+        nullable=False,
+        default="PENDING",
+    )
+
+    data_categories: Mapped[str | None] = mapped_column(
+        String(200),
+        nullable=True,
+    )
+
+    records_inserted: Mapped[int] = mapped_column(
+        Integer,
+        default=0,
+        nullable=False,
+    )
+
+    records_updated: Mapped[int] = mapped_column(
+        Integer,
+        default=0,
+        nullable=False,
+    )
+
+    records_skipped: Mapped[int] = mapped_column(
+        Integer,
+        default=0,
+        nullable=False,
+    )
+
+    failure_reason: Mapped[str | None] = mapped_column(
+        String(1000),
+        nullable=True,
+    )
+
+    started_at_utc: Mapped[datetime | None] = mapped_column(
+        DateTime,
+        nullable=True,
+    )
+
+    completed_at_utc: Mapped[datetime | None] = mapped_column(
+        DateTime,
+        nullable=True,
+    )
+
+    last_synced_at_utc: Mapped[datetime | None] = mapped_column(
+        DateTime,
+        nullable=True,
+    )
+

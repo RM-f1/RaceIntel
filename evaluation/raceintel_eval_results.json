@@ -1,6 +1,7 @@
 {
   "schema_version": "1.0",
   "evaluation": "RaceIntel 2024 evaluation baseline",
+  "eval_file": "C:\\Users\\mehra\\OneDrive\\Desktop\\RaceIntel\\evaluation\\raceintel_eval_2024.json",
   "total": 30,
   "evaluated": 30,
   "passed": 30,
@@ -8,13 +9,67 @@
   "errors": 0,
   "quota_errors": 0,
   "score_percent": 100.0,
+  "accuracy_percent": 100.0,
+  "category_performance": {
+    "race_winner": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0,
+      "errors": 0,
+      "score_percent": 100.0
+    },
+    "driver_performance": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0,
+      "errors": 0,
+      "score_percent": 100.0
+    },
+    "team_performance": {
+      "total": 3,
+      "passed": 3,
+      "failed": 0,
+      "errors": 0,
+      "score_percent": 100.0
+    },
+    "team_comparison": {
+      "total": 2,
+      "passed": 2,
+      "failed": 0,
+      "errors": 0,
+      "score_percent": 100.0
+    },
+    "points": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0,
+      "errors": 0,
+      "score_percent": 100.0
+    },
+    "race_result": {
+      "total": 3,
+      "passed": 3,
+      "failed": 0,
+      "errors": 0,
+      "score_percent": 100.0
+    },
+    "finishing_position": {
+      "total": 4,
+      "passed": 4,
+      "failed": 0,
+      "errors": 0,
+      "score_percent": 100.0
+    }
+  },
+  "incorrect_answers": [],
+  "unanswered_questions": [],
   "results": [
     {
       "id": 1,
       "question": "Who won the Monaco Grand Prix?",
       "category": "race_winner",
       "expected": "Charles Leclerc",
-      "actual": "Charles Leclerc won the race.",
+      "actual": "Charles Leclerc won the Monaco Grand Prix in 2024.",
       "status": "PASS"
     },
     {
@@ -22,7 +77,7 @@
       "question": "Who won the Canadian Grand Prix?",
       "category": "race_winner",
       "expected": "Max Verstappen",
-      "actual": "Max Verstappen won the race.",
+      "actual": "Max Verstappen won the Canadian Grand Prix in 2024.",
       "status": "PASS"
     },
     {
@@ -30,7 +85,7 @@
       "question": "Who won the British Grand Prix?",
       "category": "race_winner",
       "expected": "Lewis Hamilton",
-      "actual": "Lewis Hamilton won the race.",
+      "actual": "Lewis Hamilton won the British Grand Prix in 2024.",
       "status": "PASS"
     },
     {
@@ -38,7 +93,7 @@
       "question": "Who won the Singapore Grand Prix?",
       "category": "race_winner",
       "expected": "Lando Norris",
-      "actual": "Lando Norris won the race.",
+      "actual": "Lando Norris won the Singapore Grand Prix in 2024.",
       "status": "PASS"
     },
     {

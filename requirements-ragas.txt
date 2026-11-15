@@ -1,0 +1,7 @@
+# Optional RAGAS evaluation dependencies
+ragas==0.2.15
+datasets==5.1.0
+langchain==0.3.30
+langchain-core==0.3.85
+langchain-openai==0.3.35
+langchain-google-genai==2.1.12

@@ -1,0 +1,251 @@
+{
+  "description": "RaceIntel Independent Holdout Evaluation Dataset (V1)",
+  "version": "1.0",
+  "season": 2024,
+  "cases": [
+    {
+      "id": 101,
+      "question": "Who took the chequered flag in the 2024 Australian Grand Prix?",
+      "category": "race_winner",
+      "expected_answer": "Carlos Sainz",
+      "season": 2024,
+      "verification_reference": "SQLite race_results session_id=4 finish_position=1 Carlos Sainz"
+    },
+    {
+      "id": 102,
+      "question": "Which driver claimed victory at the Miami Grand Prix in 2024?",
+      "category": "race_winner",
+      "expected_answer": "Lando Norris",
+      "season": 2024,
+      "verification_reference": "SQLite race_results session_id=7 finish_position=1 Lando Norris"
+    },
+    {
+      "id": 103,
+      "question": "Who was declared the winner of the 2024 Belgian Grand Prix?",
+      "category": "race_winner",
+      "expected_answer": "Lewis Hamilton",
+      "season": 2024,
+      "verification_reference": "SQLite race_results session_id=15 finish_position=1 Lewis Hamilton (Russell DSQ)"
+    },
+    {
+      "id": 104,
+      "question": "Who won the Dutch Grand Prix in 2024?",
+      "category": "race_winner",
+      "expected_answer": "Lando Norris",
+      "season": 2024,
+      "verification_reference": "SQLite race_results session_id=16 finish_position=1 Lando Norris"
+    },
+    {
+      "id": 105,
+      "question": "Who secured victory in the 2024 São Paulo Grand Prix in Brazil?",
+      "category": "race_winner",
+      "expected_answer": "Max Verstappen",
+      "season": 2024,
+      "verification_reference": "SQLite race_results session_id=22 finish_position=1 Max Verstappen"
+    },
+    {
+      "id": 106,
+      "question": "Which drivers finished on the podium at the 2024 Monaco Grand Prix?",
+      "category": "race_result",
+      "expected_answer": [
+        "Charles Leclerc",
+        "Oscar Piastri",
+        "Carlos Sainz"
+      ],
+      "season": 2024,
+      "verification_reference": "SQLite race_results session_id=9 finish_position IN (1, 2, 3)"
+    },
+    {
+      "id": 107,
+      "question": "Where did Oliver Bearman finish in the 2024 Saudi Arabian Grand Prix?",
+      "category": "finishing_position",
+      "expected_answer": "P7",
+      "season": 2024,
+      "verification_reference": "SQLite race_results session_id=3 driver Oliver Bearman finish_position=7"
+    },
+    {
+      "id": 108,
+      "question": "What position did Sergio Perez finish in the 2024 Japanese Grand Prix?",
+      "category": "finishing_position",
+      "expected_answer": "P2",
+      "season": 2024,
+      "verification_reference": "SQLite race_results session_id=5 driver Sergio Perez finish_position=2"
+    },
+    {
+      "id": 109,
+      "question": "How many championship points did Carlos Sainz score in the 2024 Bahrain Grand Prix?",
+      "category": "points",
+      "expected_answer": 15.0,
+      "season": 2024,
+      "verification_reference": "SQLite race_results session_id=2 driver Carlos Sainz points_scored=15.0"
+    },
+    {
+      "id": 110,
+      "question": "How many points did Lando Norris take away from the 2024 Miami Grand Prix?",
+      "category": "points",
+      "expected_answer": 25.0,
+      "season": 2024,
+      "verification_reference": "SQLite race_results session_id=7 driver Lando Norris points_scored=25.0"
+    },
+    {
+      "id": 111,
+      "question": "Was the track wet during the 2024 São Paulo Grand Prix?",
+      "category": "weather",
+      "expected_answer": "Yes",
+      "season": 2024,
+      "verification_reference": "SQLite weather_observations session_id=22 rain_obs=117 (Wet)"
+    },
+    {
+      "id": 112,
+      "question": "Did rainfall occur during the 2024 Italian Grand Prix at Monza?",
+      "category": "weather",
+      "expected_answer": "Dry",
+      "season": 2024,
+      "verification_reference": "SQLite weather_observations session_id=17 rain_obs=0 (Dry)"
+    },
+    {
+      "id": 113,
+      "question": "What was the highest track temperature recorded in the 2024 Italian Grand Prix?",
+      "category": "weather",
+      "expected_answer": 54.6,
+      "season": 2024,
+      "verification_reference": "SQLite weather_observations session_id=17 max(track_temperature_celsius)=54.6"
+    },
+    {
+      "id": 114,
+      "question": "Was the 2024 Las Vegas Grand Prix run in dry or wet conditions?",
+      "category": "weather",
+      "expected_answer": "Dry",
+      "season": 2024,
+      "verification_reference": "SQLite weather_observations session_id=23 rain_obs=0 (Dry)"
+    },
+    {
+      "id": 115,
+      "question": "Who clocked the fastest lap in the 2024 Australian Grand Prix?",
+      "category": "lap_time",
+      "expected_answer": "Charles Leclerc",
+      "season": 2024,
+      "verification_reference": "SQLite laps session_id=4 min lap_time_seconds=79.813 Charles Leclerc"
+    },
+    {
+      "id": 116,
+      "question": "Which driver set the fastest lap of the race in the 2024 Japanese Grand Prix?",
+      "category": "lap_time",
+      "expected_answer": "Max Verstappen",
+      "season": 2024,
+      "verification_reference": "SQLite laps session_id=5 min lap_time_seconds=93.706 Max Verstappen"
+    },
+    {
+      "id": 117,
+      "question": "Who was leading the drivers' championship after the 2024 Bahrain Grand Prix?",
+      "category": "driver_standings",
+      "expected_answer": "Max Verstappen",
+      "season": 2024,
+      "verification_reference": "SQLite cumulative race_results session_id<=2 Max Verstappen 26.0 pts"
+    },
+    {
+      "id": 118,
+      "question": "Who drove the fastest lap in the 2024 Mexico City Grand Prix?",
+      "category": "lap_time",
+      "expected_answer": "Charles Leclerc",
+      "season": 2024,
+      "verification_reference": "SQLite laps session_id=21 min lap_time_seconds=78.336 Charles Leclerc"
+    },
+    {
+      "id": 119,
+      "question": "Which driver had the championship lead following the 2024 Canadian Grand Prix?",
+      "category": "driver_standings",
+      "expected_answer": "Max Verstappen",
+      "season": 2024,
+      "verification_reference": "SQLite cumulative race_results session_id<=10 Max Verstappen 178.0 pts"
+    },
+    {
+      "id": 120,
+      "question": "Who was leading the driver standings after the 2024 Abu Dhabi Grand Prix?",
+      "category": "driver_standings",
+      "expected_answer": "Max Verstappen",
+      "season": 2024,
+      "verification_reference": "SQLite cumulative race_results session_id<=25 Max Verstappen 399.0 pts"
+    },
+    {
+      "id": 121,
+      "question": "Which constructor scored the most points in the 2024 Hungarian Grand Prix?",
+      "category": "constructor_standings",
+      "expected_answer": "McLaren",
+      "season": 2024,
+      "verification_reference": "SQLite race_results session_id=14 McLaren 43.0 pts (1-2 finish)"
+    },
+    {
+      "id": 122,
+      "question": "Which team collected the highest number of points in the 2024 Bahrain Grand Prix?",
+      "category": "constructor_standings",
+      "expected_answer": "Red Bull Racing",
+      "season": 2024,
+      "verification_reference": "SQLite race_results session_id=2 Red Bull Racing 44.0 pts"
+    },
+    {
+      "id": 123,
+      "question": "Who won the Australian Grand Prix?",
+      "category": "season_awareness",
+      "expected_answer": "Carlos Sainz",
+      "season": 2024,
+      "verification_reference": "Omitted season reference defaults safely to 2024 season Carlos Sainz"
+    },
+    {
+      "id": 124,
+      "question": "Did Lando Norris win the Miami Grand Prix?",
+      "category": "season_awareness",
+      "expected_answer": "Lando Norris",
+      "season": 2024,
+      "verification_reference": "Omitted season reference defaults safely to 2024 season Lando Norris"
+    },
+    {
+      "id": 125,
+      "question": "Who won the 2020 Italian Grand Prix?",
+      "category": "unanswerable",
+      "expected_answer": "UNANSWERABLE",
+      "season": 2020,
+      "verification_reference": "Historical season 2020 not present in RaceIntel database"
+    },
+    {
+      "id": 126,
+      "question": "What was the race result of the 2024 German Grand Prix?",
+      "category": "unanswerable",
+      "expected_answer": "UNANSWERABLE",
+      "season": 2024,
+      "verification_reference": "German GP was not held in the 2024 F1 calendar"
+    },
+    {
+      "id": 127,
+      "question": "Who won the 2024 Bathurst 1000?",
+      "category": "unanswerable",
+      "expected_answer": "UNANSWERABLE",
+      "season": 2024,
+      "verification_reference": "Out of domain Australian Supercars motorsport event"
+    },
+    {
+      "id": 128,
+      "question": "Who won the 2024 MotoGP World Championship?",
+      "category": "unanswerable",
+      "expected_answer": "UNANSWERABLE",
+      "season": 2024,
+      "verification_reference": "Out of domain motorcycle racing championship"
+    },
+    {
+      "id": 129,
+      "question": "Who got the fastest lap?",
+      "category": "ambiguous",
+      "expected_answer": "AMBIGUOUS",
+      "season": 2024,
+      "verification_reference": "Ambiguous query lacking Grand Prix specification"
+    },
+    {
+      "id": 130,
+      "question": "Where did the driver finish?",
+      "category": "ambiguous",
+      "expected_answer": "AMBIGUOUS",
+      "season": 2024,
+      "verification_reference": "Ambiguous query lacking driver and session specification"
+    }
+  ]
+}

@@ -1,4 +1,8 @@
+import os
 from pathlib import Path
+
+os.environ.setdefault("HF_HUB_OFFLINE", "1")
+os.environ.setdefault("TRANSFORMERS_OFFLINE", "1")
 
 import chromadb
 from chromadb.api.models.Collection import Collection
@@ -12,16 +16,23 @@ from raceintel.retrieval.schemas import RaceDocument
 class ChromaClient:
     
 
-    def __init__(self, persist_directory: str = "data/chroma"):
+    def __init__(
+        self,
+        persist_directory: str = "data/chroma",
+        embedding_function=None,
+    ):
         db_path = Path(persist_directory)
 
         self.client = chromadb.PersistentClient(
             path=str(db_path)
         )
 
-        embedding_function = SentenceTransformerEmbeddingFunction(
-            model_name="all-MiniLM-L6-v2"
-        )
+        if embedding_function is None:
+            embedding_function = SentenceTransformerEmbeddingFunction(
+                model_name="all-MiniLM-L6-v2"
+            )
+
+        self.embedding_function = embedding_function
 
         self.collection: Collection = self.client.get_or_create_collection(
             name="raceintel_knowledge",
@@ -49,15 +60,9 @@ class ChromaClient:
         return self.collection.count()
 
     def reset_collection(self) -> None:
-        
-
         self.client.delete_collection("raceintel_knowledge")
-
-        embedding_function = SentenceTransformerEmbeddingFunction(
-            model_name="all-MiniLM-L6-v2"
-        )
 
         self.collection = self.client.get_or_create_collection(
             name="raceintel_knowledge",
-            embedding_function=embedding_function,
+            embedding_function=self.embedding_function,
         )

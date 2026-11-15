@@ -1,0 +1,2547 @@
+{
+  "schema_version": "1.0",
+  "benchmark_name": "RaceIntel Independent Validation Benchmark v1",
+  "phase": "4E",
+  "season_coverage": [
+    2024
+  ],
+  "total_cases": 80,
+  "category_counts": {
+    "race_results_and_winners": 10,
+    "driver_standings_and_points": 10,
+    "constructor_standings_and_points": 8,
+    "weather_and_conditions": 8,
+    "pace_and_fastest_laps": 8,
+    "tyres_position_and_classification": 8,
+    "multi_entity_comparisons": 8,
+    "rag_document_grounded": 7,
+    "ambiguous_or_underspecified": 5,
+    "unsupported_or_unanswerable": 8
+  },
+  "corpus_adaptation_note": "Production ChromaDB (raceintel_knowledge, 503 docs) contains only 24 race_report and 479 driver_report documents and no standalone F1 technical/regulation documents. Consequently, the recommended 10 General F1 explanatory/document questions are adapted to 7 document-grounded race narrative/metadata RAG questions verifiable against ChromaDB, while 3 missing-technical-document probes (undercut strategy, Ferrari upgrades, pit stop duration) are placed in unsupported_or_unanswerable (8 total) to test calibrated abstention without inventing unsupported gold answers.",
+  "cases": [
+    {
+      "id": "IND-001",
+      "question": "Which Formula 1 driver came first at Suzuka in 2024?",
+      "category": "race_results_and_winners",
+      "difficulty": "medium",
+      "expected_intent": "race_winner",
+      "expected_route": "SQL",
+      "expected_answer": "Max Verstappen",
+      "required_entities": {
+        "drivers": [
+          "Max Verstappen"
+        ],
+        "constructors": []
+      },
+      "required_season": 2024,
+      "required_event": "Japanese Grand Prix",
+      "expected_evidence": "SQLite race_results session_id=5 finish_position=1 Max Verstappen (circuit alias: Suzuka)",
+      "answerability_status": "answerable",
+      "evaluation_criteria": {
+        "type": "race_winner",
+        "must_contain_all": [
+          "Max Verstappen"
+        ],
+        "must_not_claim_other_winner": true
+      }
+    },
+    {
+      "id": "IND-002",
+      "question": "Who was the victor of the 2024 Emilia Romagna Grand Prix?",
+      "category": "race_results_and_winners",
+      "difficulty": "easy",
+      "expected_intent": "race_winner",
+      "expected_route": "SQL",
+      "expected_answer": "Max Verstappen",
+      "required_entities": {
+        "drivers": [
+          "Max Verstappen"
+        ],
+        "constructors": []
+      },
+      "required_season": 2024,
+      "required_event": "Emilia Romagna Grand Prix",
+      "expected_evidence": "SQLite race_results session_id=8 finish_position=1 Max Verstappen",
+      "answerability_status": "answerable",
+      "evaluation_criteria": {
+        "type": "race_winner",
+        "must_contain_all": [
+          "Max Verstappen"
+        ],
+        "must_not_claim_other_winner": true
+      }
+    },
+    {
+      "id": "IND-003",
+      "question": "Who won at Spielberg in the 2024 season?",
+      "category": "race_results_and_winners",
+      "difficulty": "medium",
+      "expected_intent": "race_winner",
+      "expected_route": "SQL",
+      "expected_answer": "George Russell",
+      "required_entities": {
+        "drivers": [
+          "George Russell"
+        ],
+        "constructors": []
+      },
+      "required_season": 2024,
+      "required_event": "Austrian Grand Prix",
+      "expected_evidence": "SQLite race_results session_id=12 finish_position=1 George Russell (circuit alias: Spielberg)",
+      "answerability_status": "answerable",
+      "evaluation_criteria": {
+        "type": "race_winner",
+        "must_contain_all": [
+          "George Russell"
+        ],
+        "must_not_claim_other_winner": true
+      }
+    },
+    {
+      "id": "IND-004",
+      "question": "Name the driver who triumphed in Baku during the 2024 championship.",
+      "category": "race_results_and_winners",
+      "difficulty": "medium",
+      "expected_intent": "race_winner",
+      "expected_route": "SQL",
+      "expected_answer": "Oscar Piastri",
+      "required_entities": {
+        "drivers": [
+          "Oscar Piastri"
+        ],
+        "constructors": []
+      },
+      "required_season": 2024,
+      "required_event": "Azerbaijan Grand Prix",
+      "expected_evidence": "SQLite race_results session_id=18 finish_position=1 Oscar Piastri (circuit alias: Baku)",
+      "answerability_status": "answerable",
+      "evaluation_criteria": {
+        "type": "race_winner",
+        "must_contain_all": [
+          "Oscar Piastri"
+        ],
+        "must_not_claim_other_winner": true
+      }
+    },
+    {
+      "id": "IND-005",
+      "question": "Who stood on the podium at the 2024 Hungarian Grand Prix?",
+      "category": "race_results_and_winners",
+      "difficulty": "easy",
+      "expected_intent": "podium",
+      "expected_route": "SQL",
+      "expected_answer": [
+        "Oscar Piastri",
+        "Lando Norris",
+        "Lewis Hamilton"
+      ],
+      "required_entities": {
+        "drivers": [
+          "Oscar Piastri",
+          "Lando Norris",
+          "Lewis Hamilton"
+        ],
+        "constructors": []
+      },
+      "required_season": 2024,
+      "required_event": "Hungarian Grand Prix",
+      "expected_evidence": "SQLite race_results session_id=14 finish_position IN (1,2,3)",
+      "answerability_status": "answerable",
+      "evaluation_criteria": {
+        "type": "entity_list",
+        "must_contain_all": [
+          "Oscar Piastri",
+          "Lando Norris",
+          "Lewis Hamilton"
+        ]
+      }
+    },
+    {
+      "id": "IND-006",
+      "question": "List the top three finishers from the 2024 São Paulo Grand Prix.",
+      "category": "race_results_and_winners",
+      "difficulty": "medium",
+      "expected_intent": "podium",
+      "expected_route": "SQL",
+      "expected_answer": [
+        "Max Verstappen",
+        "Esteban Ocon",
+        "Pierre Gasly"
+      ],
+      "required_entities": {
+        "drivers": [
+          "Max Verstappen",
+          "Esteban Ocon",
+          "Pierre Gasly"
+        ],
+        "constructors": []
+      },
+      "required_season": 2024,
+      "required_event": "São Paulo Grand Prix",
+      "expected_evidence": "SQLite race_results session_id=22 finish_position IN (1,2,3)",
+      "answerability_status": "answerable",
+      "evaluation_criteria": {
+        "type": "entity_list",
+        "must_contain_all": [
+          "Max Verstappen",
+          "Esteban Ocon",
+          "Pierre Gasly"
+        ]
+      }
+    },
+    {
+      "id": "IND-007",
+      "question": "Which drivers were on the podium in Austin in 2024?",
+      "category": "race_results_and_winners",
+      "difficulty": "medium",
+      "expected_intent": "podium",
+      "expected_route": "SQL",
+      "expected_answer": [
+        "Charles Leclerc",
+        "Carlos Sainz",
+        "Max Verstappen"
+      ],
+      "required_entities": {
+        "drivers": [
+          "Charles Leclerc",
+          "Carlos Sainz",
+          "Max Verstappen"
+        ],
+        "constructors": []
+      },
+      "required_season": 2024,
+      "required_event": "United States Grand Prix",
+      "expected_evidence": "SQLite race_results session_id=20 finish_position IN (1,2,3) (circuit alias: Austin)",
+      "answerability_status": "answerable",
+      "evaluation_criteria": {
+        "type": "entity_list",
+        "must_contain_all": [
+          "Charles Leclerc",
+          "Carlos Sainz",
+          "Max Verstappen"
+        ]
+      }
+    },
+    {
+      "id": "IND-008",
+      "question": "What was Alexander Albon's finishing position at the 2024 British Grand Prix?",
+      "category": "race_results_and_winners",
+      "difficulty": "easy",
+      "expected_intent": "driver_position",
+      "expected_route": "SQL",
+      "expected_answer": {
+        "driver": "Alexander Albon",
+        "race": "British Grand Prix",
+        "position": "P9"
+      },
+      "required_entities": {
+        "drivers": [
+          "Alexander Albon"
+        ],
+        "constructors": []
+      },
+      "required_season": 2024,
+      "required_event": "British Grand Prix",
+      "expected_evidence": "SQLite race_results session_id=13 driver_id=9 finish_position=9",
+      "answerability_status": "answerable",
+      "evaluation_criteria": {
+        "type": "driver_position",
+        "driver": "Alexander Albon",
+        "position": "P9"
+      }
+    },
+    {
+      "id": "IND-009",
+      "question": "How did Pierre Gasly perform at Zandvoort in 2024?",
+      "category": "race_results_and_winners",
+      "difficulty": "medium",
+      "expected_intent": "driver_performance",
+      "expected_route": "SQL",
+      "expected_answer": {
+        "driver": "Pierre Gasly",
+        "race": "Dutch Grand Prix",
+        "position": "P9",
+        "points": 2.0
+      },
+      "required_entities": {
+        "drivers": [
+          "Pierre Gasly"
+        ],
+        "constructors": []
+      },
+      "required_season": 2024,
+      "required_event": "Dutch Grand Prix",
+      "expected_evidence": "SQLite race_results session_id=16 driver_id=20 finish_position=9 points_scored=2.0 (circuit alias: Zandvoort)",
+      "answerability_status": "answerable",
+      "evaluation_criteria": {
+        "type": "driver_performance",
+        "driver": "Pierre Gasly",
+        "position": "P9",
+        "points": 2.0
+      }
+    },
+    {
+      "id": "IND-010",
+      "question": "Did Oscar Piastri win the 2024 Hungarian Grand Prix?",
+      "category": "race_results_and_winners",
+      "difficulty": "medium",
+      "expected_intent": "race_winner",
+      "expected_route": "SQL",
+      "expected_answer": "Oscar Piastri",
+      "required_entities": {
+        "drivers": [
+          "Oscar Piastri"
+        ],
+        "constructors": []
+      },
+      "required_season": 2024,
+      "required_event": "Hungarian Grand Prix",
+      "expected_evidence": "SQLite race_results session_id=14 finish_position=1 Oscar Piastri",
+      "answerability_status": "answerable",
+      "evaluation_criteria": {
+        "type": "race_winner",
+        "must_contain_all": [
+          "Oscar Piastri"
+        ],
+        "must_not_claim_other_winner": true
+      }
+    },
+    {
+      "id": "IND-011",
+      "question": "After the 2024 Italian Grand Prix, who topped the drivers' championship?",
+      "category": "driver_standings_and_points",
+      "difficulty": "medium",
+      "expected_intent": "driver_standings_leader",
+      "expected_route": "SQL",
+      "expected_answer": {
+        "driver": "Max Verstappen",
+        "points": 279.0
+      },
+      "required_entities": {
+        "drivers": [
+          "Max Verstappen"
+        ],
+        "constructors": []
+      },
+      "required_season": 2024,
+      "required_event": "Italian Grand Prix",
+      "expected_evidence": "SQLite cumulative race_results session_id<=17 Max Verstappen 279.0 pts",
+      "answerability_status": "answerable",
+      "evaluation_criteria": {
+        "type": "entity_and_points",
+        "entity": "Max Verstappen",
+        "points": 279.0
+      }
+    },
+    {
+      "id": "IND-012",
+      "question": "Who held the championship lead following the 2024 Qatar Grand Prix?",
+      "category": "driver_standings_and_points",
+      "difficulty": "medium",
+      "expected_intent": "driver_standings_leader",
+      "expected_route": "SQL",
+      "expected_answer": {
+        "driver": "Max Verstappen",
+        "points": 391.0
+      },
+      "required_entities": {
+        "drivers": [
+          "Max Verstappen"
+        ],
+        "constructors": []
+      },
+      "required_season": 2024,
+      "required_event": "Qatar Grand Prix",
+      "expected_evidence": "SQLite cumulative race_results session_id<=24 Max Verstappen 391.0 pts",
+      "answerability_status": "answerable",
+      "evaluation_criteria": {
+        "type": "entity_and_points",
+        "entity": "Max Verstappen",
+        "points": 391.0
+      }
+    },
+    {
+      "id": "IND-013",
+      "question": "What was Lando Norris's championship position after the 2024 British Grand Prix?",
+      "category": "driver_standings_and_points",
+      "difficulty": "medium",
+      "expected_intent": "driver_championship_position",
+      "expected_route": "SQL",
+      "expected_answer": {
+        "driver": "Lando Norris",
+        "position": "P2",
+        "points": 162.0
+      },
+      "required_entities": {
+        "drivers": [
+          "Lando Norris"
+        ],
+        "constructors": []
+      },
+      "required_season": 2024,
+      "required_event": "British Grand Prix",
+      "expected_evidence": "SQLite cumulative standings session_id<=13 Lando Norris rank=2 total_points=162.0",
+      "answerability_status": "answerable",
+      "evaluation_criteria": {
+        "type": "driver_performance",
+        "driver": "Lando Norris",
+        "position": "P2",
+        "points": 162.0
+      }
+    },
+    {
+      "id": "IND-014",
+      "question": "Where did Charles Leclerc rank in the driver standings following the 2024 United States Grand Prix?",
+      "category": "driver_standings_and_points",
+      "difficulty": "medium",
+      "expected_intent": "driver_championship_position",
+      "expected_route": "SQL",
+      "expected_answer": {
+        "driver": "Charles Leclerc",
+        "position": "P3",
+        "points": 256.0
+      },
+      "required_entities": {
+        "drivers": [
+          "Charles Leclerc"
+        ],
+        "constructors": []
+      },
+      "required_season": 2024,
+      "required_event": "United States Grand Prix",
+      "expected_evidence": "SQLite cumulative standings session_id<=20 Charles Leclerc rank=3 total_points=256.0",
+      "answerability_status": "answerable",
+      "evaluation_criteria": {
+        "type": "driver_performance",
+        "driver": "Charles Leclerc",
+        "position": "P3",
+        "points": 256.0
+      }
+    },
+    {
+      "id": "IND-015",
+      "question": "How many total championship points did Oscar Piastri have after the 2024 São Paulo Grand Prix?",
+      "category": "driver_standings_and_points",
+      "difficulty": "medium",
+      "expected_intent": "driver_cumulative_points",
+      "expected_route": "SQL",
+      "expected_answer": {
+        "driver": "Oscar Piastri",
+        "points": 243.0
+      },
+      "required_entities": {
+        "drivers": [
+          "Oscar Piastri"
+        ],
+        "constructors": []
+      },
+      "required_season": 2024,
+      "required_event": "São Paulo Grand Prix",
+      "expected_evidence": "SQLite cumulative standings session_id<=22 Oscar Piastri total_points=243.0",
+      "answerability_status": "answerable",
+      "evaluation_criteria": {
+        "type": "entity_and_points",
+        "entity": "Oscar Piastri",
+        "points": 243.0
+      }
+    },
+    {
+      "id": "IND-016",
+      "question": "What were Carlos Sainz's cumulative points in the standings after the 2024 Monaco Grand Prix?",
+      "category": "driver_standings_and_points",
+      "difficulty": "medium",
+      "expected_intent": "driver_cumulative_points",
+      "expected_route": "SQL",
+      "expected_answer": {
+        "driver": "Carlos Sainz",
+        "points": 100.0
+      },
+      "required_entities": {
+        "drivers": [
+          "Carlos Sainz"
+        ],
+        "constructors": []
+      },
+      "required_season": 2024,
+      "required_event": "Monaco Grand Prix",
+      "expected_evidence": "SQLite cumulative standings session_id<=9 Carlos Sainz total_points=100.0",
+      "answerability_status": "answerable",
+      "evaluation_criteria": {
+        "type": "entity_and_points",
+        "entity": "Carlos Sainz",
+        "points": 100.0
+      }
+    },
+    {
+      "id": "IND-017",
+      "question": "Show the driver standings after the 2024 Chinese Grand Prix.",
+      "category": "driver_standings_and_points",
+      "difficulty": "hard",
+      "expected_intent": "driver_standings_table",
+      "expected_route": "SQL",
+      "expected_answer": [
+        {
+          "rank": 1,
+          "driver": "Max Verstappen",
+          "points": 102.0
+        },
+        {
+          "rank": 2,
+          "driver": "Sergio Perez",
+          "points": 79.0
+        },
+        {
+          "rank": 3,
+          "driver": "Charles Leclerc",
+          "points": 71.0
+        },
+        {
+          "rank": 4,
+          "driver": "Carlos Sainz",
+          "points": 65.0
+        },
+        {
+          "rank": 5,
+          "driver": "Lando Norris",
+          "points": 55.0
+        },
+        {
+          "rank": 6,
+          "driver": "Oscar Piastri",
+          "points": 36.0
+        },
+        {
+          "rank": 7,
+          "driver": "George Russell",
+          "points": 32.0
+        },
+        {
+          "rank": 8,
+          "driver": "Fernando Alonso",
+          "points": 31.0
+        },
+        {
+          "rank": 9,
+          "driver": "Lewis Hamilton",
+          "points": 12.0
+        },
+        {
+          "rank": 10,
+          "driver": "Lance Stroll",
+          "points": 9.0
+        }
+      ],
+      "required_entities": {
+        "drivers": [
+          "Max Verstappen",
+          "Sergio Perez",
+          "Charles Leclerc",
+          "Carlos Sainz",
+          "Lando Norris"
+        ],
+        "constructors": []
+      },
+      "required_season": 2024,
+      "required_event": "Chinese Grand Prix",
+      "expected_evidence": "SQLite cumulative driver standings session_id<=6 top 10",
+      "answerability_status": "answerable",
+      "evaluation_criteria": {
+        "type": "standings_table",
+        "entity_key": "driver",
+        "top_entries": [
+          {
+            "rank": 1,
+            "name": "Max Verstappen",
+            "points": 102.0
+          },
+          {
+            "rank": 2,
+            "name": "Sergio Perez",
+            "points": 79.0
+          },
+          {
+            "rank": 3,
+            "name": "Charles Leclerc",
+            "points": 71.0
+          },
+          {
+            "rank": 4,
+            "name": "Carlos Sainz",
+            "points": 65.0
+          },
+          {
+            "rank": 5,
+            "name": "Lando Norris",
+            "points": 55.0
+          }
+        ]
+      }
+    },
+    {
+      "id": "IND-018",
+      "question": "How many points did Fernando Alonso earn at the 2024 Saudi Arabian Grand Prix?",
+      "category": "driver_standings_and_points",
+      "difficulty": "easy",
+      "expected_intent": "driver_points",
+      "expected_route": "SQL",
+      "expected_answer": {
+        "driver": "Fernando Alonso",
+        "points": 10.0
+      },
+      "required_entities": {
+        "drivers": [
+          "Fernando Alonso"
+        ],
+        "constructors": []
+      },
+      "required_season": 2024,
+      "required_event": "Saudi Arabian Grand Prix",
+      "expected_evidence": "SQLite race_results session_id=3 driver_id=8 points_scored=10.0",
+      "answerability_status": "answerable",
+      "evaluation_criteria": {
+        "type": "entity_and_points",
+        "entity": "Fernando Alonso",
+        "points": 10.0
+      }
+    },
+    {
+      "id": "IND-019",
+      "question": "How many points did Nico Hulkenberg collect in the 2024 Austrian Grand Prix?",
+      "category": "driver_standings_and_points",
+      "difficulty": "easy",
+      "expected_intent": "driver_points",
+      "expected_route": "SQL",
+      "expected_answer": {
+        "driver": "Nico Hulkenberg",
+        "points": 8.0
+      },
+      "required_entities": {
+        "drivers": [
+          "Nico Hulkenberg"
+        ],
+        "constructors": []
+      },
+      "required_season": 2024,
+      "required_event": "Austrian Grand Prix",
+      "expected_evidence": "SQLite race_results session_id=12 driver_id=6 points_scored=8.0",
+      "answerability_status": "answerable",
+      "evaluation_criteria": {
+        "type": "entity_and_points",
+        "entity": "Nico Hulkenberg",
+        "points": 8.0
+      }
+    },
+    {
+      "id": "IND-020",
+      "question": "Which drivers walked away with championship points from the 2024 Azerbaijan race?",
+      "category": "driver_standings_and_points",
+      "difficulty": "medium",
+      "expected_intent": "points_scorers",
+      "expected_route": "SQL",
+      "expected_answer": [
+        "Oscar Piastri",
+        "Charles Leclerc",
+        "George Russell",
+        "Lando Norris",
+        "Max Verstappen",
+        "Fernando Alonso",
+        "Alexander Albon",
+        "Franco Colapinto",
+        "Lewis Hamilton",
+        "Oliver Bearman"
+      ],
+      "required_entities": {
+        "drivers": [
+          "Oscar Piastri",
+          "Charles Leclerc",
+          "George Russell",
+          "Lando Norris",
+          "Max Verstappen",
+          "Fernando Alonso",
+          "Alexander Albon",
+          "Franco Colapinto",
+          "Lewis Hamilton",
+          "Oliver Bearman"
+        ],
+        "constructors": []
+      },
+      "required_season": 2024,
+      "required_event": "Azerbaijan Grand Prix",
+      "expected_evidence": "SQLite race_results session_id=18 points_scored > 0",
+      "answerability_status": "answerable",
+      "evaluation_criteria": {
+        "type": "entity_list",
+        "must_contain_all": [
+          "Oscar Piastri",
+          "Charles Leclerc",
+          "George Russell",
+          "Lando Norris",
+          "Max Verstappen",
+          "Fernando Alonso",
+          "Alexander Albon",
+          "Franco Colapinto",
+          "Lewis Hamilton",
+          "Oliver Bearman"
+        ]
+      }
+    },
+    {
+      "id": "IND-021",
+      "question": "Which team led the constructors' championship after the 2024 Italian Grand Prix?",
+      "category": "constructor_standings_and_points",
+      "difficulty": "medium",
+      "expected_intent": "constructor_standings_leader",
+      "expected_route": "SQL",
+      "expected_answer": {
+        "constructor": "McLaren",
+        "points": 417.0
+      },
+      "required_entities": {
+        "drivers": [],
+        "constructors": [
+          "McLaren"
+        ]
+      },
+      "required_season": 2024,
+      "required_event": "Italian Grand Prix",
+      "expected_evidence": "SQLite cumulative constructor standings session_id<=17 McLaren 417.0 pts",
+      "answerability_status": "answerable",
+      "evaluation_criteria": {
+        "type": "entity_and_points",
+        "entity": "McLaren",
+        "points": 417.0
+      }
+    },
+    {
+      "id": "IND-022",
+      "question": "Who was leading the constructor standings following the 2024 Monaco Grand Prix?",
+      "category": "constructor_standings_and_points",
+      "difficulty": "medium",
+      "expected_intent": "constructor_standings_leader",
+      "expected_route": "SQL",
+      "expected_answer": {
+        "constructor": "Red Bull Racing",
+        "points": 248.0
+      },
+      "required_entities": {
+        "drivers": [],
+        "constructors": [
+          "Red Bull Racing"
+        ]
+      },
+      "required_season": 2024,
+      "required_event": "Monaco Grand Prix",
+      "expected_evidence": "SQLite cumulative constructor standings session_id<=9 Red Bull Racing 248.0 pts",
+      "answerability_status": "answerable",
+      "evaluation_criteria": {
+        "type": "entity_and_points",
+        "entity": "Red Bull Racing",
+        "points": 248.0
+      }
+    },
+    {
+      "id": "IND-023",
+      "question": "Display the constructor standings after the 2024 Abu Dhabi Grand Prix.",
+      "category": "constructor_standings_and_points",
+      "difficulty": "hard",
+      "expected_intent": "constructor_standings_table",
+      "expected_route": "SQL",
+      "expected_answer": [
+        {
+          "rank": 1,
+          "constructor": "McLaren",
+          "points": 609.0
+        },
+        {
+          "rank": 2,
+          "constructor": "Ferrari",
+          "points": 595.0
+        },
+        {
+          "rank": 3,
+          "constructor": "Red Bull Racing",
+          "points": 537.0
+        },
+        {
+          "rank": 4,
+          "constructor": "Mercedes",
+          "points": 433.0
+        },
+        {
+          "rank": 5,
+          "constructor": "Aston Martin",
+          "points": 94.0
+        }
+      ],
+      "required_entities": {
+        "drivers": [],
+        "constructors": [
+          "McLaren",
+          "Ferrari",
+          "Red Bull Racing",
+          "Mercedes"
+        ]
+      },
+      "required_season": 2024,
+      "required_event": "Abu Dhabi Grand Prix",
+      "expected_evidence": "SQLite cumulative constructor standings session_id<=25",
+      "answerability_status": "answerable",
+      "evaluation_criteria": {
+        "type": "standings_table",
+        "entity_key": "constructor",
+        "top_entries": [
+          {
+            "rank": 1,
+            "name": "McLaren",
+            "points": 609.0
+          },
+          {
+            "rank": 2,
+            "name": "Ferrari",
+            "points": 595.0
+          },
+          {
+            "rank": 3,
+            "name": "Red Bull Racing",
+            "points": 537.0
+          },
+          {
+            "rank": 4,
+            "name": "Mercedes",
+            "points": 433.0
+          },
+          {
+            "rank": 5,
+            "name": "Aston Martin",
+            "points": 94.0
+          }
+        ]
+      }
+    },
+    {
+      "id": "IND-024",
+      "question": "How many points did Ferrari score in the 2024 United States Grand Prix?",
+      "category": "constructor_standings_and_points",
+      "difficulty": "medium",
+      "expected_intent": "constructor_race_points",
+      "expected_route": "SQL",
+      "expected_answer": {
+        "constructor": "Ferrari",
+        "points": 43.0
+      },
+      "required_entities": {
+        "drivers": [],
+        "constructors": [
+          "Ferrari"
+        ]
+      },
+      "required_season": 2024,
+      "required_event": "United States Grand Prix",
+      "expected_evidence": "SQLite race_results session_id=20 constructor_id=3 SUM(points_scored)=43.0",
+      "answerability_status": "answerable",
+      "evaluation_criteria": {
+        "type": "entity_and_points",
+        "entity": "Ferrari",
+        "points": 43.0
+      }
+    },
+    {
+      "id": "IND-025",
+      "question": "How many points did Mercedes score in the 2024 Las Vegas Grand Prix?",
+      "category": "constructor_standings_and_points",
+      "difficulty": "medium",
+      "expected_intent": "constructor_race_points",
+      "expected_route": "SQL",
+      "expected_answer": {
+        "constructor": "Mercedes",
+        "points": 43.0
+      },
+      "required_entities": {
+        "drivers": [],
+        "constructors": [
+          "Mercedes"
+        ]
+      },
+      "required_season": 2024,
+      "required_event": "Las Vegas Grand Prix",
+      "expected_evidence": "SQLite race_results session_id=23 constructor_id=7 SUM(points_scored)=43.0",
+      "answerability_status": "answerable",
+      "evaluation_criteria": {
+        "type": "entity_and_points",
+        "entity": "Mercedes",
+        "points": 43.0
+      }
+    },
+    {
+      "id": "IND-026",
+      "question": "Which constructor amassed the most points at the 2024 Australian Grand Prix?",
+      "category": "constructor_standings_and_points",
+      "difficulty": "easy",
+      "expected_intent": "constructor_race_points",
+      "expected_route": "SQL",
+      "expected_answer": {
+        "constructor": "Ferrari",
+        "points": 44.0
+      },
+      "required_entities": {
+        "drivers": [],
+        "constructors": [
+          "Ferrari"
+        ]
+      },
+      "required_season": 2024,
+      "required_event": "Australian Grand Prix",
+      "expected_evidence": "SQLite race_results session_id=4 Ferrari 44.0 pts",
+      "answerability_status": "answerable",
+      "evaluation_criteria": {
+        "type": "entity_and_points",
+        "entity": "Ferrari",
+        "points": 44.0
+      }
+    },
+    {
+      "id": "IND-027",
+      "question": "What were Alpine's race results in the 2024 São Paulo Grand Prix?",
+      "category": "constructor_standings_and_points",
+      "difficulty": "medium",
+      "expected_intent": "team_performance",
+      "expected_route": "SQL",
+      "expected_answer": {
+        "team": "Alpine",
+        "race": "São Paulo Grand Prix",
+        "drivers": [
+          {
+            "driver": "Esteban Ocon",
+            "position": "P2",
+            "points": 18.0
+          },
+          {
+            "driver": "Pierre Gasly",
+            "position": "P3",
+            "points": 15.0
+          }
+        ]
+      },
+      "required_entities": {
+        "drivers": [
+          "Esteban Ocon",
+          "Pierre Gasly"
+        ],
+        "constructors": [
+          "Alpine"
+        ]
+      },
+      "required_season": 2024,
+      "required_event": "São Paulo Grand Prix",
+      "expected_evidence": "SQLite race_results session_id=22 constructor_id=1",
+      "answerability_status": "answerable",
+      "evaluation_criteria": {
+        "type": "team_performance",
+        "drivers": [
+          {
+            "driver": "Esteban Ocon",
+            "position": "P2",
+            "points": 18.0
+          },
+          {
+            "driver": "Pierre Gasly",
+            "position": "P3",
+            "points": 15.0
+          }
+        ]
+      }
+    },
+    {
+      "id": "IND-028",
+      "question": "How did Haas perform in the 2024 Austrian Grand Prix?",
+      "category": "constructor_standings_and_points",
+      "difficulty": "medium",
+      "expected_intent": "team_performance",
+      "expected_route": "SQL",
+      "expected_answer": {
+        "team": "Haas F1 Team",
+        "race": "Austrian Grand Prix",
+        "drivers": [
+          {
+            "driver": "Nico Hulkenberg",
+            "position": "P6",
+            "points": 8.0
+          },
+          {
+            "driver": "Kevin Magnussen",
+            "position": "P8",
+            "points": 4.0
+          }
+        ]
+      },
+      "required_entities": {
+        "drivers": [
+          "Nico Hulkenberg",
+          "Kevin Magnussen"
+        ],
+        "constructors": [
+          "Haas F1 Team"
+        ]
+      },
+      "required_season": 2024,
+      "required_event": "Austrian Grand Prix",
+      "expected_evidence": "SQLite race_results session_id=12 constructor_id=4",
+      "answerability_status": "answerable",
+      "evaluation_criteria": {
+        "type": "team_performance",
+        "drivers": [
+          {
+            "driver": "Nico Hulkenberg",
+            "position": "P6",
+            "points": 8.0
+          },
+          {
+            "driver": "Kevin Magnussen",
+            "position": "P8",
+            "points": 4.0
+          }
+        ]
+      }
+    },
+    {
+      "id": "IND-029",
+      "question": "Were conditions dry or wet during the 2024 Spanish Grand Prix?",
+      "category": "weather_and_conditions",
+      "difficulty": "medium",
+      "expected_intent": "weather",
+      "expected_route": "SQL",
+      "expected_answer": "Wet",
+      "required_entities": {
+        "drivers": [],
+        "constructors": []
+      },
+      "required_season": 2024,
+      "required_event": "Spanish Grand Prix",
+      "expected_evidence": "SQLite weather_observations session_id=11 rain_obs=1 (Wet)",
+      "answerability_status": "answerable",
+      "evaluation_criteria": {
+        "type": "weather_condition",
+        "expected": "Wet"
+      }
+    },
+    {
+      "id": "IND-030",
+      "question": "Did it rain at the 2024 Qatar Grand Prix?",
+      "category": "weather_and_conditions",
+      "difficulty": "easy",
+      "expected_intent": "weather",
+      "expected_route": "SQL",
+      "expected_answer": "No",
+      "required_entities": {
+        "drivers": [],
+        "constructors": []
+      },
+      "required_season": 2024,
+      "required_event": "Qatar Grand Prix",
+      "expected_evidence": "SQLite weather_observations session_id=24 rain_obs=0 (Dry)",
+      "answerability_status": "answerable",
+      "evaluation_criteria": {
+        "type": "weather_condition",
+        "expected": "Dry"
+      }
+    },
+    {
+      "id": "IND-031",
+      "question": "Were there wet-weather showers or rainfall at Spielberg in 2024?",
+      "category": "weather_and_conditions",
+      "difficulty": "medium",
+      "expected_intent": "weather",
+      "expected_route": "SQL",
+      "expected_answer": "Yes",
+      "required_entities": {
+        "drivers": [],
+        "constructors": []
+      },
+      "required_season": 2024,
+      "required_event": "Austrian Grand Prix",
+      "expected_evidence": "SQLite weather_observations session_id=12 rain_obs=1 (Wet)",
+      "answerability_status": "answerable",
+      "evaluation_criteria": {
+        "type": "weather_condition",
+        "expected": "Wet"
+      }
+    },
+    {
+      "id": "IND-032",
+      "question": "What was the weather like in the 2024 Monaco Grand Prix?",
+      "category": "weather_and_conditions",
+      "difficulty": "medium",
+      "expected_intent": "weather",
+      "expected_route": "SQL",
+      "expected_answer": {
+        "condition": "Dry",
+        "avg_air_temp": 21.6,
+        "avg_track_temp": 46.3
+      },
+      "required_entities": {
+        "drivers": [],
+        "constructors": []
+      },
+      "required_season": 2024,
+      "required_event": "Monaco Grand Prix",
+      "expected_evidence": "SQLite weather_observations session_id=9 condition=Dry avg_air=21.6 avg_track=46.3",
+      "answerability_status": "answerable",
+      "evaluation_criteria": {
+        "type": "weather_summary",
+        "condition": "Dry",
+        "numbers": [
+          21.6,
+          46.3
+        ]
+      }
+    },
+    {
+      "id": "IND-033",
+      "question": "What was the peak track temperature at the 2024 Miami Grand Prix?",
+      "category": "weather_and_conditions",
+      "difficulty": "easy",
+      "expected_intent": "weather",
+      "expected_route": "SQL",
+      "expected_answer": 49.1,
+      "required_entities": {
+        "drivers": [],
+        "constructors": []
+      },
+      "required_season": 2024,
+      "required_event": "Miami Grand Prix",
+      "expected_evidence": "SQLite weather_observations session_id=7 MAX(track_temperature_celsius)=49.1",
+      "answerability_status": "answerable",
+      "evaluation_criteria": {
+        "type": "temperature",
+        "value": 49.1,
+        "tolerance": 0.1
+      }
+    },
+    {
+      "id": "IND-034",
+      "question": "How hot was the asphalt track surface on average during the 2024 Hungarian Grand Prix?",
+      "category": "weather_and_conditions",
+      "difficulty": "easy",
+      "expected_intent": "weather",
+      "expected_route": "SQL",
+      "expected_answer": 44.9,
+      "required_entities": {
+        "drivers": [],
+        "constructors": []
+      },
+      "required_season": 2024,
+      "required_event": "Hungarian Grand Prix",
+      "expected_evidence": "SQLite weather_observations session_id=14 ROUND(AVG(track_temperature_celsius),1)=44.9",
+      "answerability_status": "answerable",
+      "evaluation_criteria": {
+        "type": "temperature",
+        "value": 44.9,
+        "tolerance": 0.1
+      }
+    },
+    {
+      "id": "IND-035",
+      "question": "What was the air temperature range at the 2024 Qatar Grand Prix?",
+      "category": "weather_and_conditions",
+      "difficulty": "medium",
+      "expected_intent": "weather",
+      "expected_route": "SQL",
+      "expected_answer": {
+        "min": 18.2,
+        "max": 19.7,
+        "avg": 18.9
+      },
+      "required_entities": {
+        "drivers": [],
+        "constructors": []
+      },
+      "required_season": 2024,
+      "required_event": "Qatar Grand Prix",
+      "expected_evidence": "SQLite weather_observations session_id=24 min=18.2 max=19.7 avg=18.9",
+      "answerability_status": "answerable",
+      "evaluation_criteria": {
+        "type": "number_set",
+        "values": [
+          18.2,
+          19.7
+        ]
+      }
+    },
+    {
+      "id": "IND-036",
+      "question": "What mean ambient air temperature was measured across the 2024 Singapore Grand Prix?",
+      "category": "weather_and_conditions",
+      "difficulty": "easy",
+      "expected_intent": "weather",
+      "expected_route": "SQL",
+      "expected_answer": 30.8,
+      "required_entities": {
+        "drivers": [],
+        "constructors": []
+      },
+      "required_season": 2024,
+      "required_event": "Singapore Grand Prix",
+      "expected_evidence": "SQLite weather_observations session_id=19 ROUND(AVG(air_temperature_celsius),1)=30.8",
+      "answerability_status": "answerable",
+      "evaluation_criteria": {
+        "type": "temperature",
+        "value": 30.8,
+        "tolerance": 0.1
+      }
+    },
+    {
+      "id": "IND-037",
+      "question": "Who recorded the fastest lap at the 2024 Chinese Grand Prix?",
+      "category": "pace_and_fastest_laps",
+      "difficulty": "easy",
+      "expected_intent": "fastest_lap",
+      "expected_route": "SQL",
+      "expected_answer": {
+        "driver": "Fernando Alonso",
+        "lap_time": "1:37.810",
+        "lap": 45
+      },
+      "required_entities": {
+        "drivers": [
+          "Fernando Alonso"
+        ],
+        "constructors": []
+      },
+      "required_season": 2024,
+      "required_event": "Chinese Grand Prix",
+      "expected_evidence": "SQLite laps session_id=6 min(lap_time_seconds)=97.810 (1:37.810) lap 45 Fernando Alonso",
+      "answerability_status": "answerable",
+      "evaluation_criteria": {
+        "type": "fastest_lap",
+        "driver": "Fernando Alonso",
+        "lap_time": "1:37.810"
+      }
+    },
+    {
+      "id": "IND-038",
+      "question": "Which driver posted the quickest lap during the 2024 Miami Grand Prix?",
+      "category": "pace_and_fastest_laps",
+      "difficulty": "easy",
+      "expected_intent": "fastest_lap",
+      "expected_route": "SQL",
+      "expected_answer": {
+        "driver": "Oscar Piastri",
+        "lap_time": "1:30.634",
+        "lap": 43
+      },
+      "required_entities": {
+        "drivers": [
+          "Oscar Piastri"
+        ],
+        "constructors": []
+      },
+      "required_season": 2024,
+      "required_event": "Miami Grand Prix",
+      "expected_evidence": "SQLite laps session_id=7 min(lap_time_seconds)=90.634 (1:30.634) lap 43 Oscar Piastri",
+      "answerability_status": "answerable",
+      "evaluation_criteria": {
+        "type": "fastest_lap",
+        "driver": "Oscar Piastri",
+        "lap_time": "1:30.634"
+      }
+    },
+    {
+      "id": "IND-039",
+      "question": "Who put in the quickest single lap around Marina Bay in 2024?",
+      "category": "pace_and_fastest_laps",
+      "difficulty": "easy",
+      "expected_intent": "fastest_lap",
+      "expected_route": "SQL",
+      "expected_answer": {
+        "driver": "Daniel Ricciardo",
+        "lap_time": "1:34.486",
+        "lap": 60
+      },
+      "required_entities": {
+        "drivers": [
+          "Daniel Ricciardo"
+        ],
+        "constructors": []
+      },
+      "required_season": 2024,
+      "required_event": "Singapore Grand Prix",
+      "expected_evidence": "SQLite laps session_id=19 min(lap_time_seconds)=94.486 (1:34.486) lap 60 Daniel Ricciardo",
+      "answerability_status": "answerable",
+      "evaluation_criteria": {
+        "type": "fastest_lap",
+        "driver": "Daniel Ricciardo",
+        "lap_time": "1:34.486"
+      }
+    },
+    {
+      "id": "IND-040",
+      "question": "Who achieved the fastest lap at the 2024 Abu Dhabi Grand Prix?",
+      "category": "pace_and_fastest_laps",
+      "difficulty": "easy",
+      "expected_intent": "fastest_lap",
+      "expected_route": "SQL",
+      "expected_answer": {
+        "driver": "Kevin Magnussen",
+        "lap_time": "1:25.637",
+        "lap": 57
+      },
+      "required_entities": {
+        "drivers": [
+          "Kevin Magnussen"
+        ],
+        "constructors": []
+      },
+      "required_season": 2024,
+      "required_event": "Abu Dhabi Grand Prix",
+      "expected_evidence": "SQLite laps session_id=25 min(lap_time_seconds)=85.637 (1:25.637) lap 57 Kevin Magnussen",
+      "answerability_status": "answerable",
+      "evaluation_criteria": {
+        "type": "fastest_lap",
+        "driver": "Kevin Magnussen",
+        "lap_time": "1:25.637"
+      }
+    },
+    {
+      "id": "IND-041",
+      "question": "Which driver had the fastest lap in the 2024 United States Grand Prix?",
+      "category": "pace_and_fastest_laps",
+      "difficulty": "easy",
+      "expected_intent": "fastest_lap",
+      "expected_route": "SQL",
+      "expected_answer": {
+        "driver": "Esteban Ocon",
+        "lap_time": "1:37.330",
+        "lap": 53
+      },
+      "required_entities": {
+        "drivers": [
+          "Esteban Ocon"
+        ],
+        "constructors": []
+      },
+      "required_season": 2024,
+      "required_event": "United States Grand Prix",
+      "expected_evidence": "SQLite laps session_id=20 min(lap_time_seconds)=97.330 (1:37.330) lap 53 Esteban Ocon",
+      "answerability_status": "answerable",
+      "evaluation_criteria": {
+        "type": "fastest_lap",
+        "driver": "Esteban Ocon",
+        "lap_time": "1:37.330"
+      }
+    },
+    {
+      "id": "IND-042",
+      "question": "Who set the quickest lap at Imola in 2024?",
+      "category": "pace_and_fastest_laps",
+      "difficulty": "medium",
+      "expected_intent": "fastest_lap",
+      "expected_route": "SQL",
+      "expected_answer": {
+        "driver": "George Russell",
+        "lap_time": "1:18.589",
+        "lap": 54
+      },
+      "required_entities": {
+        "drivers": [
+          "George Russell"
+        ],
+        "constructors": []
+      },
+      "required_season": 2024,
+      "required_event": "Emilia Romagna Grand Prix",
+      "expected_evidence": "SQLite laps session_id=8 min(lap_time_seconds)=78.589 (1:18.589) lap 54 George Russell (circuit alias: Imola)",
+      "answerability_status": "answerable",
+      "evaluation_criteria": {
+        "type": "fastest_lap",
+        "driver": "George Russell",
+        "lap_time": "1:18.589"
+      }
+    },
+    {
+      "id": "IND-043",
+      "question": "Which competitor logged the quickest race lap at Spa-Francorchamps in 2024?",
+      "category": "pace_and_fastest_laps",
+      "difficulty": "easy",
+      "expected_intent": "fastest_lap",
+      "expected_route": "SQL",
+      "expected_answer": {
+        "driver": "Sergio Perez",
+        "lap_time": "1:44.701",
+        "lap": 44
+      },
+      "required_entities": {
+        "drivers": [
+          "Sergio Perez"
+        ],
+        "constructors": []
+      },
+      "required_season": 2024,
+      "required_event": "Belgian Grand Prix",
+      "expected_evidence": "SQLite laps session_id=15 min(lap_time_seconds)=104.701 (1:44.701) lap 44 Sergio Perez",
+      "answerability_status": "answerable",
+      "evaluation_criteria": {
+        "type": "fastest_lap",
+        "driver": "Sergio Perez",
+        "lap_time": "1:44.701"
+      }
+    },
+    {
+      "id": "IND-044",
+      "question": "Which driver set the fastest lap at the 2024 Austrian Grand Prix?",
+      "category": "pace_and_fastest_laps",
+      "difficulty": "easy",
+      "expected_intent": "fastest_lap",
+      "expected_route": "SQL",
+      "expected_answer": {
+        "driver": "Fernando Alonso",
+        "lap_time": "1:07.694",
+        "lap": 70
+      },
+      "required_entities": {
+        "drivers": [
+          "Fernando Alonso"
+        ],
+        "constructors": []
+      },
+      "required_season": 2024,
+      "required_event": "Austrian Grand Prix",
+      "expected_evidence": "SQLite laps session_id=12 min(lap_time_seconds)=67.694 (1:07.694) lap 70 Fernando Alonso",
+      "answerability_status": "answerable",
+      "evaluation_criteria": {
+        "type": "fastest_lap",
+        "driver": "Fernando Alonso",
+        "lap_time": "1:07.694"
+      }
+    },
+    {
+      "id": "IND-045",
+      "question": "Which tyre compounds were used in the 2024 Japanese Grand Prix?",
+      "category": "tyres_position_and_classification",
+      "difficulty": "easy",
+      "expected_intent": "tyre_usage",
+      "expected_route": "SQL",
+      "expected_answer": [
+        "HARD",
+        "MEDIUM",
+        "SOFT"
+      ],
+      "required_entities": {
+        "drivers": [],
+        "constructors": []
+      },
+      "required_season": 2024,
+      "required_event": "Japanese Grand Prix",
+      "expected_evidence": "SQLite laps session_id=5 DISTINCT tyre_compound",
+      "answerability_status": "answerable",
+      "evaluation_criteria": {
+        "type": "entity_list",
+        "must_contain_all": [
+          "HARD",
+          "MEDIUM",
+          "SOFT"
+        ]
+      }
+    },
+    {
+      "id": "IND-046",
+      "question": "What tyres did Lewis Hamilton use during the 2024 British Grand Prix?",
+      "category": "tyres_position_and_classification",
+      "difficulty": "medium",
+      "expected_intent": "tyre_usage",
+      "expected_route": "SQL",
+      "expected_answer": [
+        "INTERMEDIATE",
+        "MEDIUM",
+        "SOFT"
+      ],
+      "required_entities": {
+        "drivers": [
+          "Lewis Hamilton"
+        ],
+        "constructors": []
+      },
+      "required_season": 2024,
+      "required_event": "British Grand Prix",
+      "expected_evidence": "SQLite laps session_id=13 driver_id=1 DISTINCT tyre_compound",
+      "answerability_status": "answerable",
+      "evaluation_criteria": {
+        "type": "entity_list",
+        "must_contain_all": [
+          "INTERMEDIATE",
+          "MEDIUM",
+          "SOFT"
+        ]
+      }
+    },
+    {
+      "id": "IND-047",
+      "question": "What tyre strategy did Max Verstappen run in the 2024 São Paulo Grand Prix?",
+      "category": "tyres_position_and_classification",
+      "difficulty": "medium",
+      "expected_intent": "tyre_usage",
+      "expected_route": "SQL",
+      "expected_answer": [
+        "INTERMEDIATE"
+      ],
+      "required_entities": {
+        "drivers": [
+          "Max Verstappen"
+        ],
+        "constructors": []
+      },
+      "required_season": 2024,
+      "required_event": "São Paulo Grand Prix",
+      "expected_evidence": "SQLite laps session_id=22 driver_id=2 DISTINCT tyre_compound = ['INTERMEDIATE']",
+      "answerability_status": "answerable",
+      "evaluation_criteria": {
+        "type": "entity_list",
+        "must_contain_all": [
+          "INTERMEDIATE"
+        ],
+        "must_not_contain": [
+          "HARD",
+          "SOFT",
+          "MEDIUM"
+        ]
+      }
+    },
+    {
+      "id": "IND-048",
+      "question": "Who gained the most positions in the 2024 United States Grand Prix?",
+      "category": "tyres_position_and_classification",
+      "difficulty": "medium",
+      "expected_intent": "biggest_movers",
+      "expected_route": "SQL",
+      "expected_answer": {
+        "driver": "George Russell",
+        "positions_gained": 14,
+        "grid": "P20",
+        "finish": "P6"
+      },
+      "required_entities": {
+        "drivers": [
+          "George Russell"
+        ],
+        "constructors": []
+      },
+      "required_season": 2024,
+      "required_event": "United States Grand Prix",
+      "expected_evidence": "SQLite race_results session_id=20 MAX(grid_position - finish_position)=14 George Russell",
+      "answerability_status": "answerable",
+      "evaluation_criteria": {
+        "type": "entity_and_number",
+        "entity": "George Russell",
+        "number": 14
+      }
+    },
+    {
+      "id": "IND-049",
+      "question": "Which driver was the biggest mover in the 2024 Azerbaijan Grand Prix?",
+      "category": "tyres_position_and_classification",
+      "difficulty": "medium",
+      "expected_intent": "biggest_movers",
+      "expected_route": "SQL",
+      "expected_answer": {
+        "driver": "Lando Norris",
+        "positions_gained": 11,
+        "grid": "P15",
+        "finish": "P4"
+      },
+      "required_entities": {
+        "drivers": [
+          "Lando Norris"
+        ],
+        "constructors": []
+      },
+      "required_season": 2024,
+      "required_event": "Azerbaijan Grand Prix",
+      "expected_evidence": "SQLite race_results session_id=18 MAX(grid_position - finish_position)=11 Lando Norris",
+      "answerability_status": "answerable",
+      "evaluation_criteria": {
+        "type": "entity_and_number",
+        "entity": "Lando Norris",
+        "number": 11
+      }
+    },
+    {
+      "id": "IND-050",
+      "question": "Who retired from the 2024 Australian Grand Prix?",
+      "category": "tyres_position_and_classification",
+      "difficulty": "medium",
+      "expected_intent": "race_retirements",
+      "expected_route": "SQL",
+      "expected_answer": [
+        "George Russell",
+        "Lewis Hamilton",
+        "Max Verstappen"
+      ],
+      "required_entities": {
+        "drivers": [
+          "George Russell",
+          "Lewis Hamilton",
+          "Max Verstappen"
+        ],
+        "constructors": []
+      },
+      "required_season": 2024,
+      "required_event": "Australian Grand Prix",
+      "expected_evidence": "SQLite race_results session_id=4 classified_status='Retired'",
+      "answerability_status": "answerable",
+      "evaluation_criteria": {
+        "type": "entity_list",
+        "must_contain_all": [
+          "George Russell",
+          "Lewis Hamilton",
+          "Max Verstappen"
+        ]
+      }
+    },
+    {
+      "id": "IND-051",
+      "question": "Which drivers failed to finish the 2024 Qatar Grand Prix?",
+      "category": "tyres_position_and_classification",
+      "difficulty": "medium",
+      "expected_intent": "race_retirements",
+      "expected_route": "SQL",
+      "expected_answer": [
+        "Esteban Ocon",
+        "Franco Colapinto",
+        "Lance Stroll",
+        "Nico Hulkenberg",
+        "Sergio Perez"
+      ],
+      "required_entities": {
+        "drivers": [
+          "Esteban Ocon",
+          "Franco Colapinto",
+          "Lance Stroll",
+          "Nico Hulkenberg",
+          "Sergio Perez"
+        ],
+        "constructors": []
+      },
+      "required_season": 2024,
+      "required_event": "Qatar Grand Prix",
+      "expected_evidence": "SQLite race_results session_id=24 classified_status='Retired'",
+      "answerability_status": "answerable",
+      "evaluation_criteria": {
+        "type": "entity_list",
+        "must_contain_all": [
+          "Esteban Ocon",
+          "Franco Colapinto",
+          "Lance Stroll",
+          "Nico Hulkenberg",
+          "Sergio Perez"
+        ]
+      }
+    },
+    {
+      "id": "IND-052",
+      "question": "Give me the full race classification for the 2024 Bahrain Grand Prix.",
+      "category": "tyres_position_and_classification",
+      "difficulty": "hard",
+      "expected_intent": "race_classification",
+      "expected_route": "SQL",
+      "expected_answer": {
+        "p1": "Max Verstappen",
+        "p10": "Lance Stroll",
+        "p20": "Logan Sargeant",
+        "total_drivers": 20
+      },
+      "required_entities": {
+        "drivers": [
+          "Max Verstappen",
+          "Sergio Perez",
+          "Carlos Sainz",
+          "Logan Sargeant"
+        ],
+        "constructors": []
+      },
+      "required_season": 2024,
+      "required_event": "Bahrain Grand Prix",
+      "expected_evidence": "SQLite race_results session_id=2 full ordered classification (20 drivers)",
+      "answerability_status": "answerable",
+      "evaluation_criteria": {
+        "type": "classification",
+        "ordered_checks": [
+          {
+            "position": "P1",
+            "driver": "Max Verstappen"
+          },
+          {
+            "position": "P2",
+            "driver": "Sergio Perez"
+          },
+          {
+            "position": "P3",
+            "driver": "Carlos Sainz"
+          },
+          {
+            "position": "P10",
+            "driver": "Lance Stroll"
+          },
+          {
+            "position": "P20",
+            "driver": "Logan Sargeant"
+          }
+        ]
+      }
+    },
+    {
+      "id": "IND-053",
+      "question": "Compare Max Verstappen and Lando Norris in the championship standings after the 2024 Azerbaijan Grand Prix.",
+      "category": "multi_entity_comparisons",
+      "difficulty": "medium",
+      "expected_intent": "driver_standings_comparison",
+      "expected_route": "SQL",
+      "expected_answer": {
+        "ahead": "Max Verstappen",
+        "driver_1": {
+          "name": "Max Verstappen",
+          "rank": "P1",
+          "points": 289.0
+        },
+        "driver_2": {
+          "name": "Lando Norris",
+          "rank": "P2",
+          "points": 245.0
+        }
+      },
+      "required_entities": {
+        "drivers": [
+          "Max Verstappen",
+          "Lando Norris"
+        ],
+        "constructors": []
+      },
+      "required_season": 2024,
+      "required_event": "Azerbaijan Grand Prix",
+      "expected_evidence": "SQLite cumulative standings session_id<=18 Max Verstappen 289.0 vs Lando Norris 245.0",
+      "answerability_status": "answerable",
+      "evaluation_criteria": {
+        "type": "comparison",
+        "ahead": "Max Verstappen",
+        "entities": [
+          {
+            "name": "Max Verstappen",
+            "rank": "P1",
+            "points": 289.0
+          },
+          {
+            "name": "Lando Norris",
+            "rank": "P2",
+            "points": 245.0
+          }
+        ]
+      }
+    },
+    {
+      "id": "IND-054",
+      "question": "Who was ahead in the driver standings between Charles Leclerc and Oscar Piastri after the 2024 Abu Dhabi Grand Prix?",
+      "category": "multi_entity_comparisons",
+      "difficulty": "medium",
+      "expected_intent": "driver_standings_comparison",
+      "expected_route": "SQL",
+      "expected_answer": {
+        "ahead": "Charles Leclerc",
+        "driver_1": {
+          "name": "Charles Leclerc",
+          "rank": "P3",
+          "points": 327.0
+        },
+        "driver_2": {
+          "name": "Oscar Piastri",
+          "rank": "P4",
+          "points": 265.0
+        }
+      },
+      "required_entities": {
+        "drivers": [
+          "Charles Leclerc",
+          "Oscar Piastri"
+        ],
+        "constructors": []
+      },
+      "required_season": 2024,
+      "required_event": "Abu Dhabi Grand Prix",
+      "expected_evidence": "SQLite cumulative standings session_id<=25 Charles Leclerc 327.0 vs Oscar Piastri 265.0",
+      "answerability_status": "answerable",
+      "evaluation_criteria": {
+        "type": "comparison",
+        "ahead": "Charles Leclerc",
+        "entities": [
+          {
+            "name": "Charles Leclerc",
+            "rank": "P3",
+            "points": 327.0
+          },
+          {
+            "name": "Oscar Piastri",
+            "rank": "P4",
+            "points": 265.0
+          }
+        ]
+      }
+    },
+    {
+      "id": "IND-055",
+      "question": "Compare Carlos Sainz and George Russell in the standings after the 2024 Las Vegas Grand Prix.",
+      "category": "multi_entity_comparisons",
+      "difficulty": "medium",
+      "expected_intent": "driver_standings_comparison",
+      "expected_route": "SQL",
+      "expected_answer": {
+        "ahead": "Carlos Sainz",
+        "driver_1": {
+          "name": "Carlos Sainz",
+          "rank": "P5",
+          "points": 236.0
+        },
+        "driver_2": {
+          "name": "George Russell",
+          "rank": "P6",
+          "points": 204.0
+        }
+      },
+      "required_entities": {
+        "drivers": [
+          "Carlos Sainz",
+          "George Russell"
+        ],
+        "constructors": []
+      },
+      "required_season": 2024,
+      "required_event": "Las Vegas Grand Prix",
+      "expected_evidence": "SQLite cumulative standings session_id<=23 Carlos Sainz 236.0 vs George Russell 204.0",
+      "answerability_status": "answerable",
+      "evaluation_criteria": {
+        "type": "comparison",
+        "ahead": "Carlos Sainz",
+        "entities": [
+          {
+            "name": "Carlos Sainz",
+            "rank": "P5",
+            "points": 236.0
+          },
+          {
+            "name": "George Russell",
+            "rank": "P6",
+            "points": 204.0
+          }
+        ]
+      }
+    },
+    {
+      "id": "IND-056",
+      "question": "Compare McLaren and Ferrari in the constructor standings after the 2024 Abu Dhabi Grand Prix.",
+      "category": "multi_entity_comparisons",
+      "difficulty": "medium",
+      "expected_intent": "constructor_standings_comparison",
+      "expected_route": "SQL",
+      "expected_answer": {
+        "ahead": "McLaren",
+        "constructor_1": {
+          "name": "McLaren",
+          "rank": "P1",
+          "points": 609.0
+        },
+        "constructor_2": {
+          "name": "Ferrari",
+          "rank": "P2",
+          "points": 595.0
+        }
+      },
+      "required_entities": {
+        "drivers": [],
+        "constructors": [
+          "McLaren",
+          "Ferrari"
+        ]
+      },
+      "required_season": 2024,
+      "required_event": "Abu Dhabi Grand Prix",
+      "expected_evidence": "SQLite cumulative constructor standings session_id<=25 McLaren 609.0 vs Ferrari 595.0",
+      "answerability_status": "answerable",
+      "evaluation_criteria": {
+        "type": "comparison",
+        "ahead": "McLaren",
+        "entities": [
+          {
+            "name": "McLaren",
+            "rank": "P1",
+            "points": 609.0
+          },
+          {
+            "name": "Ferrari",
+            "rank": "P2",
+            "points": 595.0
+          }
+        ]
+      }
+    },
+    {
+      "id": "IND-057",
+      "question": "Who had more points in the constructor standings between Red Bull Racing and McLaren after the 2024 Hungarian Grand Prix?",
+      "category": "multi_entity_comparisons",
+      "difficulty": "hard",
+      "expected_intent": "constructor_standings_comparison",
+      "expected_route": "SQL",
+      "expected_answer": {
+        "ahead": "Red Bull Racing",
+        "constructor_1": {
+          "name": "Red Bull Racing",
+          "rank": "P1",
+          "points": 352.0
+        },
+        "constructor_2": {
+          "name": "McLaren",
+          "rank": "P2",
+          "points": 317.0
+        }
+      },
+      "required_entities": {
+        "drivers": [],
+        "constructors": [
+          "Red Bull Racing",
+          "McLaren"
+        ]
+      },
+      "required_season": 2024,
+      "required_event": "Hungarian Grand Prix",
+      "expected_evidence": "SQLite cumulative constructor standings session_id<=14 Red Bull Racing 352.0 vs McLaren 317.0",
+      "answerability_status": "answerable",
+      "evaluation_criteria": {
+        "type": "comparison",
+        "ahead": "Red Bull Racing",
+        "entities": [
+          {
+            "name": "Red Bull Racing",
+            "rank": "P1",
+            "points": 352.0
+          },
+          {
+            "name": "McLaren",
+            "rank": "P2",
+            "points": 317.0
+          }
+        ]
+      }
+    },
+    {
+      "id": "IND-058",
+      "question": "Compare Mercedes and Ferrari in the constructor standings after the 2024 British Grand Prix.",
+      "category": "multi_entity_comparisons",
+      "difficulty": "medium",
+      "expected_intent": "constructor_standings_comparison",
+      "expected_route": "SQL",
+      "expected_answer": {
+        "ahead": "Ferrari",
+        "constructor_1": {
+          "name": "Ferrari",
+          "rank": "P2",
+          "points": 276.0
+        },
+        "constructor_2": {
+          "name": "Mercedes",
+          "rank": "P4",
+          "points": 205.0
+        }
+      },
+      "required_entities": {
+        "drivers": [],
+        "constructors": [
+          "Mercedes",
+          "Ferrari"
+        ]
+      },
+      "required_season": 2024,
+      "required_event": "British Grand Prix",
+      "expected_evidence": "SQLite cumulative constructor standings session_id<=13 Ferrari 276.0 vs Mercedes 205.0",
+      "answerability_status": "answerable",
+      "evaluation_criteria": {
+        "type": "comparison",
+        "ahead": "Ferrari",
+        "entities": [
+          {
+            "name": "Ferrari",
+            "rank": "P2",
+            "points": 276.0
+          },
+          {
+            "name": "Mercedes",
+            "rank": "P4",
+            "points": 205.0
+          }
+        ]
+      }
+    },
+    {
+      "id": "IND-059",
+      "question": "Among McLaren's two drivers, who achieved the stronger classification at Hungaroring in 2024?",
+      "category": "multi_entity_comparisons",
+      "difficulty": "easy",
+      "expected_intent": "team_comparison",
+      "expected_route": "SQL",
+      "expected_answer": "Oscar Piastri",
+      "required_entities": {
+        "drivers": [
+          "Oscar Piastri"
+        ],
+        "constructors": [
+          "McLaren"
+        ]
+      },
+      "required_season": 2024,
+      "required_event": "Hungarian Grand Prix",
+      "expected_evidence": "SQLite race_results session_id=14 McLaren: Piastri P1 vs Norris P2",
+      "answerability_status": "answerable",
+      "evaluation_criteria": {
+        "type": "single_entity",
+        "entity": "Oscar Piastri"
+      }
+    },
+    {
+      "id": "IND-060",
+      "question": "Out of the Red Bull pair, who placed ahead of their teammate at the 2024 Baku race?",
+      "category": "multi_entity_comparisons",
+      "difficulty": "easy",
+      "expected_intent": "team_comparison",
+      "expected_route": "SQL",
+      "expected_answer": "Max Verstappen",
+      "required_entities": {
+        "drivers": [
+          "Max Verstappen"
+        ],
+        "constructors": [
+          "Red Bull Racing"
+        ]
+      },
+      "required_season": 2024,
+      "required_event": "Azerbaijan Grand Prix",
+      "expected_evidence": "SQLite race_results session_id=18 Red Bull Racing: Verstappen P5 vs Perez P17 (Retired)",
+      "answerability_status": "answerable",
+      "evaluation_criteria": {
+        "type": "single_entity",
+        "entity": "Max Verstappen"
+      }
+    },
+    {
+      "id": "IND-061",
+      "question": "Provide an overview of what happened in the 2024 Azerbaijan Grand Prix.",
+      "category": "rag_document_grounded",
+      "difficulty": "medium",
+      "expected_intent": "general_rag",
+      "expected_route": "RAG",
+      "expected_answer": "Oscar Piastri won the race. The podium consisted of Oscar Piastri, Charles Leclerc, George Russell. Lando Norris gained 11 positions. The fastest lap was set by Lando Norris.",
+      "required_entities": {
+        "drivers": [
+          "Oscar Piastri",
+          "Charles Leclerc",
+          "George Russell"
+        ],
+        "constructors": []
+      },
+      "required_season": 2024,
+      "required_event": "Azerbaijan Grand Prix",
+      "expected_evidence": "ChromaDB race_report id=2024_17",
+      "answerability_status": "answerable",
+      "evaluation_criteria": {
+        "type": "rag_grounded",
+        "expected_source_ids": [
+          "2024_17"
+        ],
+        "must_mention_any": [
+          "Oscar Piastri",
+          "Piastri"
+        ],
+        "requires_evidence_support": true
+      }
+    },
+    {
+      "id": "IND-062",
+      "question": "Give me a race summary of the 2024 São Paulo Grand Prix.",
+      "category": "rag_document_grounded",
+      "difficulty": "medium",
+      "expected_intent": "general_rag",
+      "expected_route": "RAG",
+      "expected_answer": "Max Verstappen won the race. The podium consisted of Max Verstappen, Esteban Ocon, Pierre Gasly. Max Verstappen gained 16 positions. The fastest lap was set by Max Verstappen.",
+      "required_entities": {
+        "drivers": [
+          "Max Verstappen",
+          "Esteban Ocon",
+          "Pierre Gasly"
+        ],
+        "constructors": []
+      },
+      "required_season": 2024,
+      "required_event": "São Paulo Grand Prix",
+      "expected_evidence": "ChromaDB race_report id=2024_21",
+      "answerability_status": "answerable",
+      "evaluation_criteria": {
+        "type": "rag_grounded",
+        "expected_source_ids": [
+          "2024_21"
+        ],
+        "must_mention_any": [
+          "Max Verstappen",
+          "Verstappen"
+        ],
+        "requires_evidence_support": true
+      }
+    },
+    {
+      "id": "IND-063",
+      "question": "Summarize the 2024 Emilia Romagna Grand Prix race report.",
+      "category": "rag_document_grounded",
+      "difficulty": "medium",
+      "expected_intent": "general_rag",
+      "expected_route": "RAG",
+      "expected_answer": "Max Verstappen won the race. The podium consisted of Max Verstappen, Lando Norris, Charles Leclerc. Kevin Magnussen gained 6 positions. The fastest lap was set by George Russell.",
+      "required_entities": {
+        "drivers": [
+          "Max Verstappen",
+          "Lando Norris",
+          "Charles Leclerc"
+        ],
+        "constructors": []
+      },
+      "required_season": 2024,
+      "required_event": "Emilia Romagna Grand Prix",
+      "expected_evidence": "ChromaDB race_report id=2024_7",
+      "answerability_status": "answerable",
+      "evaluation_criteria": {
+        "type": "rag_grounded",
+        "expected_source_ids": [
+          "2024_7"
+        ],
+        "must_mention_any": [
+          "Max Verstappen",
+          "Verstappen"
+        ],
+        "requires_evidence_support": true
+      }
+    },
+    {
+      "id": "IND-064",
+      "question": "Tell me about the 2024 Las Vegas Grand Prix race summary.",
+      "category": "rag_document_grounded",
+      "difficulty": "medium",
+      "expected_intent": "general_rag",
+      "expected_route": "RAG",
+      "expected_answer": "George Russell won the race. The podium consisted of George Russell, Lewis Hamilton, Carlos Sainz. Lewis Hamilton gained 8 positions. The fastest lap was set by Lando Norris.",
+      "required_entities": {
+        "drivers": [
+          "George Russell",
+          "Lewis Hamilton",
+          "Carlos Sainz"
+        ],
+        "constructors": []
+      },
+      "required_season": 2024,
+      "required_event": "Las Vegas Grand Prix",
+      "expected_evidence": "ChromaDB race_report id=2024_22",
+      "answerability_status": "answerable",
+      "evaluation_criteria": {
+        "type": "rag_grounded",
+        "expected_source_ids": [
+          "2024_22"
+        ],
+        "must_mention_any": [
+          "George Russell",
+          "Russell"
+        ],
+        "requires_evidence_support": true
+      }
+    },
+    {
+      "id": "IND-065",
+      "question": "Describe what happened in the 2024 Mexico City Grand Prix race summary.",
+      "category": "rag_document_grounded",
+      "difficulty": "medium",
+      "expected_intent": "general_rag",
+      "expected_route": "RAG",
+      "expected_answer": "Carlos Sainz won the race. The podium consisted of Carlos Sainz, Lando Norris, Charles Leclerc. Oscar Piastri gained 9 positions. The fastest lap was set by Charles Leclerc.",
+      "required_entities": {
+        "drivers": [
+          "Carlos Sainz",
+          "Lando Norris",
+          "Charles Leclerc"
+        ],
+        "constructors": []
+      },
+      "required_season": 2024,
+      "required_event": "Mexico City Grand Prix",
+      "expected_evidence": "ChromaDB race_report id=2024_20",
+      "answerability_status": "answerable",
+      "evaluation_criteria": {
+        "type": "rag_grounded",
+        "expected_source_ids": [
+          "2024_20"
+        ],
+        "must_mention_any": [
+          "Carlos Sainz",
+          "Sainz"
+        ],
+        "requires_evidence_support": true
+      }
+    },
+    {
+      "id": "IND-066",
+      "question": "Recap the key narrative and outcomes of the 2024 Qatar Grand Prix.",
+      "category": "rag_document_grounded",
+      "difficulty": "medium",
+      "expected_intent": "general_rag",
+      "expected_route": "RAG",
+      "expected_answer": "Max Verstappen won the race. The podium consisted of Max Verstappen, Charles Leclerc, Oscar Piastri. Pierre Gasly gained 6 positions. The fastest lap was set by Lando Norris.",
+      "required_entities": {
+        "drivers": [
+          "Max Verstappen",
+          "Charles Leclerc",
+          "Oscar Piastri"
+        ],
+        "constructors": []
+      },
+      "required_season": 2024,
+      "required_event": "Qatar Grand Prix",
+      "expected_evidence": "ChromaDB race_report id=2024_23",
+      "answerability_status": "answerable",
+      "evaluation_criteria": {
+        "type": "rag_grounded",
+        "expected_source_ids": [
+          "2024_23"
+        ],
+        "must_mention_any": [
+          "Max Verstappen",
+          "Verstappen"
+        ],
+        "requires_evidence_support": true
+      }
+    },
+    {
+      "id": "IND-067",
+      "question": "Which round of the 2024 season was the Hungarian Grand Prix?",
+      "category": "rag_document_grounded",
+      "difficulty": "hard",
+      "expected_intent": "general_rag",
+      "expected_route": "RAG",
+      "expected_answer": "Round 13",
+      "required_entities": {
+        "drivers": [],
+        "constructors": []
+      },
+      "required_season": 2024,
+      "required_event": "Hungarian Grand Prix",
+      "expected_evidence": "ChromaDB race_report id=2024_13 (Round: 13; not stored in SQLite events table)",
+      "answerability_status": "answerable",
+      "evaluation_criteria": {
+        "type": "rag_fact",
+        "expected_source_ids": [
+          "2024_13"
+        ],
+        "must_contain_number": 13,
+        "requires_evidence_support": true
+      }
+    },
+    {
+      "id": "IND-068",
+      "question": "Who retired from the race?",
+      "category": "ambiguous_or_underspecified",
+      "difficulty": "easy",
+      "expected_intent": "ambiguous",
+      "expected_route": "clarification",
+      "expected_answer": "AMBIGUOUS",
+      "required_entities": {
+        "drivers": [],
+        "constructors": []
+      },
+      "required_season": 2024,
+      "required_event": null,
+      "expected_evidence": "IntentClassifier / QueryPlanner missing Grand Prix specification",
+      "answerability_status": "ambiguous",
+      "evaluation_criteria": {
+        "type": "clarification",
+        "must_request_missing": [
+          "grand prix",
+          "race",
+          "specify"
+        ]
+      }
+    },
+    {
+      "id": "IND-069",
+      "question": "Who leads the constructors' championship?",
+      "category": "ambiguous_or_underspecified",
+      "difficulty": "medium",
+      "expected_intent": "ambiguous",
+      "expected_route": "clarification",
+      "expected_answer": "AMBIGUOUS",
+      "required_entities": {
+        "drivers": [],
+        "constructors": []
+      },
+      "required_season": 2024,
+      "required_event": null,
+      "expected_evidence": "IntentClassifier missing Grand Prix reference for standings snapshot",
+      "answerability_status": "ambiguous",
+      "evaluation_criteria": {
+        "type": "clarification",
+        "must_request_missing": [
+          "grand prix",
+          "after which",
+          "specify"
+        ]
+      }
+    },
+    {
+      "id": "IND-070",
+      "question": "What were the weather conditions?",
+      "category": "ambiguous_or_underspecified",
+      "difficulty": "easy",
+      "expected_intent": "ambiguous",
+      "expected_route": "clarification",
+      "expected_answer": "AMBIGUOUS",
+      "required_entities": {
+        "drivers": [],
+        "constructors": []
+      },
+      "required_season": 2024,
+      "required_event": null,
+      "expected_evidence": "IntentClassifier missing Grand Prix specification for weather query",
+      "answerability_status": "ambiguous",
+      "evaluation_criteria": {
+        "type": "clarification",
+        "must_request_missing": [
+          "grand prix",
+          "specify"
+        ]
+      }
+    },
+    {
+      "id": "IND-071",
+      "question": "Who won the race in Italy in 2024?",
+      "category": "ambiguous_or_underspecified",
+      "difficulty": "hard",
+      "expected_intent": "ambiguous",
+      "expected_route": "clarification",
+      "expected_answer": "AMBIGUOUS",
+      "required_entities": {
+        "drivers": [],
+        "constructors": []
+      },
+      "required_season": 2024,
+      "required_event": null,
+      "expected_evidence": "EntityRegistry ambiguous country match: Italy has two 2024 events (Emilia Romagna GP and Italian GP)",
+      "answerability_status": "ambiguous",
+      "evaluation_criteria": {
+        "type": "clarification",
+        "must_request_missing": [
+          "emilia romagna",
+          "italian",
+          "specify",
+          "multiple"
+        ]
+      }
+    },
+    {
+      "id": "IND-072",
+      "question": "How many championship points did he have after Monaco?",
+      "category": "ambiguous_or_underspecified",
+      "difficulty": "medium",
+      "expected_intent": "ambiguous",
+      "expected_route": "clarification",
+      "expected_answer": "AMBIGUOUS",
+      "required_entities": {
+        "drivers": [],
+        "constructors": []
+      },
+      "required_season": 2024,
+      "required_event": "Monaco Grand Prix",
+      "expected_evidence": "IntentClassifier pronoun 'he' without resolved driver entity",
+      "answerability_status": "ambiguous",
+      "evaluation_criteria": {
+        "type": "clarification",
+        "must_request_missing": [
+          "driver",
+          "specify"
+        ]
+      }
+    },
+    {
+      "id": "IND-073",
+      "question": "Explain how the undercut pit strategy works in Formula 1.",
+      "category": "unsupported_or_unanswerable",
+      "difficulty": "medium",
+      "expected_intent": "general_rag",
+      "expected_route": "RAG",
+      "expected_answer": "UNANSWERABLE",
+      "required_entities": {
+        "drivers": [],
+        "constructors": []
+      },
+      "required_season": null,
+      "required_event": null,
+      "expected_evidence": "ChromaDB corpus contains only 2024 race_report and driver_report docs; no strategy/technical explanations exist",
+      "answerability_status": "unanswerable",
+      "evaluation_criteria": {
+        "type": "abstention",
+        "must_refuse": true
+      }
+    },
+    {
+      "id": "IND-074",
+      "question": "What aerodynamic upgrades did Ferrari introduce for the 2024 Italian Grand Prix?",
+      "category": "unsupported_or_unanswerable",
+      "difficulty": "hard",
+      "expected_intent": "general_rag",
+      "expected_route": "RAG",
+      "expected_answer": "UNANSWERABLE",
+      "required_entities": {
+        "drivers": [],
+        "constructors": [
+          "Ferrari"
+        ]
+      },
+      "required_season": 2024,
+      "required_event": "Italian Grand Prix",
+      "expected_evidence": "ChromaDB and SQLite do not contain car upgrade or aerodynamic development data",
+      "answerability_status": "unanswerable",
+      "evaluation_criteria": {
+        "type": "abstention",
+        "must_refuse": true
+      }
+    },
+    {
+      "id": "IND-075",
+      "question": "How long was Lando Norris's pit stop in the 2024 British Grand Prix?",
+      "category": "unsupported_or_unanswerable",
+      "difficulty": "hard",
+      "expected_intent": "general_rag",
+      "expected_route": "RAG",
+      "expected_answer": "UNANSWERABLE",
+      "required_entities": {
+        "drivers": [
+          "Lando Norris"
+        ],
+        "constructors": []
+      },
+      "required_season": 2024,
+      "required_event": "British Grand Prix",
+      "expected_evidence": "Pit stop durations are not stored in SQLite laps/race_results or ChromaDB reports",
+      "answerability_status": "unanswerable",
+      "evaluation_criteria": {
+        "type": "abstention",
+        "must_refuse": true
+      }
+    },
+    {
+      "id": "IND-076",
+      "question": "Who won the 2019 Brazilian Grand Prix?",
+      "category": "unsupported_or_unanswerable",
+      "difficulty": "easy",
+      "expected_intent": "domain_rejection",
+      "expected_route": "domain_rejection",
+      "expected_answer": "UNANSWERABLE",
+      "required_entities": {
+        "drivers": [],
+        "constructors": []
+      },
+      "required_season": 2019,
+      "required_event": null,
+      "expected_evidence": "DomainGuard season check: SQLite seasons table contains only [2024]",
+      "answerability_status": "unanswerable",
+      "evaluation_criteria": {
+        "type": "domain_rejection",
+        "must_refuse": true,
+        "expected_reason": "unsupported_season"
+      }
+    },
+    {
+      "id": "IND-077",
+      "question": "What happened in the 2024 Portuguese Grand Prix?",
+      "category": "unsupported_or_unanswerable",
+      "difficulty": "easy",
+      "expected_intent": "domain_rejection",
+      "expected_route": "domain_rejection",
+      "expected_answer": "UNANSWERABLE",
+      "required_entities": {
+        "drivers": [],
+        "constructors": []
+      },
+      "required_season": 2024,
+      "required_event": null,
+      "expected_evidence": "DomainGuard out-of-calendar F1 venue check: Portuguese GP not in 2024 calendar",
+      "answerability_status": "unanswerable",
+      "evaluation_criteria": {
+        "type": "domain_rejection",
+        "must_refuse": true,
+        "expected_reason": "out_of_calendar_event"
+      }
+    },
+    {
+      "id": "IND-078",
+      "question": "Which Formula E driver captured the 2024 world title?",
+      "category": "unsupported_or_unanswerable",
+      "difficulty": "easy",
+      "expected_intent": "domain_rejection",
+      "expected_route": "domain_rejection",
+      "expected_answer": "UNANSWERABLE",
+      "required_entities": {
+        "drivers": [],
+        "constructors": []
+      },
+      "required_season": 2024,
+      "required_event": null,
+      "expected_evidence": "DomainGuard unrelated motorsport series check: Formula E",
+      "answerability_status": "unanswerable",
+      "evaluation_criteria": {
+        "type": "domain_rejection",
+        "must_refuse": true,
+        "expected_reason": "out_of_domain_motorsport"
+      }
+    },
+    {
+      "id": "IND-079",
+      "question": "How did Michael Schumacher finish in the 2024 Monaco Grand Prix?",
+      "category": "unsupported_or_unanswerable",
+      "difficulty": "medium",
+      "expected_intent": "general_rag",
+      "expected_route": "RAG",
+      "expected_answer": "UNANSWERABLE",
+      "required_entities": {
+        "drivers": [],
+        "constructors": []
+      },
+      "required_season": 2024,
+      "required_event": "Monaco Grand Prix",
+      "expected_evidence": "Michael Schumacher did not compete in 2024; Retriever entity_mismatch guard must abstain",
+      "answerability_status": "unanswerable",
+      "evaluation_criteria": {
+        "type": "abstention",
+        "must_refuse": true
+      }
+    },
+    {
+      "id": "IND-080",
+      "question": "Name the race winner of the 2024 Argentine Grand Prix.",
+      "category": "unsupported_or_unanswerable",
+      "difficulty": "medium",
+      "expected_intent": "domain_rejection",
+      "expected_route": "domain_rejection",
+      "expected_answer": "UNANSWERABLE",
+      "required_entities": {
+        "drivers": [],
+        "constructors": []
+      },
+      "required_season": 2024,
+      "required_event": null,
+      "expected_evidence": "DomainGuard dynamic unrecognized '<Venue> Grand Prix' check: Argentine Grand Prix not in EntityRegistry",
+      "answerability_status": "unanswerable",
+      "evaluation_criteria": {
+        "type": "domain_rejection",
+        "must_refuse": true,
+        "expected_reason": "out_of_calendar_event"
+      }
+    }
+  ]
+}

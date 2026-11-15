@@ -6,6 +6,8 @@ data/chroma/
 
 # Database
 data/*.db
+data/**/*.db
+data/backups/
 
 # Python
 __pycache__/
@@ -29,5 +31,25 @@ venv/
 Thumbs.db
 
 # Local development scripts
-test_*.py
+/test_*.py
 *.egg-info/
+# RAGAS evaluation environment
+ragas-venv/
+
+# Temporary backups
+*.bak
+
+# Local RAGAS pilot caches and backup results
+evaluation/*_pilot_cache*.json
+evaluation/*_pre_correction.json
+evaluation/*_first_pilot.json
+
+# Python build artifacts
+build/
+dist/
+
+# Local test dumps
+phase6_test_*.txt
+
+# Driver photos (fetch with scripts/fetch_driver_photos.py)
+frontend/assets/drivers/*.jpg

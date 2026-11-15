@@ -11,6 +11,7 @@ from raceintel.api.routers import (
     pace,
     standings,
     chat,
+    analytics,
 )
 
 app = FastAPI(
@@ -44,6 +45,7 @@ app.include_router(weather.router)
 app.include_router(pace.router)
 app.include_router(standings.router)
 app.include_router(chat.router)
+app.include_router(analytics.router)
 
 
 # ---------------------------------------------------------------------

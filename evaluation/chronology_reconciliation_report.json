@@ -1,0 +1,277 @@
+{
+  "generated_at_utc": "2026-11-15T06:25:51.550189+00:00",
+  "dry_run": false,
+  "seasons_inspected": [
+    2022,
+    2023,
+    2024,
+    2025,
+    2026
+  ],
+  "total_proposed_changes": 21,
+  "season_summaries": [
+    {
+      "season_year": 2022,
+      "authoritative_rounds": 22,
+      "db_events_count": 22,
+      "matched_events_count": 22,
+      "event_changes_count": 0,
+      "sync_status_changes_count": 0,
+      "status": "MATCHED",
+      "unresolved_reason": null
+    },
+    {
+      "season_year": 2023,
+      "authoritative_rounds": 22,
+      "db_events_count": 22,
+      "matched_events_count": 22,
+      "event_changes_count": 0,
+      "sync_status_changes_count": 0,
+      "status": "MATCHED",
+      "unresolved_reason": null
+    },
+    {
+      "season_year": 2024,
+      "authoritative_rounds": 24,
+      "db_events_count": 24,
+      "matched_events_count": 24,
+      "event_changes_count": 9,
+      "sync_status_changes_count": 12,
+      "status": "CORRECTIONS_PROPOSED",
+      "unresolved_reason": null
+    },
+    {
+      "season_year": 2025,
+      "authoritative_rounds": 24,
+      "db_events_count": 24,
+      "matched_events_count": 24,
+      "event_changes_count": 0,
+      "sync_status_changes_count": 0,
+      "status": "MATCHED",
+      "unresolved_reason": null
+    },
+    {
+      "season_year": 2026,
+      "authoritative_rounds": 23,
+      "db_events_count": 23,
+      "matched_events_count": 23,
+      "event_changes_count": 0,
+      "sync_status_changes_count": 0,
+      "status": "MATCHED",
+      "unresolved_reason": null
+    }
+  ],
+  "proposed_changes": [
+    {
+      "season_year": 2024,
+      "table": "events",
+      "record_id": 2,
+      "entity_name": "Bahrain Grand Prix",
+      "field_name": "round_number",
+      "old_value": 2,
+      "new_value": 1,
+      "reason": "FastF1 authoritative schedule designates Bahrain Grand Prix as Round 1"
+    },
+    {
+      "season_year": 2024,
+      "table": "session_sync_status",
+      "record_id": 2,
+      "entity_name": "Bahrain Grand Prix [Race]",
+      "field_name": "round_number",
+      "old_value": 2,
+      "new_value": 1,
+      "reason": "Align sync tracking round with authoritative Round 1"
+    },
+    {
+      "season_year": 2024,
+      "table": "events",
+      "record_id": 3,
+      "entity_name": "Saudi Arabian Grand Prix",
+      "field_name": "round_number",
+      "old_value": 3,
+      "new_value": 2,
+      "reason": "FastF1 authoritative schedule designates Saudi Arabian Grand Prix as Round 2"
+    },
+    {
+      "season_year": 2024,
+      "table": "session_sync_status",
+      "record_id": 3,
+      "entity_name": "Saudi Arabian Grand Prix [Race]",
+      "field_name": "round_number",
+      "old_value": 3,
+      "new_value": 2,
+      "reason": "Align sync tracking round with authoritative Round 2"
+    },
+    {
+      "season_year": 2024,
+      "table": "events",
+      "record_id": 4,
+      "entity_name": "Australian Grand Prix",
+      "field_name": "round_number",
+      "old_value": 4,
+      "new_value": 3,
+      "reason": "FastF1 authoritative schedule designates Australian Grand Prix as Round 3"
+    },
+    {
+      "season_year": 2024,
+      "table": "session_sync_status",
+      "record_id": 4,
+      "entity_name": "Australian Grand Prix [Race]",
+      "field_name": "round_number",
+      "old_value": 4,
+      "new_value": 3,
+      "reason": "Align sync tracking round with authoritative Round 3"
+    },
+    {
+      "season_year": 2024,
+      "table": "events",
+      "record_id": 5,
+      "entity_name": "Japanese Grand Prix",
+      "field_name": "round_number",
+      "old_value": 5,
+      "new_value": 4,
+      "reason": "FastF1 authoritative schedule designates Japanese Grand Prix as Round 4"
+    },
+    {
+      "season_year": 2024,
+      "table": "session_sync_status",
+      "record_id": 5,
+      "entity_name": "Japanese Grand Prix [Race]",
+      "field_name": "round_number",
+      "old_value": 5,
+      "new_value": 4,
+      "reason": "Align sync tracking round with authoritative Round 4"
+    },
+    {
+      "season_year": 2024,
+      "table": "session_sync_status",
+      "record_id": 6,
+      "entity_name": "Chinese Grand Prix [Race]",
+      "field_name": "round_number",
+      "old_value": 6,
+      "new_value": 5,
+      "reason": "Align sync tracking round with authoritative Round 5"
+    },
+    {
+      "season_year": 2024,
+      "table": "session_sync_status",
+      "record_id": 7,
+      "entity_name": "Miami Grand Prix [Race]",
+      "field_name": "round_number",
+      "old_value": 7,
+      "new_value": 6,
+      "reason": "Align sync tracking round with authoritative Round 6"
+    },
+    {
+      "season_year": 2024,
+      "table": "events",
+      "record_id": 8,
+      "entity_name": "Emilia Romagna Grand Prix",
+      "field_name": "round_number",
+      "old_value": 8,
+      "new_value": 7,
+      "reason": "FastF1 authoritative schedule designates Emilia Romagna Grand Prix as Round 7"
+    },
+    {
+      "season_year": 2024,
+      "table": "session_sync_status",
+      "record_id": 8,
+      "entity_name": "Emilia Romagna Grand Prix [Race]",
+      "field_name": "round_number",
+      "old_value": 8,
+      "new_value": 7,
+      "reason": "Align sync tracking round with authoritative Round 7"
+    },
+    {
+      "season_year": 2024,
+      "table": "events",
+      "record_id": 9,
+      "entity_name": "Monaco Grand Prix",
+      "field_name": "round_number",
+      "old_value": 9,
+      "new_value": 8,
+      "reason": "FastF1 authoritative schedule designates Monaco Grand Prix as Round 8"
+    },
+    {
+      "season_year": 2024,
+      "table": "session_sync_status",
+      "record_id": 9,
+      "entity_name": "Monaco Grand Prix [Race]",
+      "field_name": "round_number",
+      "old_value": 9,
+      "new_value": 8,
+      "reason": "Align sync tracking round with authoritative Round 8"
+    },
+    {
+      "season_year": 2024,
+      "table": "events",
+      "record_id": 10,
+      "entity_name": "Canadian Grand Prix",
+      "field_name": "round_number",
+      "old_value": 10,
+      "new_value": 9,
+      "reason": "FastF1 authoritative schedule designates Canadian Grand Prix as Round 9"
+    },
+    {
+      "season_year": 2024,
+      "table": "session_sync_status",
+      "record_id": 10,
+      "entity_name": "Canadian Grand Prix [Race]",
+      "field_name": "round_number",
+      "old_value": 10,
+      "new_value": 9,
+      "reason": "Align sync tracking round with authoritative Round 9"
+    },
+    {
+      "season_year": 2024,
+      "table": "events",
+      "record_id": 11,
+      "entity_name": "Spanish Grand Prix",
+      "field_name": "round_number",
+      "old_value": 11,
+      "new_value": 10,
+      "reason": "FastF1 authoritative schedule designates Spanish Grand Prix as Round 10"
+    },
+    {
+      "season_year": 2024,
+      "table": "session_sync_status",
+      "record_id": 11,
+      "entity_name": "Spanish Grand Prix [Race]",
+      "field_name": "round_number",
+      "old_value": 11,
+      "new_value": 10,
+      "reason": "Align sync tracking round with authoritative Round 10"
+    },
+    {
+      "season_year": 2024,
+      "table": "session_sync_status",
+      "record_id": 12,
+      "entity_name": "Austrian Grand Prix [Race]",
+      "field_name": "round_number",
+      "old_value": 12,
+      "new_value": 11,
+      "reason": "Align sync tracking round with authoritative Round 11"
+    },
+    {
+      "season_year": 2024,
+      "table": "events",
+      "record_id": 1,
+      "entity_name": "British Grand Prix",
+      "field_name": "round_number",
+      "old_value": 1,
+      "new_value": 12,
+      "reason": "FastF1 authoritative schedule designates British Grand Prix as Round 12"
+    },
+    {
+      "season_year": 2024,
+      "table": "session_sync_status",
+      "record_id": 1,
+      "entity_name": "British Grand Prix [Race]",
+      "field_name": "round_number",
+      "old_value": 1,
+      "new_value": 12,
+      "reason": "Align sync tracking round with authoritative Round 12"
+    }
+  ],
+  "unresolved_items": []
+}

@@ -1,0 +1,377 @@
+{
+  "schema_version": "1.0",
+  "evaluation": "RaceIntel Evaluation",
+  "eval_file": "C:\\Users\\mehra\\OneDrive\\Desktop\\RaceIntel\\evaluation\\raceintel_holdout_v1.json",
+  "total": 30,
+  "evaluated": 30,
+  "passed": 26,
+  "failed": 4,
+  "errors": 0,
+  "quota_errors": 0,
+  "offline_mode": true,
+  "external_api_calls_attempted": 0,
+  "score_percent": 86.67,
+  "accuracy_percent": 86.67,
+  "evaluated_accuracy_percent": 86.67,
+  "end_to_end_success_percent": 86.67,
+  "category_performance": {
+    "race_winner": {
+      "total": 5,
+      "passed": 4,
+      "failed": 1,
+      "errors": 0,
+      "score_percent": 80.0
+    },
+    "race_result": {
+      "total": 1,
+      "passed": 1,
+      "failed": 0,
+      "errors": 0,
+      "score_percent": 100.0
+    },
+    "finishing_position": {
+      "total": 2,
+      "passed": 2,
+      "failed": 0,
+      "errors": 0,
+      "score_percent": 100.0
+    },
+    "points": {
+      "total": 2,
+      "passed": 2,
+      "failed": 0,
+      "errors": 0,
+      "score_percent": 100.0
+    },
+    "weather": {
+      "total": 4,
+      "passed": 4,
+      "failed": 0,
+      "errors": 0,
+      "score_percent": 100.0
+    },
+    "lap_time": {
+      "total": 3,
+      "passed": 3,
+      "failed": 0,
+      "errors": 0,
+      "score_percent": 100.0
+    },
+    "driver_standings": {
+      "total": 3,
+      "passed": 1,
+      "failed": 2,
+      "errors": 0,
+      "score_percent": 33.3
+    },
+    "constructor_standings": {
+      "total": 2,
+      "passed": 1,
+      "failed": 1,
+      "errors": 0,
+      "score_percent": 50.0
+    },
+    "season_awareness": {
+      "total": 2,
+      "passed": 2,
+      "failed": 0,
+      "errors": 0,
+      "score_percent": 100.0
+    },
+    "unanswerable": {
+      "total": 4,
+      "passed": 4,
+      "failed": 0,
+      "errors": 0,
+      "score_percent": 100.0
+    },
+    "ambiguous": {
+      "total": 2,
+      "passed": 2,
+      "failed": 0,
+      "errors": 0,
+      "score_percent": 100.0
+    }
+  },
+  "incorrect_answers": [
+    {
+      "id": 102,
+      "question": "Which driver claimed victory at the Miami Grand Prix in 2024?",
+      "category": "race_winner",
+      "expected": "Lando Norris",
+      "actual": "Alexander Albon won the race, finishing P1.",
+      "reason": "Answer mismatch"
+    },
+    {
+      "id": 117,
+      "question": "Who was leading the drivers' championship after the 2024 Bahrain Grand Prix?",
+      "category": "driver_standings",
+      "expected": "Max Verstappen",
+      "actual": "I couldn't find that information in the retrieved race data.",
+      "reason": "Answer mismatch"
+    },
+    {
+      "id": 119,
+      "question": "Which driver had the championship lead following the 2024 Canadian Grand Prix?",
+      "category": "driver_standings",
+      "expected": "Max Verstappen",
+      "actual": "I couldn't find that information in the retrieved race data.",
+      "reason": "Answer mismatch"
+    },
+    {
+      "id": 122,
+      "question": "Which team collected the highest number of points in the 2024 Bahrain Grand Prix?",
+      "category": "constructor_standings",
+      "expected": "Red Bull Racing",
+      "actual": " scored 0.0 points, finishing P15.",
+      "reason": "Answer mismatch"
+    }
+  ],
+  "unanswered_questions": [],
+  "results": [
+    {
+      "id": 101,
+      "question": "Who took the chequered flag in the 2024 Australian Grand Prix?",
+      "category": "race_winner",
+      "expected": "Carlos Sainz",
+      "actual": "Carlos Sainz was declared the winner of the race.",
+      "status": "PASS"
+    },
+    {
+      "id": 102,
+      "question": "Which driver claimed victory at the Miami Grand Prix in 2024?",
+      "category": "race_winner",
+      "expected": "Lando Norris",
+      "actual": "Alexander Albon won the race, finishing P1.",
+      "status": "FAIL"
+    },
+    {
+      "id": 103,
+      "question": "Who was declared the winner of the 2024 Belgian Grand Prix?",
+      "category": "race_winner",
+      "expected": "Lewis Hamilton",
+      "actual": "Lewis Hamilton was declared the winner of the race.",
+      "status": "PASS"
+    },
+    {
+      "id": 104,
+      "question": "Who won the Dutch Grand Prix in 2024?",
+      "category": "race_winner",
+      "expected": "Lando Norris",
+      "actual": "Lando Norris won the Dutch Grand Prix in 2024.",
+      "status": "PASS"
+    },
+    {
+      "id": 105,
+      "question": "Who secured victory in the 2024 São Paulo Grand Prix in Brazil?",
+      "category": "race_winner",
+      "expected": "Max Verstappen",
+      "actual": "Max Verstappen was declared the winner of the race.",
+      "status": "PASS"
+    },
+    {
+      "id": 106,
+      "question": "Which drivers finished on the podium at the 2024 Monaco Grand Prix?",
+      "category": "race_result",
+      "expected": [
+        "Charles Leclerc",
+        "Oscar Piastri",
+        "Carlos Sainz"
+      ],
+      "actual": "P1. Charles Leclerc\nP2. Oscar Piastri\nP3. Carlos Sainz",
+      "status": "PASS"
+    },
+    {
+      "id": 107,
+      "question": "Where did Oliver Bearman finish in the 2024 Saudi Arabian Grand Prix?",
+      "category": "finishing_position",
+      "expected": "P7",
+      "actual": "Oliver Bearman finished P7 and scored 6.0 points.",
+      "status": "PASS"
+    },
+    {
+      "id": 108,
+      "question": "What position did Sergio Perez finish in the 2024 Japanese Grand Prix?",
+      "category": "finishing_position",
+      "expected": "P2",
+      "actual": "Sergio Perez finished P2.",
+      "status": "PASS"
+    },
+    {
+      "id": 109,
+      "question": "How many championship points did Carlos Sainz score in the 2024 Bahrain Grand Prix?",
+      "category": "points",
+      "expected": 15.0,
+      "actual": " scored 15.0 points, finishing P3.",
+      "status": "PASS"
+    },
+    {
+      "id": 110,
+      "question": "How many points did Lando Norris take away from the 2024 Miami Grand Prix?",
+      "category": "points",
+      "expected": 25.0,
+      "actual": "Lando Norris scored 25.0 points.",
+      "status": "PASS"
+    },
+    {
+      "id": 111,
+      "question": "Was the track wet during the 2024 São Paulo Grand Prix?",
+      "category": "weather",
+      "expected": "Yes",
+      "actual": "Yes, rainfall was recorded during the 2024 São Paulo Grand Prix (117 rain observations recorded).",
+      "status": "PASS"
+    },
+    {
+      "id": 112,
+      "question": "Did rainfall occur during the 2024 Italian Grand Prix at Monza?",
+      "category": "weather",
+      "expected": "Dry",
+      "actual": "No, there was no rainfall recorded during the 2024 Italian Grand Prix. The track conditions were dry.",
+      "status": "PASS"
+    },
+    {
+      "id": 113,
+      "question": "What was the highest track temperature recorded in the 2024 Italian Grand Prix?",
+      "category": "weather",
+      "expected": 54.6,
+      "actual": "The peak track temperature during the 2024 Italian Grand Prix was 54.6°C.",
+      "status": "PASS"
+    },
+    {
+      "id": 114,
+      "question": "Was the 2024 Las Vegas Grand Prix run in dry or wet conditions?",
+      "category": "weather",
+      "expected": "Dry",
+      "actual": "The weather was Dry during the 2024 Las Vegas Grand Prix. The average air temperature was 17.8°C and average track temperature was 17.7°C.",
+      "status": "PASS"
+    },
+    {
+      "id": 115,
+      "question": "Who clocked the fastest lap in the 2024 Australian Grand Prix?",
+      "category": "lap_time",
+      "expected": "Charles Leclerc",
+      "actual": "Charles Leclerc set the fastest lap in the 2024 Australian Grand Prix with a time of 1:19.813 on lap 56.",
+      "status": "PASS"
+    },
+    {
+      "id": 116,
+      "question": "Which driver set the fastest lap of the race in the 2024 Japanese Grand Prix?",
+      "category": "lap_time",
+      "expected": "Max Verstappen",
+      "actual": "Max Verstappen set the fastest lap in the 2024 Japanese Grand Prix with a time of 1:33.706 on lap 50.",
+      "status": "PASS"
+    },
+    {
+      "id": 117,
+      "question": "Who was leading the drivers' championship after the 2024 Bahrain Grand Prix?",
+      "category": "driver_standings",
+      "expected": "Max Verstappen",
+      "actual": "I couldn't find that information in the retrieved race data.",
+      "status": "FAIL"
+    },
+    {
+      "id": 118,
+      "question": "Who drove the fastest lap in the 2024 Mexico City Grand Prix?",
+      "category": "lap_time",
+      "expected": "Charles Leclerc",
+      "actual": "Charles Leclerc set the fastest lap in the 2024 Mexico City Grand Prix with a time of 1:18.336 on lap 71.",
+      "status": "PASS"
+    },
+    {
+      "id": 119,
+      "question": "Which driver had the championship lead following the 2024 Canadian Grand Prix?",
+      "category": "driver_standings",
+      "expected": "Max Verstappen",
+      "actual": "I couldn't find that information in the retrieved race data.",
+      "status": "FAIL"
+    },
+    {
+      "id": 120,
+      "question": "Who was leading the driver standings after the 2024 Abu Dhabi Grand Prix?",
+      "category": "driver_standings",
+      "expected": "Max Verstappen",
+      "actual": "Max Verstappen leads the driver standings after the Abu Dhabi Grand Prix with 399.0 points.",
+      "status": "PASS"
+    },
+    {
+      "id": 121,
+      "question": "Which constructor scored the most points in the 2024 Hungarian Grand Prix?",
+      "category": "constructor_standings",
+      "expected": "McLaren",
+      "actual": "McLaren scored the most points in the Hungarian Grand Prix with 43.0 points.",
+      "status": "PASS"
+    },
+    {
+      "id": 122,
+      "question": "Which team collected the highest number of points in the 2024 Bahrain Grand Prix?",
+      "category": "constructor_standings",
+      "expected": "Red Bull Racing",
+      "actual": " scored 0.0 points, finishing P15.",
+      "status": "FAIL"
+    },
+    {
+      "id": 123,
+      "question": "Who won the Australian Grand Prix?",
+      "category": "season_awareness",
+      "expected": "Carlos Sainz",
+      "actual": "Carlos Sainz won the Australian Grand Prix in 2024.",
+      "status": "PASS"
+    },
+    {
+      "id": 124,
+      "question": "Did Lando Norris win the Miami Grand Prix?",
+      "category": "season_awareness",
+      "expected": "Lando Norris",
+      "actual": "Yes, Lando Norris won the race, finishing P1.",
+      "status": "PASS"
+    },
+    {
+      "id": 125,
+      "question": "Who won the 2020 Italian Grand Prix?",
+      "category": "unanswerable",
+      "expected": "UNANSWERABLE",
+      "actual": "I couldn't find that information in the retrieved race data. Historical data for season 2020 is not available.",
+      "status": "PASS"
+    },
+    {
+      "id": 126,
+      "question": "What was the race result of the 2024 German Grand Prix?",
+      "category": "unanswerable",
+      "expected": "UNANSWERABLE",
+      "actual": "I couldn't find that information in the retrieved race data. That event is not part of the Formula 1 2024 calendar.",
+      "status": "PASS"
+    },
+    {
+      "id": 127,
+      "question": "Who won the 2024 Bathurst 1000?",
+      "category": "unanswerable",
+      "expected": "UNANSWERABLE",
+      "actual": "I couldn't find that information in the retrieved race data. That event is not part of the Formula 1 2024 calendar.",
+      "status": "PASS"
+    },
+    {
+      "id": 128,
+      "question": "Who won the 2024 MotoGP World Championship?",
+      "category": "unanswerable",
+      "expected": "UNANSWERABLE",
+      "actual": "I couldn't find that information in the retrieved race data. That event is not part of the Formula 1 2024 calendar.",
+      "status": "PASS"
+    },
+    {
+      "id": 129,
+      "question": "Who got the fastest lap?",
+      "category": "ambiguous",
+      "expected": "AMBIGUOUS",
+      "actual": "The question is ambiguous. Please specify which Grand Prix you are referring to.",
+      "status": "PASS"
+    },
+    {
+      "id": 130,
+      "question": "Where did the driver finish?",
+      "category": "ambiguous",
+      "expected": "AMBIGUOUS",
+      "actual": "The question is ambiguous. Please specify which driver you are referring to.",
+      "status": "PASS"
+    }
+  ]
+}

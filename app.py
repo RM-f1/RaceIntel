@@ -1,62 +1,114 @@
-import requests
+"""
+RaceIntel — Retro Terminal F1 Race Control Dashboard.
+
+Run FastAPI backend first:
+    uvicorn raceintel.api.main:app --port 8001
+Then launch this Streamlit console:
+    streamlit run app.py
+"""
+
+from __future__ import annotations
+
 import streamlit as st
 
+from frontend.api_client import RaceIntelAPIClient, get_api_base_url
+from frontend.theme import apply_retro_theme, render_error_box, render_terminal_header
+from frontend.views.ai_engineer import render_ai_engineer_page
+from frontend.views.constructor_intel import render_constructor_intel_page
+from frontend.views.dashboard import render_dashboard_page
+from frontend.views.driver_intel import render_driver_intel_page
+from frontend.views.race_analysis import render_race_analysis_page
+from frontend.views.system_about import render_system_about_page
 
-API_URL = "http://127.0.0.1:8001"
-
+NAV_OPTIONS = [
+    "01 // DASHBOARD",
+    "02 // RACE ANALYSIS",
+    "03 // DRIVER INTELLIGENCE",
+    "04 // CONSTRUCTOR INTELLIGENCE",
+    "05 // AI RACE ENGINEER",
+    "06 // SYSTEM / ABOUT",
+]
 
 st.set_page_config(
-    page_title="RaceIntel",
-    page_icon="🏎️",
-    layout="centered",
+    page_title="RACEINTEL // F1 RACE CONTROL",
+    page_icon="🏁",
+    layout="wide",
+    initial_sidebar_state="expanded",
 )
 
-st.title("🏎️ RaceIntel")
-st.caption("AI-powered Formula 1 race intelligence")
 
+def main() -> None:
+    apply_retro_theme()
+    client = RaceIntelAPIClient()
 
-if "messages" not in st.session_state:
-    st.session_state.messages = []
+    health, health_err = client.get_health()
+    api_online = bool(health and health.get("status") == "healthy" and health_err is None)
+    status_badge = "LINK: ONLINE // DB READY" if api_online else "LINK: OFFLINE // CHECK PORT"
 
+    with st.sidebar:
+        st.markdown(
+            """
+            <div style="border:2px solid #D5E8B5; background:#17251D; padding:0.7rem; margin-bottom:0.8rem;">
+                <div style="font-size:1.05rem; font-weight:800; color:#FFFFFF; letter-spacing:0.1em;">
+                    [ RACEINTEL ]
+                </div>
+                <div style="font-size:0.72rem; color:#D5E8B5; margin-top:0.2rem;">
+                    F1 RACE CONTROL TERMINAL v6.0
+                </div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
 
-for message in st.session_state.messages:
-    with st.chat_message(message["role"]):
-        st.markdown(message["content"])
+        selected_page = st.radio(
+            "CONSOLE MODULE",
+            options=NAV_OPTIONS,
+            index=0,
+            key="nav_module",
+        )
 
+        season = st.selectbox(
+            "ACTIVE SEASON",
+            options=[2026, 2025, 2024, 2023, 2022],
+            index=0,
+            key="global_season",
+        )
 
-question = st.chat_input("Ask me anything about Formula 1...")
+        st.markdown("---")
+        st.caption(f"API TARGET: {get_api_base_url()}")
+        st.caption(f"STATUS: {'ONLINE' if api_online else 'OFFLINE'}")
+        if st.button("REFRESH LINK", width="stretch", key="sidebar_refresh"):
+            st.rerun()
 
-
-if question:
-    st.session_state.messages.append(
-        {"role": "user", "content": question}
+    render_terminal_header(
+        title="RACEINTEL // F1 RACE CONTROL INTELLIGENCE",
+        subtitle="REAL DATA PIPELINE :: FASTAPI + SQLITE ANALYTICS + CHROMADB RAG + AI RACE ENGINEER",
+        status_label=status_badge,
+        online=api_online,
     )
 
-    with st.chat_message("user"):
-        st.markdown(question)
+    if not api_online and selected_page != "06 // SYSTEM / ABOUT":
+        render_error_box(
+            "BACKEND API CONNECTION UNAVAILABLE",
+            f"{health_err or 'Unable to verify /health/'} — Ensure FastAPI is running on {get_api_base_url()}.",
+        )
 
-    with st.chat_message("assistant"):
-        with st.spinner("Analyzing race data..."):
-            try:
-                response = requests.post(
-                    f"{API_URL}/chat/",
-                    json={"question": question},
-                    timeout=120,
-                )
+    if selected_page == "01 // DASHBOARD":
+        render_dashboard_page(client, season=int(season))
+    elif selected_page == "02 // RACE ANALYSIS":
+        render_race_analysis_page(client, season=int(season))
+    elif selected_page == "03 // DRIVER INTELLIGENCE":
+        render_driver_intel_page(client, season=int(season))
+    elif selected_page == "04 // CONSTRUCTOR INTELLIGENCE":
+        render_constructor_intel_page(client, season=int(season))
+    elif selected_page == "05 // AI RACE ENGINEER":
+        render_ai_engineer_page(client, season=int(season))
+    else:
+        render_system_about_page(client, season=int(season))
 
-                response.raise_for_status()
 
-                data = response.json()
-                answer = data["answer"]
-
-                st.markdown(answer)
-
-                st.session_state.messages.append(
-                    {"role": "assistant", "content": answer}
-                )
-
-            except requests.exceptions.RequestException as e:
-                st.error(f"Could not connect to RaceIntel API: {e}")
-
-            except (KeyError, ValueError):
-                st.error("The API returned an unexpected response.")
+if __name__ == "__main__":
+    main()
+else:
+    # Executed cleanly under Streamlit's runner as well as AppTest
+    main()
