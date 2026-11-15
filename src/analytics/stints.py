@@ -1,8 +1,10 @@
 ﻿"""Stint derivation from lap data.
 
-A new stint starts when the tyre compound changes or tyre age drops
-(a new set was fitted). Does not rely on is_pit_out_lap, which is
-missing for 2024.
+A new stint starts when the tyre compound changes, or when the
+(tyre_age - lap_number) offset changes (a different set was fitted).
+Rows with a missing tyre age are kept: if a later row shows a new set,
+the null-age rows directly before it belong to the new stint (typically
+the out-lap). Does not rely on is_pit_out_lap, which is missing for 2024.
 """
 
 import pandas as pd
@@ -14,23 +16,37 @@ def derive_stints(laps: pd.DataFrame) -> pd.DataFrame:
     comp = df["tyre_compound"].astype("string").str.upper()
     df = df[comp.notna() & (comp != "NONE")].copy()
     df["tyre_compound"] = df["tyre_compound"].astype(str).str.upper()
-    df = df[df["tyre_age_laps"].notna()].copy()
-    df = df.sort_values(["driver_id", "lap_number"])
+    df = df.sort_values(["driver_id", "lap_number"]).reset_index(drop=True)
 
-    grp = df.groupby("driver_id")
-    prev_comp = grp["tyre_compound"].shift()
-    prev_age = grp["tyre_age_laps"].shift()
-    prev_lap = grp["lap_number"].shift()
+    stint_ids = []
+    for _, g in df.groupby("driver_id", sort=False):
+        ids = []
+        sid = 0
+        prev_comp = None
+        prev_off = None
+        nulls = 0
+        for c, age, lap in zip(g["tyre_compound"], g["tyre_age_laps"], g["lap_number"]):
+            off = None if pd.isna(age) else age - lap
+            if prev_comp is None:
+                sid = 1
+            elif c != prev_comp:
+                sid += 1
+                nulls = 0
+                prev_off = None
+            elif off is not None and prev_off is not None and off != prev_off:
+                sid += 1
+                for k in range(1, nulls + 1):
+                    ids[-k] = sid
+            if off is None:
+                nulls += 1
+            else:
+                nulls = 0
+                prev_off = off
+            ids.append(sid)
+            prev_comp = c
+        stint_ids.extend(ids)
 
-    age_step = df["tyre_age_laps"] - prev_age
-    lap_step = df["lap_number"] - prev_lap
-
-    is_new = (
-        prev_comp.isna()
-        | (df["tyre_compound"] != prev_comp)
-        | (age_step != lap_step)
-    )
-    df["stint_number"] = is_new.groupby(df["driver_id"]).cumsum()
+    df["stint_number"] = stint_ids
 
     return (
         df.groupby(["driver_id", "stint_number"])

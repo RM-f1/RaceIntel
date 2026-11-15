@@ -38,3 +38,10 @@ def test_drivers_are_separate():
 def test_missing_lap_row_does_not_split_stint():
     laps = _laps(1, [(1, "HARD", 1), (2, "HARD", 2), (4, "HARD", 4), (5, "HARD", 5)])
     assert len(derive_stints(laps)) == 1
+
+
+def test_null_age_out_lap_joins_new_stint():
+    laps = _laps(1, [(1, "MEDIUM", 1), (2, "MEDIUM", 2), (3, "MEDIUM", None), (4, "MEDIUM", 2)])
+    stints = derive_stints(laps)
+    assert len(stints) == 2
+    assert stints.loc[1, "start_lap"] == 3
