@@ -41,7 +41,7 @@ flowchart TD
 ## Quickstart
 
 ### Prerequisites
-- Python 3.10 to 3.14
+- Python 3.11 to 3.14 (Python 3.14 recommended; Python 3.10 is incompatible with pinned dependencies in requirements.txt such as `contourpy==1.3.3`)
 - Git
 
 ### 1. Clone Repository & Setup Environment
