@@ -2,12 +2,13 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
-    database_url: str
-    GEMINI_API_KEY: str
+    database_url: str = "sqlite:///data/raceintel.db"
+    GEMINI_API_KEY: str | None = None
 
     model_config = SettingsConfigDict(
         env_file=".env",
         env_file_encoding="utf-8",
+        extra="ignore",
     )
 
 

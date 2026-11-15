@@ -3,7 +3,8 @@ import re
 from google import genai
 from google.genai import errors
 
-from raceintel.config import settings
+from raceintel import config
+settings = config.settings
 
 
 class OfflineBlockedError(RuntimeError):
@@ -50,7 +51,11 @@ class GeminiClient:
         """Check whether offline mode is currently active."""
         if cls._global_offline is not None:
             return cls._global_offline
-        return os.getenv("RACEINTEL_OFFLINE", "").lower() in ("1", "true", "yes")
+        if os.getenv("RACEINTEL_OFFLINE", "").lower() in ("1", "true", "yes"):
+            return True
+        if not config.settings.GEMINI_API_KEY:
+            return True
+        return False
 
     @classmethod
     def get_external_call_count(cls) -> int:
@@ -70,7 +75,7 @@ class GeminiClient:
 
         if not self.offline:
             self.client = genai.Client(
-                api_key=settings.GEMINI_API_KEY
+                api_key=config.settings.GEMINI_API_KEY or "dummy_key_unauthenticated"
             )
         else:
             self.client = _BlockedGenAIClient()
