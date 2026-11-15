@@ -175,6 +175,7 @@ def test_dynamic_driver_and_constructor_loading(temp_db_path):
 # 4. Driver aliases and normalization
 # =====================================================================
 
+@pytest.mark.requires_data
 def test_driver_aliases_and_normalization():
     """Verify driver diacritic stripping, nicknames, reserve drivers, and code lookup."""
     registry = EntityRegistry()  # Production read-only instance
@@ -215,6 +216,7 @@ def test_driver_aliases_and_normalization():
 # 5. Valid F1 questions using circuit names
 # =====================================================================
 
+@pytest.mark.requires_data
 def test_valid_f1_questions_using_circuit_names():
     """Verify that questions referencing circuits (Monza, Silverstone, Spa) are recognized as valid."""
     dg = DomainGuard()
@@ -237,6 +239,7 @@ def test_valid_f1_questions_using_circuit_names():
 # 6. Unsupported season handling
 # =====================================================================
 
+@pytest.mark.requires_data
 def test_unsupported_season_handling():
     """Verify that questions for historical/unsupported seasons are rejected with clear message."""
     dg = DomainGuard()
@@ -259,6 +262,7 @@ def test_unsupported_season_handling():
 # 7. Explicit MotoGP rejection
 # =====================================================================
 
+@pytest.mark.requires_data
 def test_explicit_motogp_rejection():
     """Verify that MotoGP questions are rejected prior to retrieval."""
     dg = DomainGuard()
@@ -274,6 +278,7 @@ def test_explicit_motogp_rejection():
 # 8. Explicit NASCAR rejection
 # =====================================================================
 
+@pytest.mark.requires_data
 def test_explicit_nascar_rejection():
     """Verify that NASCAR and Daytona 500 questions are rejected."""
     dg = DomainGuard()
@@ -293,6 +298,7 @@ def test_explicit_nascar_rejection():
 # 9. Explicit WEC rejection
 # =====================================================================
 
+@pytest.mark.requires_data
 def test_explicit_wec_rejection():
     """Verify that WEC and 24 Hours of Le Mans inquiries are rejected."""
     dg = DomainGuard()
@@ -312,6 +318,7 @@ def test_explicit_wec_rejection():
 # 10. Bathurst 1000 rejection
 # =====================================================================
 
+@pytest.mark.requires_data
 def test_bathurst_1000_rejection():
     """Verify that Bathurst 1000 and Australian Supercars questions are rejected."""
     dg = DomainGuard()
@@ -327,6 +334,7 @@ def test_bathurst_1000_rejection():
 # 11. F1 comparison questions mentioning another motorsport
 # =====================================================================
 
+@pytest.mark.requires_data
 def test_f1_comparison_questions_mentioning_another_motorsport():
     """Verify that valid F1 inquiries mentioning another racing series for comparison are NOT rejected."""
     dg = DomainGuard()
@@ -374,6 +382,7 @@ def test_ambiguous_entity_resolution(temp_db_path):
 # 13. DomainGuard execution before ChromaDB retrieval
 # =====================================================================
 
+@pytest.mark.requires_data
 def test_domainguard_execution_before_chromadb_retrieval():
     """Verify that out-of-domain and historical questions never trigger ChromaDB retrieval."""
     mock_retriever = MagicMock()
@@ -406,6 +415,7 @@ def test_domainguard_execution_before_chromadb_retrieval():
 # 14. No regressions in existing structured queries
 # =====================================================================
 
+@pytest.mark.requires_data
 def test_no_regressions_in_existing_structured_queries():
     """Verify that existing structured weather, fastest lap, standings, and constructor points still work."""
     service = ChatService(offline=True)

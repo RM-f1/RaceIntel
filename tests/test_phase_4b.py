@@ -1,3 +1,5 @@
+import pytest
+pytestmark = pytest.mark.requires_data
 """
 Phase 4B Test Suite: Intent Classification, Ambiguity Handling, and Structured Routing.
 

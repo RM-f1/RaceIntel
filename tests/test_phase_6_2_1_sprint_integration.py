@@ -36,6 +36,7 @@ def client() -> TestClient:
     return TestClient(app)
 
 
+@pytest.mark.requires_data
 def test_2024_sprint_sessions_coverage_and_points():
     """Verify all 6 sprint sessions and exactly 216.0 sprint points in 2024."""
     db = SessionLocal()
@@ -71,6 +72,7 @@ def test_2024_sprint_sessions_coverage_and_points():
         db.close()
 
 
+@pytest.mark.requires_data
 def test_2024_championship_standings_exact_totals():
     """Verify Verstappen 437, Norris 374, Piastri 292, McLaren 666."""
     db = SessionLocal()
@@ -115,6 +117,7 @@ def test_2024_championship_standings_exact_totals():
         db.close()
 
 
+@pytest.mark.requires_data
 def test_no_duplicate_results_per_session():
     """Verify no driver has duplicate results in any session."""
     conn = sqlite3.connect("data/raceintel.db")
@@ -129,6 +132,7 @@ def test_no_duplicate_results_per_session():
     assert len(dups) == 0, f"Found duplicate results: {dups}"
 
 
+@pytest.mark.requires_data
 def test_driver_substitution_unification():
     """Verify Oliver Bearman has unified 7.0 points across Ferrari and Haas."""
     db = SessionLocal()
@@ -152,6 +156,7 @@ def test_driver_substitution_unification():
         db.close()
 
 
+@pytest.mark.requires_data
 def test_race_winner_preserves_grand_prix_only():
     """Verify get_race_winner for Austrian GP returns George Russell, not Verstappen (sprint winner)."""
     db = SessionLocal()
@@ -176,6 +181,7 @@ def test_race_winner_preserves_grand_prix_only():
         db.close()
 
 
+@pytest.mark.requires_data
 def test_historical_seasons_sprint_integration():
     """Verify 2022 (3 sprints, VER 454) and 2023 (6 sprints, VER 575)."""
     conn = sqlite3.connect("data/raceintel.db")
@@ -238,6 +244,7 @@ def test_2025_sprints_discovery_and_coverage():
     assert sprint_rounds == {2, 6, 13, 19, 21, 23}
 
 
+@pytest.mark.requires_data
 def test_analytics_api_endpoints_sprint_aware(client: TestClient):
     """Verify analytics endpoints return sprint-integrated championship standings."""
     # Overview

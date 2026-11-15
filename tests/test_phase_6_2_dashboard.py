@@ -83,6 +83,7 @@ def test_driver_photo_catalog_coverage_and_attribution():
         assert any(term in lic for term in ["CC", "Public", "OGL", "cc"]), f"Unexpected license {lic} for {code}"
 
 
+@pytest.mark.requires_data
 def test_driver_photo_local_cache_integrity():
     """Verify that cached image files exist on disk and are valid non-empty files."""
     assets_dir = Path("frontend/assets/drivers")
@@ -98,6 +99,7 @@ def test_driver_photo_local_cache_integrity():
         assert p.stat().st_size > 5000, f"Image file too small or corrupted: {p}"
 
 
+@pytest.mark.requires_data
 def test_driver_photo_fallback_handling():
     """Verify unknown or missing drivers return graceful fallback info without crashing."""
     unknown = get_driver_photo_info("UNKNOWN_XYZ_999")
@@ -115,6 +117,7 @@ def test_driver_photo_fallback_handling():
 # ---------------------------------------------------------------------------
 
 @pytest.mark.parametrize("season", [2022, 2023, 2024, 2025, 2026])
+@pytest.mark.requires_data
 def test_analytics_endpoints_multi_season_support(api_client: TestClient, season: int):
     """Verify /analytics/overview, progression, and standings for all 5 seasons."""
     ov = api_client.get("/analytics/overview", params={"season": season})
@@ -133,6 +136,7 @@ def test_analytics_endpoints_multi_season_support(api_client: TestClient, season
     assert len(p_data["drivers"]) > 0
 
 
+@pytest.mark.requires_data
 def test_driver_season_profile_championship_rank(api_client: TestClient):
     """Verify that get_driver_season_profile includes championship_rank and season_constructor."""
     # Max Verstappen (driver_id=2) won 2022, 2023, 2024
@@ -150,6 +154,7 @@ def test_driver_season_profile_championship_rank(api_client: TestClient):
     assert d_nor["driver"]["season_constructor"] == "McLaren"
 
 
+@pytest.mark.requires_data
 def test_constructor_season_profile_and_contribution_split(api_client: TestClient):
     """Verify constructor profile KPIs and driver contribution breakdown."""
     # McLaren (constructor_id=6) won 2024 Constructors Championship
@@ -171,6 +176,7 @@ def test_constructor_season_profile_and_contribution_split(api_client: TestClien
 # 3. Streamlit Multi-Season End-to-End AppTest
 # ---------------------------------------------------------------------------
 
+@pytest.mark.requires_data
 def test_streamlit_season_selector_propagation_and_persistence(api_client: TestClient):
     """Verify that changing the season in the sidebar propagates to all views."""
     fake_get, fake_post = _make_testclient_adapter(api_client)
@@ -221,6 +227,7 @@ def test_streamlit_season_selector_propagation_and_persistence(api_client: TestC
         assert "DRIVER PHOTOGRAPHY ATTRIBUTION" in rendered_about
 
 
+@pytest.mark.requires_data
 def test_streamlit_driver_intel_h2h_comparison(api_client: TestClient):
     """Verify Driver Intel renders genuine portrait and exercises Head-to-Head mode."""
     fake_get, fake_post = _make_testclient_adapter(api_client)
@@ -248,6 +255,7 @@ def test_streamlit_driver_intel_h2h_comparison(api_client: TestClient):
         assert "HEAD-TO-HEAD FINISH RECORD" in rendered
 
 
+@pytest.mark.requires_data
 def test_streamlit_ai_engineer_season_prompts(api_client: TestClient):
     """Verify AI Race Engineer adapts suggestions to active season and answers queries."""
     fake_get, fake_post = _make_testclient_adapter(api_client)

@@ -1,3 +1,6 @@
+import pytest
+pytestmark = pytest.mark.requires_data
+import pytest
 from raceintel.knowledge.knowledge_service import KnowledgeService
 
 

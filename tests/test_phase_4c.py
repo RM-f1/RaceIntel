@@ -1,3 +1,5 @@
+import pytest
+pytestmark = pytest.mark.requires_data
 """
 Phase 4C Test Suite: Structured SQL Routing Expansion.
 

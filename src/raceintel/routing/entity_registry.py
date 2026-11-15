@@ -111,7 +111,14 @@ class EntityRegistry:
         if db_path is not None:
             self.db_path = Path(db_path)
 
-        conn = self._get_connection()
+        if not self.db_path.exists() or self.db_path.stat().st_size == 0:
+            return
+
+        try:
+            conn = self._get_connection()
+        except Exception:
+            return
+
         conn.row_factory = sqlite3.Row
         try:
             cur = conn.cursor()
@@ -143,7 +150,8 @@ class EntityRegistry:
                 """
             )
             self.events = [dict(row) for row in cur.fetchall()]
-
+        except sqlite3.OperationalError:
+            return
         finally:
             conn.close()
 

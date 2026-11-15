@@ -16,6 +16,7 @@ def retriever() -> Retriever:
     return Retriever(EntityRegistry())
 
 
+@pytest.mark.requires_data
 def test_spa_francorchamps_does_not_extract_franco_colapinto(retriever: Retriever):
     filters = retriever._extract_filters("Give a summary of what happened at Spa-Francorchamps in 2024.")
     assert filters.get("race_name") == "Belgian Grand Prix"
@@ -26,6 +27,7 @@ def test_spa_francorchamps_does_not_extract_franco_colapinto(retriever: Retrieve
     assert "driver" not in filters_fl
 
 
+@pytest.mark.requires_data
 def test_filter_extraction_event_priority_and_short_code_guards(retriever: Retriever):
     f_us = retriever._extract_filters("Tell me about the 2024 United States Grand Prix")
     assert f_us.get("race_name") == "United States Grand Prix"
@@ -44,6 +46,7 @@ def test_filter_extraction_event_priority_and_short_code_guards(retriever: Retri
     assert f_code.get("race_name") == "Bahrain Grand Prix"
 
 
+@pytest.mark.requires_data
 def test_explanatory_team_race_query_does_not_bypass_calibration(retriever: Retriever):
     # Should fall through to semantic search with distance threshold rather than deterministic dump
     res = retriever.retrieve_context("What aerodynamic upgrades did McLaren bring to the Austrian Grand Prix?")
@@ -97,6 +100,7 @@ def test_mock_does_not_hallucinate_first_alphabetical_driver_from_multi_driver_c
     assert "Albon" not in ans_lec
 
 
+@pytest.mark.requires_data
 def test_rag_race_round_recap_and_narrative_completeness_real_corpus():
     GeminiClient.reset_external_call_count()
     chat = ChatService(llm=GeminiClient(offline=True))
@@ -136,6 +140,7 @@ def test_multi_fact_knowledge_doc_not_truncated_at_four_lines():
     assert "Full Wet" in ans
 
 
+@pytest.mark.requires_data
 def test_unanswerable_and_conflict_calibration_in_offline_rag():
     GeminiClient.reset_external_call_count()
     chat = ChatService(llm=GeminiClient(offline=True))

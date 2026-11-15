@@ -42,6 +42,7 @@ from raceintel.retrieval.retriever import Retriever
 # 1. Weather Queries & Missing Observations
 # =====================================================================
 
+@pytest.mark.requires_data
 def test_weather_details_dry_session():
     """Verify weather metrics for a known dry session (Bahrain GP, session 2)."""
     weather = get_weather_details(session_id=2)
@@ -55,6 +56,7 @@ def test_weather_details_dry_session():
     assert weather["air_temperature_range"] == (17.6, 18.9)
 
 
+@pytest.mark.requires_data
 def test_weather_details_wet_session():
     """Verify weather metrics for a known wet session (Canadian GP, session 10)."""
     weather = get_weather_details(session_id=10)
@@ -66,6 +68,7 @@ def test_weather_details_wet_session():
     assert weather["average_air_temperature"] == 17.8
 
 
+@pytest.mark.requires_data
 def test_weather_details_missing_session():
     """Verify handling of missing weather observations (session 9999)."""
     weather = get_weather_details(session_id=9999)
@@ -73,6 +76,7 @@ def test_weather_details_missing_session():
     assert weather["total_observations"] == 0
 
 
+@pytest.mark.requires_data
 def test_weather_formatting_rules():
     """Verify deterministic formatting rules for rain, condition, and temperatures."""
     dry_weather = get_weather_details(session_id=2)
@@ -108,6 +112,7 @@ def test_weather_formatting_rules():
 # 2. Fastest Lap Queries & Lap Time Handling
 # =====================================================================
 
+@pytest.mark.requires_data
 def test_fastest_lap_bahrain():
     """Verify fastest lap driver, lap number, and time for Bahrain GP."""
     fastest = get_fastest_lap_for_session(session_id=2)
@@ -119,6 +124,7 @@ def test_fastest_lap_bahrain():
     assert fastest["formatted_lap_time"] == "1:32.608"
 
 
+@pytest.mark.requires_data
 def test_fastest_lap_british_gp():
     """Verify fastest lap driver for British GP."""
     fastest = get_fastest_lap_for_session(session_id=13)
@@ -129,6 +135,7 @@ def test_fastest_lap_british_gp():
     assert fastest["formatted_lap_time"] == "1:28.293"
 
 
+@pytest.mark.requires_data
 def test_fastest_lap_missing_session():
     """Verify handling of sessions with no recorded laps."""
     fastest = get_fastest_lap_for_session(session_id=9999)
@@ -148,6 +155,7 @@ def test_format_lap_time_helper():
 # 3. Driver Standings & Cumulative Chronology
 # =====================================================================
 
+@pytest.mark.requires_data
 def test_driver_standings_after_bahrain():
     """Verify cumulative driver standings after Round 1 (Bahrain GP)."""
     standings = get_driver_standings_after_event(session_id=2, season=2024)
@@ -161,6 +169,7 @@ def test_driver_standings_after_bahrain():
     assert p2["total_points"] == 18.0
 
 
+@pytest.mark.requires_data
 def test_driver_standings_after_british_gp():
     """Verify cumulative driver standings after Round 12 (British GP)."""
     standings = get_driver_standings_after_event(session_id=13, season=2024)
@@ -194,6 +203,7 @@ def test_driver_standings_leader_formatter():
 # 4. Constructor Points Aggregation & Ties
 # =====================================================================
 
+@pytest.mark.requires_data
 def test_constructor_points_bahrain():
     """Verify constructor points aggregation for Bahrain GP (Red Bull clear winner)."""
     top_info = get_top_constructors_for_race(session_id=2)
@@ -206,6 +216,7 @@ def test_constructor_points_bahrain():
     assert "Red Bull Racing scored the most points in the Bahrain Grand Prix with 44.0 points" in ans
 
 
+@pytest.mark.requires_data
 def test_constructor_points_canadian_gp_tie():
     """Verify constructor points tie handling for Canadian GP (McLaren & Mercedes tied at 28 pts)."""
     top_info = get_top_constructors_for_race(session_id=10)
@@ -225,6 +236,7 @@ def test_constructor_points_canadian_gp_tie():
 # 5. Session & Event Resolution
 # =====================================================================
 
+@pytest.mark.requires_data
 def test_resolve_race_session():
     """Verify resolving varied race query strings to official database sessions."""
     res_bahr = resolve_race_session("Bahrain Grand Prix", 2024)
@@ -258,6 +270,7 @@ def test_resolve_race_session():
 # 6. Ambiguity Detection
 # =====================================================================
 
+@pytest.mark.requires_data
 def test_ambiguity_detection_unspecified_race():
     """Verify that questions lacking a race are flagged as ambiguous."""
     retriever = Retriever()
@@ -268,6 +281,7 @@ def test_ambiguity_detection_unspecified_race():
     assert retriever._is_ambiguous_query("Who finished on the podium?", filters_podium) is True
 
 
+@pytest.mark.requires_data
 def test_ambiguity_detection_unspecified_driver():
     """Verify that questions using pronouns without a driver are flagged as ambiguous."""
     retriever = Retriever()
@@ -278,6 +292,7 @@ def test_ambiguity_detection_unspecified_driver():
     assert retriever._is_ambiguous_query("How many points did the driver score in Canada?", filters_pts) is True
 
 
+@pytest.mark.requires_data
 def test_ambiguity_detection_unambiguous_queries():
     """Verify that well-specified queries are NOT flagged as ambiguous."""
     retriever = Retriever()
@@ -292,6 +307,7 @@ def test_ambiguity_detection_unambiguous_queries():
 # 7. ChatService End-to-End Routing
 # =====================================================================
 
+@pytest.mark.requires_data
 def test_chatservice_weather_routing():
     """Verify ChatService routes weather questions to deterministic answers."""
     service = ChatService()
@@ -307,6 +323,7 @@ def test_chatservice_weather_routing():
     assert "18.2" in ans_temp
 
 
+@pytest.mark.requires_data
 def test_chatservice_fastest_lap_routing():
     """Verify ChatService routes fastest lap questions deterministically."""
     service = ChatService()
@@ -315,6 +332,7 @@ def test_chatservice_fastest_lap_routing():
     assert "1:32.608" in ans
 
 
+@pytest.mark.requires_data
 def test_chatservice_standings_leader_routing():
     """Verify ChatService routes standings leader questions deterministically."""
     service = ChatService()
@@ -323,6 +341,7 @@ def test_chatservice_standings_leader_routing():
     assert "26.0 points" in ans
 
 
+@pytest.mark.requires_data
 def test_chatservice_constructor_points_routing():
     """Verify ChatService routes constructor points without confusing with driver points."""
     service = ChatService()
@@ -332,6 +351,7 @@ def test_chatservice_constructor_points_routing():
     assert "Max Verstappen" not in ans  # Must NOT return driver name!
 
 
+@pytest.mark.requires_data
 def test_chatservice_ambiguous_handling():
     """Verify ChatService requests clarification on ambiguous queries."""
     service = ChatService()
@@ -344,6 +364,7 @@ def test_chatservice_ambiguous_handling():
     assert "specify which driver" in ans_driver.lower()
 
 
+@pytest.mark.requires_data
 def test_chatservice_out_of_domain_unanswerable():
     """Verify ChatService does not hallucinate answers to out-of-domain races."""
     service = ChatService()
@@ -352,6 +373,7 @@ def test_chatservice_out_of_domain_unanswerable():
     assert "Hungarian" not in ans_indy  # Must NOT substitute Hungarian GP!
 
 
+@pytest.mark.requires_data
 def test_chatservice_historical_season_refusal():
     """Verify ChatService refuses historical seasons honestly."""
     service = ChatService()

@@ -1,3 +1,5 @@
+import pytest
+pytestmark = pytest.mark.requires_data
 """
 Regression and Chronology Repair Test Suite.
 

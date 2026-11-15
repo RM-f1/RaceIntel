@@ -1,3 +1,6 @@
+import pytest
+pytestmark = pytest.mark.requires_data
+import pytest
 from src.analytics.position import (
     get_position_changes,
     get_biggest_movers,

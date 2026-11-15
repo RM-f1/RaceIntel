@@ -325,6 +325,7 @@ def test_existing_regressions_and_query_planner_us_gp(temp_multi_season_db):
     assert ambig_res.is_ambiguous is True
 
 
+@pytest.mark.requires_data
 def test_production_read_only_us_gp_end_to_end():
     """Verify against real production DB (read-only) that US GP podium & points != Miami GP."""
     us_session = resolve_race_session("United States Grand Prix", season=2024)

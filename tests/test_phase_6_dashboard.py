@@ -46,6 +46,7 @@ def api_client() -> TestClient:
 # 1. FastAPI Analytics Router & Existing Endpoints Compatibility
 # ---------------------------------------------------------------------------
 
+@pytest.mark.requires_data
 def test_existing_endpoints_preserved(api_client: TestClient):
     h = api_client.get("/health/")
     assert h.status_code == 200
@@ -66,6 +67,7 @@ def test_existing_endpoints_preserved(api_client: TestClient):
     assert api_client.get(f"/standings/constructors/{first_sid}").status_code == 200
 
 
+@pytest.mark.requires_data
 def test_analytics_overview_and_progression(api_client: TestClient):
     ov = api_client.get("/analytics/overview", params={"season": 2024})
     assert ov.status_code == 200
@@ -84,6 +86,7 @@ def test_analytics_overview_and_progression(api_client: TestClient):
     assert len(pdata["drivers"]) > 0
 
 
+@pytest.mark.requires_data
 def test_analytics_season_standings_and_404(api_client: TestClient):
     sessions = api_client.get("/sessions/", params={"season": 2024}).json()
     last_sid = sessions[-1]["session_id"]
@@ -104,6 +107,7 @@ def test_analytics_season_standings_and_404(api_client: TestClient):
     assert api_client.get("/analytics/race/999999/full").status_code == 404
 
 
+@pytest.mark.requires_data
 def test_analytics_full_race_driver_and_constructor_profiles(api_client: TestClient):
     sessions = api_client.get("/sessions/", params={"season": 2024}).json()
     sid = sessions[0]["session_id"]
@@ -132,6 +136,7 @@ def test_analytics_full_race_driver_and_constructor_profiles(api_client: TestCli
     assert api_client.get("/analytics/constructors/999999/season").status_code == 404
 
 
+@pytest.mark.requires_data
 def test_chat_endpoint_offline_preserved(api_client: TestClient):
     resp = api_client.post("/chat/", json={"question": "Who won the 2024 British Grand Prix?"})
     assert resp.status_code == 200
@@ -212,6 +217,7 @@ def _make_testclient_adapter(tc: TestClient):
     return fake_get, fake_post
 
 
+@pytest.mark.requires_data
 def test_streamlit_multipage_navigation_and_ai_chat(api_client: TestClient):
     fake_get, fake_post = _make_testclient_adapter(api_client)
     with patch("frontend.api_client.requests.get", side_effect=fake_get), patch(

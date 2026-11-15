@@ -254,6 +254,7 @@ def test_ragas_dataset_construction_v2():
     assert dataset["retrieved_contexts"][1] == []
 
 
+@pytest.mark.requires_data
 def test_ragas_pilot_cache_reuse():
     """Verify that all 8 pilot cases in raceintel_ragas_pilot_cache.json load and reuse cleanly."""
     assert CACHE_FILE.exists(), f"Pilot cache file not found: {CACHE_FILE}"

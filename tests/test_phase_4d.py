@@ -22,6 +22,9 @@ Covers:
 
 from __future__ import annotations
 
+import pytest
+pytestmark = pytest.mark.requires_data
+
 import os
 from unittest.mock import MagicMock
 

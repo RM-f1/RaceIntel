@@ -60,6 +60,7 @@ def isolated_db(tmp_path: Path):
 # ---------------------------------------------------------------------
 
 
+@pytest.mark.requires_data
 def test_primary_database_multi_season_coverage():
     """Verify that primary database contains valid records for 2022 through 2026."""
     from database.connection import SessionLocal
@@ -282,6 +283,7 @@ def test_admin_sync_endpoint_security(test_client: TestClient, monkeypatch: pyte
 # ---------------------------------------------------------------------
 
 
+@pytest.mark.requires_data
 def test_analytics_sync_status_endpoint(test_client: TestClient):
     """Verify /analytics/sync/status reports multi-season summary and worker status."""
     resp = test_client.get("/analytics/sync/status")
@@ -293,6 +295,7 @@ def test_analytics_sync_status_endpoint(test_client: TestClient):
     assert set(seasons) >= {2022, 2023, 2024, 2025, 2026}
 
 
+@pytest.mark.requires_data
 def test_analytics_overview_multi_season(test_client: TestClient):
     """Verify /analytics/overview supports querying 2022, 2024, and 2026."""
     # 2022
@@ -315,6 +318,7 @@ def test_analytics_overview_multi_season(test_client: TestClient):
 # ---------------------------------------------------------------------
 
 
+@pytest.mark.requires_data
 def test_domain_guard_multi_season_awareness():
     """Verify DomainGuard dynamically validates supported seasons and formats refusals."""
     guard = DomainGuard()

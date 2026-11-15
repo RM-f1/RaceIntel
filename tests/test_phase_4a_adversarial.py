@@ -20,6 +20,7 @@ from raceintel.routing.entity_registry import EntityRegistry
 # 1. Entity Resolution: Drivers, Reserves, Surnames, Diacritics
 # =====================================================================
 
+@pytest.mark.requires_data
 def test_adversarial_driver_resolution_names_surnames_reserves():
     """Verify robust resolution of drivers across names, surnames, nicknames, codes, and accents."""
     registry = EntityRegistry()
@@ -67,6 +68,7 @@ def test_adversarial_driver_resolution_names_surnames_reserves():
 # 2. Entity Resolution: Constructors & Aliases
 # =====================================================================
 
+@pytest.mark.requires_data
 def test_adversarial_constructor_resolution():
     """Verify resolution of constructors across formal and colloquial aliases."""
     registry = EntityRegistry()
@@ -98,6 +100,7 @@ def test_adversarial_constructor_resolution():
 # 3. Entity Resolution: Circuits, Track Aliases, and Accented Events
 # =====================================================================
 
+@pytest.mark.requires_data
 def test_adversarial_circuit_and_event_resolution():
     """Verify track names, circuit aliases, and accented Grand Prix names."""
     registry = EntityRegistry()
@@ -129,6 +132,7 @@ def test_adversarial_circuit_and_event_resolution():
 # 4. Ambiguity and Unknown Entities
 # =====================================================================
 
+@pytest.mark.requires_data
 def test_adversarial_ambiguous_and_unknown_entities():
     """Verify that ambiguous geographical names are not silently resolved to arbitrary records."""
     registry = EntityRegistry()
@@ -164,6 +168,7 @@ def test_adversarial_ambiguous_and_unknown_entities():
 # 5. DomainGuard: Explicit Unrelated Motorsport Rejections
 # =====================================================================
 
+@pytest.mark.requires_data
 def test_adversarial_domainguard_motorsport_rejections():
     """Verify pre-retrieval rejection across multiple motorsport disciplines."""
     dg = DomainGuard()
@@ -206,6 +211,7 @@ def test_adversarial_domainguard_motorsport_rejections():
 # 6. DomainGuard: F1 Comparisons Preserved
 # =====================================================================
 
+@pytest.mark.requires_data
 def test_adversarial_domainguard_f1_comparisons_preserved():
     """Verify that in-domain F1 questions mentioning other motorsports for comparison are preserved."""
     dg = DomainGuard()
@@ -234,6 +240,7 @@ def test_adversarial_domainguard_f1_comparisons_preserved():
 # 7. DomainGuard: General Racing Terminology Preserved
 # =====================================================================
 
+@pytest.mark.requires_data
 def test_adversarial_domainguard_racing_terminology_preserved():
     """Verify that general motorsport terms (apex, telemetry, slipstream, pit stop) do not trigger false rejections."""
     dg = DomainGuard()
@@ -255,6 +262,7 @@ def test_adversarial_domainguard_racing_terminology_preserved():
 # 8. DomainGuard: Unsupported vs Dynamically Supported Seasons
 # =====================================================================
 
+@pytest.mark.requires_data
 def test_adversarial_domainguard_unsupported_seasons():
     """Verify rejection of historical seasons not present in the database."""
     dg = DomainGuard()
@@ -299,6 +307,7 @@ def test_adversarial_domainguard_supported_seasons_other_than_2024():
 # 9. Pipeline Ordering & ChromaDB Isolation
 # =====================================================================
 
+@pytest.mark.requires_data
 def test_adversarial_pipeline_ordering_and_chromadb_isolation():
     """Verify that DomainGuard executes strictly before ChromaDB retrieval, and rejected queries never trigger vector search."""
     mock_retriever = MagicMock()

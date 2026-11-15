@@ -1,3 +1,6 @@
+import pytest
+pytestmark = pytest.mark.requires_data
+import pytest
 from src.analytics.tyre import (
     get_tyre_usage,
     get_compound_performance,

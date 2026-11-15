@@ -30,6 +30,7 @@ def reset_offline_state():
     GeminiClient.reset_external_call_count()
 
 
+@pytest.mark.requires_data
 def test_structured_questions_in_offline_mode():
     """1. Verify structured questions work deterministically in offline mode without external calls."""
     GeminiClient.set_global_offline(True)
@@ -51,6 +52,7 @@ def test_structured_questions_in_offline_mode():
     assert GeminiClient.get_external_call_count() == 0
 
 
+@pytest.mark.requires_data
 def test_rag_questions_do_not_make_external_api_calls():
     """2. Verify RAG retrieval questions execute without making external API calls."""
     GeminiClient.set_global_offline(True)

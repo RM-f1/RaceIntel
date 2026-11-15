@@ -1,3 +1,5 @@
+import pytest
+pytestmark = pytest.mark.requires_data
 from unittest.mock import MagicMock
 import pytest
 

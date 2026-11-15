@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import pytest
+pytestmark = pytest.mark.requires_data
 
 from raceintel.chat.chat_service import ChatService
 from raceintel.chat.gemini import GeminiClient

@@ -24,6 +24,9 @@ Validates:
 
 from __future__ import annotations
 
+import pytest
+pytestmark = pytest.mark.requires_data
+
 import os
 from pathlib import Path
 from unittest.mock import MagicMock, patch
