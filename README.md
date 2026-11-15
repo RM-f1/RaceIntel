@@ -11,7 +11,7 @@ RaceIntel is an AI-powered Formula 1 race intelligence platform that combines Fa
 - **Chat Orchestration**: Integrated `ChatService` managing entity resolution, circuit/event alias disambiguation, question routing, ambiguity handling, and generative answer synthesis.
 - **Analytics Dashboard**: Modular retro-terminal Streamlit frontend comprising 6 specialized consoles: Dashboard Overview, Race Analysis, Driver Intelligence, Constructor Intelligence, AI Race Engineer, and System / About.
 - **Sync Worker Engine**: Background synchronization process featuring atomic lockfiles, process lifecycle verification via process creation timestamps and command-line checks, and safe graceful termination.
-- **Comprehensive Test Suite**: 375 automated unit, integration, and regression tests validating offline operation, chronology integrity, API contracts, and worker termination safety.
+- **Comprehensive Test Suite**: 378 automated unit, integration, and regression tests validating offline operation, chronology integrity, API contracts, and worker termination safety.
 
 ## Architecture
 
@@ -70,7 +70,9 @@ pip install -e .
 
 ### 2. Environment Configuration
 
-Create `.env` in the project root:
+RaceIntel is fully functional offline without an initial `.env` file. Built-in defaults set `DATABASE_URL` to `sqlite:///data/raceintel.db`, and `GEMINI_API_KEY` defaults to `None` (offline fallback mode). **No `.env` file is required to run offline tests or explore the codebase.**
+
+To customize settings, run administrative data syncs, or enable live Gemini LLM answer generation, copy the example configuration:
 
 #### Windows PowerShell
 ```powershell
@@ -84,26 +86,26 @@ cp .env.example .env
 
 Configure the environment variables in `.env`:
 ```ini
-# Path to local SQLite database (Required by configuration; works offline)
+# Path to local SQLite database (Optional; defaults to sqlite:///data/raceintel.db; works offline)
 DATABASE_URL=sqlite:///data/raceintel.db
 
-# Admin API authorization secret (Required for POST /api/v1/analytics/sync; works offline)
+# Admin API authorization secret (Required for POST /api/v1/analytics/sync; fail-closed when unset; works offline)
 RACEINTEL_ADMIN_KEY=your_admin_secret_here
 
 # Google Gemini API Key (Optional; required only for live generative chat)
-# When empty or when RACEINTEL_OFFLINE=1 is set, the system operates in offline mock mode.
+# When unset, empty, or when RACEINTEL_OFFLINE=1 is set, the system operates in offline mock mode.
 GEMINI_API_KEY=your_gemini_api_key_here
 
-# FastAPI backend base URL for Streamlit frontend (Optional, defaults to http://127.0.0.1:8001; works offline)
+# FastAPI backend base URL for Streamlit frontend (Optional; defaults to http://127.0.0.1:8001; works offline)
 RACEINTEL_API_URL=http://127.0.0.1:8001
 ```
 
 | Variable | Required | Offline Capable | Purpose |
 |---|---|---|---|
-| `DATABASE_URL` | **Yes** | Yes | Database connection string for SQLite persistence. |
-| `RACEINTEL_ADMIN_KEY` | **Yes** (to trigger sync) | Yes | Authenticates admin sync endpoints with fail-closed checks. |
-| `GEMINI_API_KEY` | Optional | **No** (Needs Key) | Powers live open-ended RAG synthesis through Google GenAI. |
-| `RACEINTEL_API_URL` | Optional | Yes | Backend target URL consumed by Streamlit `RaceIntelAPIClient`. |
+| `DATABASE_URL` | Optional | Yes | Database connection string for SQLite persistence (defaults to `sqlite:///data/raceintel.db`). |
+| `RACEINTEL_ADMIN_KEY` | Optional (Required to trigger sync) | Yes | Authenticates admin sync endpoints with fail-closed checks (`POST /api/v1/analytics/sync`). |
+| `GEMINI_API_KEY` | Optional | **No** (Needs Key) | Powers live open-ended RAG synthesis through Google GenAI. When absent, offline deterministic mock is used. |
+| `RACEINTEL_API_URL` | Optional | Yes | Backend target URL consumed by Streamlit `RaceIntelAPIClient` (defaults to `http://127.0.0.1:8001`). |
 
 ### 3. Build the Database (`data/raceintel.db`)
 
@@ -174,8 +176,11 @@ or
 python -m pytest -p no:cacheprovider
 ```
 
-- **Test Suite Status**: **375 passed, 0 failed** (executed in ~35–45s).
-- **Offline Guarantee**: The test suite executes **100% offline**. External Gemini calls are intercepted by deterministic offline mock clients (`GeminiClient._generate_mock_response`), SQLite operations use test database sandboxes or atomic rollbacks, and no network traffic is generated.
+- **Test Suite Status**:
+  - **In a fresh clone without data**: **110 passed, 268 skipped, 0 failed** (executed in ~16s).
+  - **With the database built**: **378 passed, 0 skipped, 0 failed** (executed in ~30–40s).
+- **Offline Guarantee**: The test suite executes **100% offline** with zero external network or Gemini API calls. External LLM requests are intercepted by deterministic offline mock clients (`GeminiClient._generate_mock_response`), SQLite operations use test database sandboxes or atomic rollbacks, and no network traffic is generated.
+- **Database Dependency & Skip Behavior**: Tests that require the built SQLite database (`data/raceintel.db`) or Chroma vector index are marked with `@pytest.mark.requires_data`. If the database has not been built yet (e.g. in a clean clone before data ingestion), these tests are automatically skipped with `"requires built database: see README Quickstart"`. When the database is present, all tests run without skipping.
 
 ## Data and Provenance
 
@@ -194,10 +199,10 @@ python -m pytest -p no:cacheprovider
 
 RaceIntel's analytical accuracy is benchmarked against a frozen, project-authored evaluation protocol documented in [`evaluation/frozen_manifest_2026-11-15.json`](evaluation/frozen_manifest_2026-11-15.json):
 
-- **Dataset**: [`evaluation/raceintel_independent_v2.json`](evaluation/raceintel_independent_v2.json), comprising **80 project-authored questions** across 11 analytical categories.
+- **Dataset**: [`evaluation/raceintel_independent_v2.json`](evaluation/raceintel_independent_v2.json), comprising **80 project-authored questions** across 11 analytical categories. The question set is project-authored rather than from an independent third party.
 - **Scorer**: [`evaluation/run_independent_v2.py`](evaluation/run_independent_v2.py). The scoring harness was revised after inspecting earlier benchmark results to enforce strict clause co-occurrence matching (entity + position/metric in the same clause), exact position boundary guards (`P1` cannot match `P10`), and multi-entity RAG completeness metrics (`rag_complete`), unit-tested via `tests/test_phase_5d_evaluator.py`.
 - **Execution Mode**: Evaluated strictly **offline** with **0 live Gemini calls attempted**. RAG answers were generated using deterministic mock extraction.
-- **Benchmark Run Details**: Executed on **2026-11-15** on git commit `f2ee06a` against the multi-season SQLite database and persistent Chroma vector store. Results are saved in [`evaluation/raceintel_independent_v2_results_2026-11-15.json`](evaluation/raceintel_independent_v2_results_2026-11-15.json).
+- **Benchmark Run Details**: Executed on **2026-11-15** on git commit `facd6ae` against the multi-season SQLite database (SHA256: `ac94af6a53f6509eca7022ef70b549e31018283bbc3bd2270940d7d0580eacd5`) and persistent Chroma vector store. Results are saved in [`evaluation/raceintel_independent_v2_results_2026-11-15.json`](evaluation/raceintel_independent_v2_results_2026-11-15.json). The SQLite database and Chroma collections are not tracked in the git repository, so this benchmark score is reproducible only when evaluated against a database built to the same state.
 - **Benchmark Results**:
   - **Overall Answer Accuracy**: **57 / 80 (71.2%)**
   - **Entity Resolution**: **24 / 24 (100.0%)**
@@ -217,6 +222,13 @@ RaceIntel's analytical accuracy is benchmarked against a frozen, project-authore
     - `constructor_standings_and_points`: 4/8 (50.0%)
     - `multi_entity_comparisons`: 4/8 (50.0%)
     - `unanswerable_in_domain`: 1/4 (25.0%)
+
+### Analysis of the 23 Failures
+
+Of the 23 failed evaluation questions:
+- **5 failures (`indv2_010`, `indv2_020`, `indv2_051`, `indv2_052`, `indv2_053`) are stale benchmark expectations**: The benchmark dataset expects race-only championship points, whereas the engine was upgraded in Phase 6.2.2 to return official championship totals including Sprint points. For example, Leclerc at Monaco: 138 pts (including Sprint points) vs 126 race-only points; Verstappen after Austria: 237 pts vs 229 race-only points; McLaren after Austria: 268 pts vs 254 race-only points.
+- **8 failures are paraphrase-routing failures falling back to RAG**: Complex natural language phrasings that did not match structured SQL intent patterns fell back to the RAG retriever, which in offline mode returns deterministic mock answers rather than computing dynamic aggregates.
+- **10 failures are edge cases**: Complex multi-entity comparisons, ambiguous phrasing edge cases, and in-domain unanswerable calibration boundaries.
 
 ### Evaluation Comparability Note
 Earlier development phases recorded higher figures (e.g. 100% on Baseline 30, Eval V2 75, and Holdout 30). **These earlier scores are not comparable to Benchmark V2**:
