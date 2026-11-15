@@ -44,7 +44,8 @@ from raceintel.chat.chat_service import ChatService  # noqa: E402
 from raceintel.chat.gemini import GeminiClient  # noqa: E402
 
 DATASET_PATH = PROJECT_ROOT / "evaluation" / "raceintel_independent_v2.json"
-RESULTS_PATH = PROJECT_ROOT / "evaluation" / "raceintel_independent_v2_results.json"
+_custom_output = os.getenv("RACEINTEL_EVAL_OUTPUT") or (sys.argv[1] if len(sys.argv) > 1 and not sys.argv[1].startswith("-") else None)
+RESULTS_PATH = Path(_custom_output) if _custom_output else (PROJECT_ROOT / "evaluation" / "raceintel_independent_v2_results.json")
 
 KNOWN_2024_DRIVERS = [
     "Max Verstappen", "Sergio Perez", "Charles Leclerc", "Carlos Sainz",

@@ -53,3 +53,8 @@ phase6_test_*.txt
 
 # Driver photos (fetch with scripts/fetch_driver_photos.py)
 frontend/assets/drivers/*.jpg
+
+# Agent and temporary scripts
+.agents/
+check_sessions.py
+

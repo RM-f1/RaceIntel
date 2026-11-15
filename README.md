@@ -124,10 +124,7 @@ RaceIntel relies on a local SQLite database constructed from FastF1 session data
    python -m raceintel.data.ingest --season 2023
    ```
    - **FastF1 Cache Location**: Raw telemetry and timing data downloaded from FastF1 are cached in `data/cache/`.
-   - **Ingestion Duration**:
-     - *Cold run (first network download)*: ~10–25 minutes per full 24-round season.
-     - *Cached run*: ~1–2 minutes per season once `data/cache/` is populated.
-     - *All seasons (2022–2026)*: ~45–60 minutes cold.
+   - **Ingestion Duration**: Ingestion duration depends on network download speed and whether sessions are already cached locally in `data/cache/`.
    - **Key Dependency**: FastF1 ingestion requires internet access for initial download, but **does NOT require a Gemini API key**.
 
 ### 4. Build the ChromaDB Knowledge Base (`data/chroma/`)
@@ -186,32 +183,45 @@ python -m pytest -p no:cacheprovider
 - **Seasons Supported**: 2022, 2023, 2024, 2025, and 2026 (including Sprint formats).
 - **Data Directory Storage**: All database files, vector collections, and raw FastF1 caches (`data/raceintel.db`, `data/chroma/`, `data/cache/`) are strictly gitignored to preserve clean version control. They are generated locally through the schema initialization and ingestion commands.
 - **2024 Chronology Bug & Verification**:
-  During multi-season scaling, an event numbering discrepancy was discovered where the 2024 Japanese Grand Prix moved to Round 4 on the official FIA calendar (previously held in autumn), causing initial sequential ingestion scripts to misalign round IDs.
-  - *Repair*: Implemented in `scripts/reconcile_chronology.py` to reconcile event round numbers and sync tracking records to match the official calendar.
+  During multi-season scaling, an event numbering discrepancy occurred where the 2024 British Grand Prix was initially stored at Round 1 (from Phase 1 exploration), shifting Bahrain through Austria (Rounds 1–11) one round later in sequential ingestion order.
+  - *Repair*: Implemented in `scripts/reconcile_chronology.py`. Exactly 21 metadata records (9 in `events` and 12 in `session_sync_status`, detailed in `evaluation/chronology_reconciliation_report.json`) were corrected to align with the official FastF1 2024 schedule.
   - *Verification*: Verified that all 24 rounds in `events` and `session_sync_status` match the FastF1 schedule exactly (Round 1 Bahrain through Round 24 Abu Dhabi), SQLite foreign keys (`PRAGMA foreign_key_check`) and database integrity (`PRAGMA integrity_check`) report zero violations, and running `python scripts/reconcile_chronology.py` in dry-run mode proposes **0 changes**.
   - *Source Consistency*: Note that this verification compares the SQLite database against FastF1's schedule, which also serves as the ingestion source.
 
 ## Evaluation
 
-### Defensible Frozen Benchmark (Phase 5D Benchmark V2)
+### Project-Authored Benchmark V2
 
-RaceIntel's analytical accuracy is benchmarked against a pre-registered, frozen evaluation protocol documented in [`evaluation/phase_5d_frozen_manifest.json`](evaluation/phase_5d_frozen_manifest.json):
+RaceIntel's analytical accuracy is benchmarked against a frozen, project-authored evaluation protocol documented in [`evaluation/frozen_manifest_2026-11-15.json`](evaluation/frozen_manifest_2026-11-15.json):
 
-- **Dataset**: [`evaluation/raceintel_independent_v2.json`](evaluation/raceintel_independent_v2.json) (SHA256: `61246124c121757a3b5c2343fbb2eac98f6741af2ac6a580725cb72011339d3a`), comprising **80 novel questions** across 11 analytical categories with zero duplicate overlap with earlier training/holdout sets.
-- **Scorer**: [`evaluation/run_independent_v2.py`](evaluation/run_independent_v2.py) (SHA256: `9ede6048511c19525a65761afd661f219138b21828c5a0763ea19d19ac20404f`). Employs strict clause co-occurrence matching (entity + position/metric in the same clause), exact position boundary guards (`P1` cannot match `P10`), and multi-entity RAG completeness metrics (`rag_complete`), unit-tested via `tests/test_phase_5d_evaluator.py`.
-- **Execution Mode**: Evaluated strictly **offline** (`0` live Gemini API calls attempted; total duration: 47.33s). RAG queries were evaluated using deterministic mock extraction.
-- **Frozen Benchmark Results**:
-  - **Overall Answer Accuracy**: **62 / 80 (77.5%)**
+- **Dataset**: [`evaluation/raceintel_independent_v2.json`](evaluation/raceintel_independent_v2.json), comprising **80 project-authored questions** across 11 analytical categories.
+- **Scorer**: [`evaluation/run_independent_v2.py`](evaluation/run_independent_v2.py). The scoring harness was revised after inspecting earlier benchmark results to enforce strict clause co-occurrence matching (entity + position/metric in the same clause), exact position boundary guards (`P1` cannot match `P10`), and multi-entity RAG completeness metrics (`rag_complete`), unit-tested via `tests/test_phase_5d_evaluator.py`.
+- **Execution Mode**: Evaluated strictly **offline** with **0 live Gemini calls attempted**. RAG answers were generated using deterministic mock extraction.
+- **Benchmark Run Details**: Executed on **2026-11-15** on git commit `f2ee06a` against the multi-season SQLite database and persistent Chroma vector store. Results are saved in [`evaluation/raceintel_independent_v2_results_2026-11-15.json`](evaluation/raceintel_independent_v2_results_2026-11-15.json).
+- **Benchmark Results**:
+  - **Overall Answer Accuracy**: **57 / 80 (71.2%)**
   - **Entity Resolution**: **24 / 24 (100.0%)**
   - **Event & Season Resolution**: **71 / 71 (100.0%)**
   - **RAG Retrieval Source Hit Rate**: **9 / 9 (100.0%)**
   - **RAG Answerable Complete Accuracy**: **8 / 9 (88.9%)**
   - **False Abstention Rate**: **0 / 67 (0.0%)**
+  - **Category Breakdown**:
+    - `weather_and_conditions`: 8/8 (100.0%)
+    - `rag_race_reports_and_metadata`: 8/9 (88.9%)
+    - `tyres_positions_and_classification`: 7/8 (87.5%)
+    - `ambiguous_or_underspecified`: 4/5 (80.0%)
+    - `driver_standings_and_points`: 7/9 (77.8%)
+    - `pace_and_fastest_laps`: 6/8 (75.0%)
+    - `domain_rejection`: 3/4 (75.0%)
+    - `race_results_and_winners`: 5/9 (55.6%)
+    - `constructor_standings_and_points`: 4/8 (50.0%)
+    - `multi_entity_comparisons`: 4/8 (50.0%)
+    - `unanswerable_in_domain`: 1/4 (25.0%)
 
 ### Evaluation Comparability Note
 Earlier development phases recorded higher figures (e.g. 100% on Baseline 30, Eval V2 75, and Holdout 30). **These earlier scores are not comparable to Benchmark V2**:
 1. Earlier benchmarks evaluated known reference sets or permitted looser substring matching rules.
-2. Independent Benchmark V2 was frozen and hashed *prior* to evaluation execution to prevent test leakage and post-hoc tuning.
+2. The benchmark question set is project-authored rather than from an external independent party, and the scorer was revised after inspecting earlier benchmark failures.
 3. Offline benchmark testing measures deterministic SQL execution, query routing, entity extraction, and RAG retrieval completeness, but **does not measure live Gemini LLM natural language generation quality**.
 
 Full evaluation run records and methodology audits are preserved in [`evaluation/`](evaluation/).
