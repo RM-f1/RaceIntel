@@ -216,3 +216,7 @@ zstandard==0.25.0
 streamlit==1.61.1
 google-genai==2.16.0
 ollama==0.6.2
+
+
+datasets==5.0.1
+ragas
