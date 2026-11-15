@@ -3,11 +3,13 @@ import pytest
 from src.data.fastf1_loader import CACHE_DIR, load_session
 
 
+@pytest.mark.requires_data
 def test_cache_directory_exists():
     """Verify that the FastF1 cache directory exists."""
     assert CACHE_DIR.exists()
 
 
+@pytest.mark.requires_data
 def test_load_valid_session():
     """Verify that a valid race session loads successfully."""
     session = load_session(2024, "British Grand Prix", "R")

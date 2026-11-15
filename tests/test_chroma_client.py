@@ -1,6 +1,8 @@
 from pathlib import Path
 import pytest
 
+pytestmark = pytest.mark.requires_data
+
 from raceintel.retrieval.chroma_client import ChromaClient
 from raceintel.retrieval.generator import RaceDocumentGenerator
 

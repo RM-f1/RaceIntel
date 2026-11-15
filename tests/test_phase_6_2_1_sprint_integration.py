@@ -234,6 +234,7 @@ def test_historical_seasons_sprint_integration():
     assert ver_2023 == 575.0
 
 
+@pytest.mark.requires_data
 def test_2025_sprints_discovery_and_coverage():
     """Verify 2025 schedule discovers all 6 scheduled sprint rounds."""
     disc = ScheduleDiscovery()
