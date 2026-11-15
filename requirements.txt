@@ -150,7 +150,7 @@ python-dotenv==1.2.2
 python-json-logger==4.1.0
 pytokens==0.4.1
 pytz==2026.2
-pywinpty==3.0.5
+pywinpty==3.0.5; sys_platform == "win32"
 PyYAML==6.0.3
 pyzmq==27.1.0
 RapidFuzz==3.14.5
