@@ -1,6 +1,8 @@
 # RaceIntel
 
 RaceIntel is an AI-powered Formula 1 race intelligence platform that combines FastF1 data ingestion, multi-season SQLite analytics, vector-based retrieval and LLM-assisted question answering, with a FastAPI backend and Streamlit interface.
+![Python Tests](https://github.com/RM-f1/RaceIntel/actions/workflows/python-tests.yml/badge.svg)
+CI runs 105 of 378 tests. The rest need the full local database and are skipped on CI.
 
 ## Features
 
@@ -177,7 +179,7 @@ python -m pytest -p no:cacheprovider
 ```
 
 - **Test Suite Status**:
-  - **In a fresh clone without data**: **110 passed, 268 skipped, 0 failed** (executed in ~16s).
+  - **In a fresh clone without data**: **105 passed, 273 skipped, 0 failed** (executed in ~16s).
   - **With the database built**: **378 passed, 0 skipped, 0 failed** (executed in ~30–40s).
 - **Offline Guarantee**: The test suite executes **100% offline** with zero external network or Gemini API calls. External LLM requests are intercepted by deterministic offline mock clients (`GeminiClient._generate_mock_response`), SQLite operations use test database sandboxes or atomic rollbacks, and no network traffic is generated.
 - **Database Dependency & Skip Behavior**: Tests that require the built SQLite database (`data/raceintel.db`) or Chroma vector index are marked with `@pytest.mark.requires_data`. If the database has not been built yet (e.g. in a clean clone before data ingestion), these tests are automatically skipped with `"requires built database: see README Quickstart"`. When the database is present, all tests run without skipping.
