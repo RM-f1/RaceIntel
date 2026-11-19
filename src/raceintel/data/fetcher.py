@@ -6,6 +6,7 @@ when telemetry or timing streams are unavailable for historical or upcoming roun
 """
 
 from __future__ import annotations
+from analytics.stints import normalise_compound
 
 import logging
 from dataclasses import dataclass, field
@@ -218,7 +219,7 @@ class SessionFetcher:
                         if pd.notna(s3) and hasattr(s3, "total_seconds"):
                             s3_sec = s3.total_seconds()
 
-                        compound = str(lap.get("Compound")).strip() if pd.notna(lap.get("Compound")) else None
+                        compound = normalise_compound(lap.get("Compound"))
                         tyre_age = int(lap["TyreLife"]) if pd.notna(lap.get("TyreLife")) else None
                         trk_pos = int(lap["Position"]) if pd.notna(lap.get("Position")) else None
                         is_pit_out = bool(pd.notna(lap.get("PitOutTime")))

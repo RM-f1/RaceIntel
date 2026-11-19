@@ -9,17 +9,33 @@ the out-lap). Does not rely on is_pit_out_lap, which is missing for 2024.
 
 import pandas as pd
 
+VALID_COMPOUNDS = ("SOFT", "MEDIUM", "HARD", "INTERMEDIATE", "WET")
 
-def derive_stints(laps: pd.DataFrame) -> pd.DataFrame:
-    """laps needs: driver_id, lap_number, tyre_compound, tyre_age_laps."""
+
+def normalise_compound(raw):
+    """Upper-case compound from VALID_COMPOUNDS, or None for anything else."""
+    if raw is None or pd.isna(raw):
+        return None
+    c = str(raw).strip().upper()
+    return c if c in VALID_COMPOUNDS else None
+
+
+def assign_stint_numbers(laps: pd.DataFrame) -> pd.DataFrame:
+    """Clean laps and add a stint_number column.
+
+    laps needs: driver_id, lap_number, tyre_compound, tyre_age_laps.
+    If session_id is present, stints are derived per (session, driver);
+    without it, pass one session at a time.
+    """
+    keys = ["session_id", "driver_id"] if "session_id" in laps.columns else ["driver_id"]
     df = laps.copy()
-    comp = df["tyre_compound"].astype("string").str.upper()
-    df = df[comp.notna() & (comp != "NONE")].copy()
-    df["tyre_compound"] = df["tyre_compound"].astype(str).str.upper()
-    df = df.sort_values(["driver_id", "lap_number"]).reset_index(drop=True)
+    comp = df["tyre_compound"].astype("string").str.strip().str.upper()
+    df = df[comp.isin(VALID_COMPOUNDS)].copy()
+    df["tyre_compound"] = df["tyre_compound"].astype(str).str.strip().str.upper()
+    df = df.sort_values(keys + ["lap_number"]).reset_index(drop=True)
 
     stint_ids = []
-    for _, g in df.groupby("driver_id", sort=False):
+    for _, g in df.groupby(keys, sort=False):
         ids = []
         sid = 0
         prev_comp = None
@@ -47,9 +63,14 @@ def derive_stints(laps: pd.DataFrame) -> pd.DataFrame:
         stint_ids.extend(ids)
 
     df["stint_number"] = stint_ids
+    return df
 
-    return (
-        df.groupby(["driver_id", "stint_number"])
+
+def derive_stints(laps: pd.DataFrame) -> pd.DataFrame:
+    df = assign_stint_numbers(laps)
+    keys = (["session_id"] if "session_id" in df.columns else []) + ["driver_id", "stint_number"]
+    out = (
+        df.groupby(keys)
         .agg(
             tyre_compound=("tyre_compound", "first"),
             start_lap=("lap_number", "min"),
@@ -59,3 +80,5 @@ def derive_stints(laps: pd.DataFrame) -> pd.DataFrame:
         )
         .reset_index()
     )
+    out["span_laps"] = out["end_lap"] - out["start_lap"] + 1
+    return out
