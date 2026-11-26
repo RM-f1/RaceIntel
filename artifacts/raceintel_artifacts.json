@@ -1,0 +1,285 @@
+{
+  "metadata": {
+    "build_date": "2026-11-25",
+    "sign_convention": "positive = slower (degradation costs time)",
+    "note": "Within-stint net pace trends (degradation v2): demeaned within each (race, driver, stint). Includes tyre wear, fuel burn, and track evolution; pure tyre wear = net slope + assumed fuel effect (s/lap)."
+  },
+  "degradation": [
+    {
+      "season": 2022,
+      "compound": "HARD",
+      "slope": -0.026782,
+      "se": 0.004236,
+      "n": 6677
+    },
+    {
+      "season": 2022,
+      "compound": "MEDIUM",
+      "slope": -0.022099,
+      "se": 0.004263,
+      "n": 7724
+    },
+    {
+      "season": 2022,
+      "compound": "SOFT",
+      "slope": 0.028728,
+      "se": 0.006701,
+      "n": 3276
+    },
+    {
+      "season": 2024,
+      "compound": "HARD",
+      "slope": -0.020572,
+      "se": 0.003648,
+      "n": 12255
+    },
+    {
+      "season": 2024,
+      "compound": "MEDIUM",
+      "slope": -0.02401,
+      "se": 0.007163,
+      "n": 7633
+    },
+    {
+      "season": 2024,
+      "compound": "SOFT",
+      "slope": 0.02588,
+      "se": 0.009312,
+      "n": 1480
+    }
+  ],
+  "pit_loss": [
+    {
+      "season": 2022,
+      "race": "Abu Dhabi Grand Prix",
+      "median_pit_loss_s": 23.229,
+      "n_stops": 31
+    },
+    {
+      "season": 2022,
+      "race": "Austrian Grand Prix",
+      "median_pit_loss_s": 21.953,
+      "n_stops": 24
+    },
+    {
+      "season": 2022,
+      "race": "Bahrain Grand Prix",
+      "median_pit_loss_s": 24.174,
+      "n_stops": 39
+    },
+    {
+      "season": 2022,
+      "race": "Belgian Grand Prix",
+      "median_pit_loss_s": 18.429,
+      "n_stops": 35
+    },
+    {
+      "season": 2022,
+      "race": "British Grand Prix",
+      "median_pit_loss_s": 22.895,
+      "n_stops": 15
+    },
+    {
+      "season": 2022,
+      "race": "Dutch Grand Prix",
+      "median_pit_loss_s": 22.465,
+      "n_stops": 30
+    },
+    {
+      "season": 2022,
+      "race": "Hungarian Grand Prix",
+      "median_pit_loss_s": 23.287,
+      "n_stops": 39
+    },
+    {
+      "season": 2022,
+      "race": "Italian Grand Prix",
+      "median_pit_loss_s": 25.117,
+      "n_stops": 16
+    },
+    {
+      "season": 2022,
+      "race": "Mexico City Grand Prix",
+      "median_pit_loss_s": 23.34,
+      "n_stops": 22
+    },
+    {
+      "season": 2022,
+      "race": "Miami Grand Prix",
+      "median_pit_loss_s": 21.736,
+      "n_stops": 15
+    },
+    {
+      "season": 2022,
+      "race": "Spanish Grand Prix",
+      "median_pit_loss_s": 22.383,
+      "n_stops": 51
+    },
+    {
+      "season": 2022,
+      "race": "S\u00e3o Paulo Grand Prix",
+      "median_pit_loss_s": 21.845,
+      "n_stops": 32
+    },
+    {
+      "season": 2022,
+      "race": "United States Grand Prix",
+      "median_pit_loss_s": 20.669,
+      "n_stops": 19
+    },
+    {
+      "season": 2024,
+      "race": "Abu Dhabi Grand Prix",
+      "median_pit_loss_s": 23.004,
+      "n_stops": 22
+    },
+    {
+      "season": 2024,
+      "race": "Australian Grand Prix",
+      "median_pit_loss_s": 20.524,
+      "n_stops": 28
+    },
+    {
+      "season": 2024,
+      "race": "Austrian Grand Prix",
+      "median_pit_loss_s": 20.753,
+      "n_stops": 41
+    },
+    {
+      "season": 2024,
+      "race": "Azerbaijan Grand Prix",
+      "median_pit_loss_s": 21.453,
+      "n_stops": 16
+    },
+    {
+      "season": 2024,
+      "race": "Bahrain Grand Prix",
+      "median_pit_loss_s": 23.999,
+      "n_stops": 40
+    },
+    {
+      "season": 2024,
+      "race": "Belgian Grand Prix",
+      "median_pit_loss_s": 18.619,
+      "n_stops": 33
+    },
+    {
+      "season": 2024,
+      "race": "Chinese Grand Prix",
+      "median_pit_loss_s": 23.238,
+      "n_stops": 19
+    },
+    {
+      "season": 2024,
+      "race": "Dutch Grand Prix",
+      "median_pit_loss_s": 23.012,
+      "n_stops": 26
+    },
+    {
+      "season": 2024,
+      "race": "Emilia Romagna Grand Prix",
+      "median_pit_loss_s": 27.807,
+      "n_stops": 23
+    },
+    {
+      "season": 2024,
+      "race": "Hungarian Grand Prix",
+      "median_pit_loss_s": 20.137,
+      "n_stops": 39
+    },
+    {
+      "season": 2024,
+      "race": "Italian Grand Prix",
+      "median_pit_loss_s": 25.728,
+      "n_stops": 28
+    },
+    {
+      "season": 2024,
+      "race": "Japanese Grand Prix",
+      "median_pit_loss_s": 22.16,
+      "n_stops": 34
+    },
+    {
+      "season": 2024,
+      "race": "Las Vegas Grand Prix",
+      "median_pit_loss_s": 22.346,
+      "n_stops": 36
+    },
+    {
+      "season": 2024,
+      "race": "Mexico City Grand Prix",
+      "median_pit_loss_s": 23.314,
+      "n_stops": 19
+    },
+    {
+      "season": 2024,
+      "race": "Singapore Grand Prix",
+      "median_pit_loss_s": 29.658,
+      "n_stops": 21
+    },
+    {
+      "season": 2024,
+      "race": "Spanish Grand Prix",
+      "median_pit_loss_s": 22.676,
+      "n_stops": 42
+    },
+    {
+      "season": 2024,
+      "race": "United States Grand Prix",
+      "median_pit_loss_s": 21.743,
+      "n_stops": 22
+    }
+  ],
+  "stint_p95": [
+    {
+      "compound": "HARD",
+      "season": 2022,
+      "p95_stint_length": 42.0
+    },
+    {
+      "compound": "INTERMEDIATE",
+      "season": 2022,
+      "p95_stint_length": 35.0
+    },
+    {
+      "compound": "MEDIUM",
+      "season": 2022,
+      "p95_stint_length": 38.0
+    },
+    {
+      "compound": "SOFT",
+      "season": 2022,
+      "p95_stint_length": 26.0
+    },
+    {
+      "compound": "WET",
+      "season": 2022,
+      "p95_stint_length": 21.0
+    },
+    {
+      "compound": "HARD",
+      "season": 2024,
+      "p95_stint_length": 45.0
+    },
+    {
+      "compound": "INTERMEDIATE",
+      "season": 2024,
+      "p95_stint_length": 37.0
+    },
+    {
+      "compound": "MEDIUM",
+      "season": 2024,
+      "p95_stint_length": 35.0
+    },
+    {
+      "compound": "SOFT",
+      "season": 2024,
+      "p95_stint_length": 24.0
+    },
+    {
+      "compound": "WET",
+      "season": 2024,
+      "p95_stint_length": 10.5
+    }
+  ]
+}

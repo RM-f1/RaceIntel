@@ -24,7 +24,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          pip install -r requirements-dev.txt
           pip install -e .
 
       - name: Cache HuggingFace models
@@ -40,4 +40,5 @@ jobs:
         env:
           RACEINTEL_OFFLINE: "1"
           HF_HUB_OFFLINE: "1"
+          RACEINTEL_DB_PATH: tests/fixtures/ci.db
         run: python -m pytest -p no:cacheprovider -q
