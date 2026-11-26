@@ -3,7 +3,7 @@ Standings service.
 """
 
 import pandas as pd
-from analytics.standings import get_driver_standings
+from raceintel.analytics.standings import get_driver_standings
 
 
 def get_driver_championship(session_id: int) -> list[dict]:
@@ -29,7 +29,7 @@ def get_driver_championship(session_id: int) -> list[dict]:
 
     return results
 
-from analytics.standings import (
+from raceintel.analytics.standings import (
     get_driver_standings,
     get_constructor_standings,
 )

@@ -120,7 +120,9 @@ def test_2024_championship_standings_exact_totals():
 @pytest.mark.requires_data
 def test_no_duplicate_results_per_session():
     """Verify no driver has duplicate results in any session."""
-    conn = sqlite3.connect("data/raceintel.db")
+    from database.connection import DATABASE_PATH
+
+    conn = sqlite3.connect(f"file:{DATABASE_PATH.resolve().as_posix()}?mode=ro", uri=True)
     c = conn.cursor()
     c.execute("""
         SELECT session_id, driver_id, COUNT(*) as cnt
@@ -181,7 +183,7 @@ def test_race_winner_preserves_grand_prix_only():
         db.close()
 
 
-@pytest.mark.requires_data
+@pytest.mark.requires_full_data
 def test_historical_seasons_sprint_integration():
     """Verify 2022 (3 sprints, VER 454) and 2023 (6 sprints, VER 575)."""
     conn = sqlite3.connect("data/raceintel.db")

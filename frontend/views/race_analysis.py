@@ -230,7 +230,17 @@ def render_race_analysis_page(client: RaceIntelAPIClient, season: int = 2024) ->
                 st.dataframe(comp_df, width="stretch", hide_index=True)
             if not stint_df.empty:
                 st.markdown("**DRIVER STINT BREAKDOWN**")
-                st.dataframe(stint_df.head(30), width="stretch", hide_index=True)
+                _STINT_COLS = [
+                    "driver_code",
+                    "stint_number",
+                    "tyre_compound",
+                    "start_lap",
+                    "end_lap",
+                    "stint_length",
+                    "average_lap_time",
+                ]
+                _cols_present = [c for c in _STINT_COLS if c in stint_df.columns]
+                st.dataframe(stint_df[_cols_present], width="stretch", hide_index=True)
 
     with tab_wx:
         wx_block = payload.get("weather", {})

@@ -2,7 +2,7 @@
 Pace service.
 """
 
-from analytics.pace import get_fastest_laps
+from raceintel.analytics.pace import get_fastest_laps
 
 
 def get_pace(session_id: int) -> list[dict]:

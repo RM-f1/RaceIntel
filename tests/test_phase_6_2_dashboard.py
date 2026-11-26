@@ -116,7 +116,16 @@ def test_driver_photo_fallback_handling():
 # 2. Multi-Season API Verification (2022 - 2026)
 # ---------------------------------------------------------------------------
 
-@pytest.mark.parametrize("season", [2022, 2023, 2024, 2025, 2026])
+@pytest.mark.parametrize(
+    "season",
+    [
+        2022,
+        pytest.param(2023, marks=pytest.mark.requires_full_data),
+        2024,
+        pytest.param(2025, marks=pytest.mark.requires_full_data),
+        pytest.param(2026, marks=pytest.mark.requires_full_data),
+    ],
+)
 @pytest.mark.requires_data
 def test_analytics_endpoints_multi_season_support(api_client: TestClient, season: int):
     """Verify /analytics/overview, progression, and standings for all 5 seasons."""

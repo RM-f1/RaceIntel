@@ -2,7 +2,7 @@
 
 RaceIntel is an AI-powered Formula 1 race intelligence platform that combines FastF1 data ingestion, multi-season SQLite analytics, vector-based retrieval and LLM-assisted question answering, with a FastAPI backend and Streamlit interface.
 ![Python Tests](https://github.com/RM-f1/RaceIntel/actions/workflows/python-tests.yml/badge.svg)
-CI runs 105 of 378 tests. The rest need the full local database and are skipped on CI.
+Local suite: 457 passed (full database) or 447 passed, 10 skipped (fixture-only); GitHub Actions execution has not yet been verified.
 
 ## Features
 
@@ -12,8 +12,9 @@ CI runs 105 of 378 tests. The rest need the full local database and are skipped 
 - **Intent Routing & Domain Guard**: Rule-based intent classification and query planning that routes analytical questions directly to deterministic SQL engines, semantic RAG pipelines, or rapid out-of-domain rejections.
 - **Chat Orchestration**: Integrated `ChatService` managing entity resolution, circuit/event alias disambiguation, question routing, ambiguity handling, and generative answer synthesis.
 - **Analytics Dashboard**: Modular retro-terminal Streamlit frontend comprising 6 specialized consoles: Dashboard Overview, Race Analysis, Driver Intelligence, Constructor Intelligence, AI Race Engineer, and System / About.
+- **Pit-Window & Degradation Analytics**: Pre-fitted within-stint tyre degradation models (`degradation v2`), circuit-specific green-flag median pit-loss estimates, empirical P95 stint-length caps, and a conditional 1-stop pit-window estimator (`GET /analytics/pit-window`).
 - **Sync Worker Engine**: Background synchronization process featuring atomic lockfiles, process lifecycle verification via process creation timestamps and command-line checks, and safe graceful termination.
-- **Comprehensive Test Suite**: 378 automated unit, integration, and regression tests validating offline operation, chronology integrity, API contracts, and worker termination safety.
+- **Comprehensive Test Suite**: 457 automated unit, integration, and regression tests validating offline operation, chronology integrity, API contracts, and worker termination safety.
 
 ## Architecture
 
@@ -179,10 +180,11 @@ python -m pytest -p no:cacheprovider
 ```
 
 - **Test Suite Status**:
-  - **In a fresh clone without data**: **105 passed, 273 skipped, 0 failed** (executed in ~16s).
-  - **With the database built**: **378 passed, 0 skipped, 0 failed** (executed in ~30–40s).
+  - **Full local suite (with full database)**: **457 passed, 22 warnings** (`pytest -q`).
+  - **Fixture-only local suite (without full database)**: **447 passed, 10 skipped, 22 warnings**.
+  - **GitHub Actions CI**: Execution has not yet been verified.
 - **Offline Guarantee**: The test suite executes **100% offline** with zero external network or Gemini API calls. External LLM requests are intercepted by deterministic offline mock clients (`GeminiClient._generate_mock_response`), SQLite operations use test database sandboxes or atomic rollbacks, and no network traffic is generated.
-- **Database Dependency & Skip Behavior**: Tests that require the built SQLite database (`data/raceintel.db`) or Chroma vector index are marked with `@pytest.mark.requires_data`. If the database has not been built yet (e.g. in a clean clone before data ingestion), these tests are automatically skipped with `"requires built database: see README Quickstart"`. When the database is present, all tests run without skipping.
+- **Database Dependency & Skip Behavior**: Database resolution (`resolve_database_path()` in [`src/database/connection.py`](src/database/connection.py)) honors `RACEINTEL_DB_PATH` first; if no explicit path is supplied, it prefers the full local database (`data/raceintel.db`) when present and non-empty, falling back to the seeded fixture database (`tests/fixtures/ci.db`). In [`tests/conftest.py`](tests/conftest.py), tests requiring a populated database are marked `@pytest.mark.requires_data` (skipped only if neither the full database nor `tests/fixtures/ci.db` is available), while tests requiring the complete five-season (`2022`–`2026`) database are marked `@pytest.mark.requires_full_data`. Under fixture-only execution, 447 tests run and 10 tests requiring the full five-season database are skipped; under full local execution, all 457 tests pass.
 
 ## Data and Provenance
 
@@ -240,9 +242,51 @@ Earlier development phases recorded higher figures (e.g. 100% on Baseline 30, Ev
 
 Full evaluation run records and methodology audits are preserved in [`evaluation/`](evaluation/).
 
+## Pit-Window & Degradation Analytics
+
+RaceIntel includes a conditional 1-stop pit-window estimator backed by pre-fitted season and circuit artifacts ([`artifacts/raceintel_artifacts.json`](artifacts/raceintel_artifacts.json), generated via `scripts/build_artifacts.py` and loaded by `raceintel.analytics.artifacts.load_artifacts`).
+
+### Methodology & Scope
+
+- **Fuel-adjusted net degradation proxy under the assumed fuel model.** Within-stint net pace trends (`degradation v2`) are demeaned within each `(race, driver, stint)` with clustered standard errors (`slope`, `se`, `n`). The adjusted slope `w_c(phi) = net_slope_c + phi` (where `phi` (`fuel_effect`) is the assumed global linear fuel-burn pace improvement in seconds per lap) is only a fuel-adjusted net degradation proxy under the assumed fuel model; track evolution remains included in `net_slope_c`, and pure tyre wear is not isolated.
+- **Conditional 1-Stop Objective**: For race distance `N = total_laps` and a pit stop after lap `L` on a supplied `compound_1 → compound_2` sequence, the estimator minimizes cumulative stint degradation `D_1(L) + D_2(L)` over feasible integer pit laps `L ∈ [max(1, N - floor(cap_2)), min(N - 1, floor(cap_1))]`, where `cap_1` and `cap_2` are empirical 95th-percentile stint lengths (`stint_p95`).
+- **Key Assumptions**: Global linear fuel progression (invariant to `L` in total), constant circuit median green-flag pit loss (`pit_loss`), no lap-0 base-pace offsets between compounds, and empirical P95 stint caps rather than physical tyre-life limits.
+- **Explicit Limitations**:
+  - Traffic and overtaking effects are not modelled.
+  - Safety-car and virtual-safety-car effects are not modelled.
+  - Undercut and overcut effects are not modelled.
+  - Track evolution is not separated from tyre wear.
+  - Linear within-stint modelling can underestimate tyre-performance cliffs.
+  - Alternative stop counts and compound sequences are not compared.
+
+### API Endpoint: `GET /analytics/pit-window`
+
+Defined in [`src/raceintel/api/routers/analytics.py`](src/raceintel/api/routers/analytics.py) and implemented in [`src/raceintel/analytics/pit_window.py`](src/raceintel/analytics/pit_window.py):
+
+| Parameter | Type | Required | Default | Constraints / Description |
+|---|---|---|---|---|
+| `race` | `string` | Yes | — | Circuit / Grand Prix name (`min_length=1`, e.g., `"Bahrain Grand Prix"`). |
+| `total_laps` | `integer` | Yes | — | Total race distance in laps (`ge=2`). |
+| `season` | `integer` | No | `2024` | Season year used to look up degradation, stint caps, and pit loss. |
+| `compound_1` | `string` | No | `"SOFT"` | Stint 1 dry compound (`min_length=1`). |
+| `compound_2` | `string` | No | `"HARD"` | Stint 2 dry compound (`min_length=1`). |
+| `fuel_effect` | `float` | No | `0.05` | Assumed global fuel effect in s/lap (`ge=0.0`). |
+| `window_tolerance_s` | `float` | No | `0.5` | Allowable degradation-cost delta above the constrained minimum in seconds (`ge=0.0`). |
+
+### Example: 2024 Bahrain Grand Prix (`SOFT` → `HARD`, 57 Laps)
+
+Using the 2024 artifacts (`SOFT` net slope `0.02588` s/lap, P95 cap `24` laps; `HARD` net slope `-0.020572` s/lap, P95 cap `45` laps; median pit loss `23.999` s across `40` stops; feasible 1-stop pit-lap range `12–24`):
+
+- **Constrained Optimum**: At the default `fuel_effect=0.05`, **lap 16 is the constrained optimum for the specified `SOFT → HARD` one-stop sequence, not the globally optimal race strategy** (the model evaluates only the supplied 1-stop compound sequence and does not select optimal compounds or compare 0-stop vs. 1-stop vs. 2-stop strategies).
+- **Tolerance Window**: **Laps 14–19 are within the 0.5-second tolerance** (`window_tolerance_s=0.5`), forming the primary pit window `[14, 19]`.
+- **Fuel-Effect Sensitivity** (`0.03`, `0.05`, `0.07` s/lap):
+  - Fuel effect `0.03`: optimum lap `12` (cap-constrained by `stint_2_cap`; unconstrained optimum lap `9`, window `12–13`).
+  - Fuel effect `0.05`: optimum lap `16` (window `14–19`).
+  - Fuel effect `0.07`: optimum lap `20` (window `17–22`).
+
 ## Limitations and Known Issues
 
-- **Not a Race Strategy Engine**: RaceIntel is an analytics and intelligence platform, not a predictive race-strategy simulator. It does not perform real-time pit stop strategy optimization, tire degradation modeling with physics simulators, or live undercut/overcut tactical projections.
+- **Not a Full Race Strategy Simulator**: While RaceIntel provides a conditional 1-stop pit-window estimator based on a fuel-adjusted net degradation proxy under the assumed fuel model, it is not a predictive race-strategy simulator. It does not perform global multi-stop strategy optimization, model lap-0 compound pace offsets, or compute live undercut/overcut tactical projections.
 - **Sync Status Identity Model**: The synchronization tracking model uses `(season, round_number, session_type)` combined with free-text event names. If calendar schedule names drift between FastF1 updates, duplicate tracking records may require manual reconciliation.
 - **Incremental Ingestion Skips Completed Records**: The `--incremental` flag skips any session marked `COMPLETED` or `PARTIAL` in `session_sync_status` without verifying if upstream timing data was revised post-race. Use `--force-refresh` to re-fetch sessions.
 - **Driver Name & Timing Code Collisions**: Driver resolution relies on surnames and 3-letter timing abbreviations. Abbreviations that collide with common English words (such as `NOR`, `PER`, `GAS`, `BOT`) require strict uppercase boundary guarding.
@@ -251,7 +295,7 @@ Full evaluation run records and methodology audits are preserved in [`evaluation
 
 ## Roadmap
 
-- **Tyre Stint & Degradation Modeling**: Implement empirical lap-time degradation regressions with statistical confidence intervals.
+- **Multi-Stop & Compound-Offset Strategy Modeling**: Extend the conditional 1-stop pit-window estimator with lap-0 compound base-pace offsets and multi-stop strategy comparison.
 - **Undercut / Overcut Analysis**: Introduce comparative gap models evaluating pit-in and pit-out delta effectiveness.
 - **Production Cloud Deployment**: Docker compose configuration, ASGI production server configuration, and remote database hosting.
 - **Frozen Live LLM Benchmark Suite**: Pre-registered live evaluation harness with automated LLM-as-judge scoring for generative synthesis.

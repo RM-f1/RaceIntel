@@ -8,7 +8,7 @@ podiums, driver single-race results, and constructor race performances.
 from __future__ import annotations
 
 import pandas as pd
-from analytics.race_report import generate_race_report
+from raceintel.analytics.race_report import generate_race_report
 from database.connection import query_to_dataframe
 
 
@@ -552,7 +552,11 @@ def get_tyre_compounds_for_session(session_id: int, driver_id: int | None = None
     df = query_to_dataframe(query, params)
     if df.empty:
         return []
-    return [str(row["tyre_compound"]) for _, row in df.iterrows()]
+    return [
+        str(row["tyre_compound"])
+        for _, row in df.iterrows()
+        if row["tyre_compound"] is not None and str(row["tyre_compound"]).upper() != "NONE"
+    ]
 
 
 def format_tyre_compounds_answer(

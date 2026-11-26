@@ -6,7 +6,7 @@ when telemetry or timing streams are unavailable for historical or upcoming roun
 """
 
 from __future__ import annotations
-from analytics.stints import normalise_compound
+from raceintel.analytics.stints import normalise_compound
 
 import logging
 from dataclasses import dataclass, field

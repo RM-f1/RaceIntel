@@ -346,6 +346,7 @@ def test_domainguard_non_f1_queries():
 # =====================================================================
 
 
+@pytest.mark.requires_full_data
 def test_chronology_reconciler_idempotency():
     """Verify that running the reconciler again proposes zero changes."""
     reconciler = ChronologyReconciler(db_path="data/raceintel.db")
@@ -354,6 +355,7 @@ def test_chronology_reconciler_idempotency():
     assert len(report.proposed_changes) == 0
 
 
+@pytest.mark.requires_full_data
 def test_database_foreign_key_and_integrity():
     """Verify SQLite database integrity and foreign key constraints."""
     conn = sqlite3.connect("data/raceintel.db")
@@ -372,6 +374,7 @@ def test_database_foreign_key_and_integrity():
         conn.close()
 
 
+@pytest.mark.requires_full_data
 def test_protected_table_row_counts():
     """Verify row counts in protected factual tables."""
     conn = sqlite3.connect("data/raceintel.db")

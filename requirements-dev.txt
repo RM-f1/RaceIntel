@@ -1,0 +1,11 @@
+# Development & Testing Dependencies
+-r requirements.txt
+
+pytest==9.1.1
+iniconfig==2.3.0
+pluggy==1.6.0
+black==26.5.1
+isort==8.0.1
+mypy_extensions==1.1.0
+pathspec==1.1.1
+pytokens==0.4.1

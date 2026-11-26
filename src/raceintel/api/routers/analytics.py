@@ -7,6 +7,7 @@ existing endpoint contracts.
 from __future__ import annotations
 
 import hmac
+import logging
 import math
 import os
 from typing import Any
@@ -14,10 +15,17 @@ from typing import Any
 import pandas as pd
 from fastapi import APIRouter, Header, HTTPException, Query
 
-from analytics.pace import get_average_pace, get_lap_consistency
-from analytics.position import get_classification_summary, get_position_changes
-from analytics.tyre import get_compound_performance, get_stint_summary, get_tyre_usage
-from analytics.weather import get_temperature_trend, get_wind_conditions
+from raceintel.analytics.artifacts import load_artifacts
+from raceintel.analytics.pace import get_average_pace, get_lap_consistency
+from raceintel.analytics.pit_window import (
+    DEFAULT_FUEL_EFFECT,
+    DEFAULT_WINDOW_TOLERANCE_S,
+    _lookup_pit_loss,
+    compute_pit_window,
+)
+from raceintel.analytics.position import get_classification_summary, get_position_changes
+from raceintel.analytics.tyre import get_compound_performance, get_stint_summary, get_tyre_usage
+from raceintel.analytics.weather import get_temperature_trend, get_wind_conditions
 from database.connection import query_to_dataframe
 from raceintel.data.ingest import run_ingest
 from raceintel.data.status import (
@@ -39,6 +47,8 @@ router = APIRouter(
     prefix="/analytics",
     tags=["Analytics"],
 )
+
+_log = logging.getLogger(__name__)
 
 
 @router.get("/sync/status")
@@ -405,6 +415,7 @@ def full_race_analysis(session_id: int):
         compound_perf = get_compound_performance(session_id)
         stint_summary = get_stint_summary(session_id)
     except Exception:
+        _log.exception("Failed to load tyre/stint data for session_id=%s", session_id)
         tyre_usage, compound_perf, stint_summary = pd.DataFrame(), pd.DataFrame(), pd.DataFrame()
 
     try:
@@ -750,3 +761,44 @@ def get_constructor_season_profile(constructor_id: int, season: int = Query(defa
         "race_totals": _df_to_records(race_totals),
         "driver_results": _df_to_records(df),
     }
+
+
+@router.get("/pit-window")
+def get_pit_window(
+    race: str = Query(..., min_length=1, description="Circuit / Grand Prix name"),
+    total_laps: int = Query(..., ge=2, description="Total race laps"),
+    season: int = Query(default=2024, description="Season year"),
+    compound_1: str = Query(default="SOFT", min_length=1, description="Stint 1 compound"),
+    compound_2: str = Query(default="HARD", min_length=1, description="Stint 2 compound"),
+    fuel_effect: float = Query(default=DEFAULT_FUEL_EFFECT, ge=0.0, description="Assumed global fuel effect (s/lap)"),
+    window_tolerance_s: float = Query(default=DEFAULT_WINDOW_TOLERANCE_S, ge=0.0, description="Window tolerance above optimum (s)"),
+):
+    """Return conditional 1-stop pit window, sensitivity table, stint caps, and fuel assumptions."""
+    try:
+        artifacts = load_artifacts()
+    except FileNotFoundError as exc:
+        raise HTTPException(status_code=503, detail=str(exc))
+    except ValueError as exc:
+        raise HTTPException(status_code=500, detail=str(exc))
+
+    try:
+        pit_rec = _lookup_pit_loss(artifacts["pit_loss"], season, race)
+        result = compute_pit_window(
+            total_laps=total_laps,
+            compound_1=compound_1,
+            compound_2=compound_2,
+            degradation_records=artifacts["degradation"],
+            stint_p95_records=artifacts["stint_p95"],
+            pit_loss_s=float(pit_rec["median_pit_loss_s"]),
+            season=season,
+            fuel_effect=fuel_effect,
+            window_tolerance_s=window_tolerance_s,
+        )
+    except ValueError as exc:
+        msg = str(exc)
+        status = 404 if msg.startswith("No ") else 422
+        raise HTTPException(status_code=status, detail=msg)
+
+    result["race"] = str(pit_rec["race"])
+    result["pit_loss_n_stops"] = int(pit_rec["n_stops"])
+    return result

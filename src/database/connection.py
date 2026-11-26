@@ -8,6 +8,7 @@ This module provides:
 - Helper for executing SQL queries
 """
 
+import os
 from pathlib import Path
 
 import pandas as pd
@@ -23,7 +24,30 @@ PROJECT_ROOT = Path(__file__).resolve().parents[2]
 DATA_DIR = PROJECT_ROOT / "data"
 DATA_DIR.mkdir(parents=True, exist_ok=True)
 
-DATABASE_PATH = DATA_DIR / "raceintel.db"
+_FULL_DB_PATH = DATA_DIR / "raceintel.db"
+_FIXTURE_DB_PATH = PROJECT_ROOT / "tests" / "fixtures" / "ci.db"
+
+
+def resolve_database_path() -> Path:
+    """Resolve the active SQLite database path.
+
+    Priority:
+    1. Explicit ``RACEINTEL_DB_PATH`` environment variable (if set).
+    2. Full local database ``data/raceintel.db`` (if present and non-empty).
+    3. Seeded CI fixture ``tests/fixtures/ci.db`` (if present and non-empty).
+    4. Default path ``data/raceintel.db``.
+    """
+    env_path = os.environ.get("RACEINTEL_DB_PATH", "").strip()
+    if env_path:
+        return Path(env_path)
+    if _FULL_DB_PATH.is_file() and _FULL_DB_PATH.stat().st_size > 0:
+        return _FULL_DB_PATH
+    if _FIXTURE_DB_PATH.is_file() and _FIXTURE_DB_PATH.stat().st_size > 0:
+        return _FIXTURE_DB_PATH
+    return _FULL_DB_PATH
+
+
+DATABASE_PATH = resolve_database_path()
 
 DATABASE_URL = f"sqlite:///{DATABASE_PATH}"
 

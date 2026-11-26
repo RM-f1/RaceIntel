@@ -2,7 +2,7 @@
 Weather service.
 """
 
-from analytics.weather import get_weather_summary
+from raceintel.analytics.weather import get_weather_summary
 
 
 def get_weather(session_id: int) -> dict:

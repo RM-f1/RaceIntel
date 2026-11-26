@@ -1,4 +1,4 @@
-from analytics.race_report import generate_race_report
+from raceintel.analytics.race_report import generate_race_report
 
 def main():
 

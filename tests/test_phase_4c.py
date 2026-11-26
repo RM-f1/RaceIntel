@@ -268,17 +268,19 @@ def test_ties_and_duplicate_values(chat_service):
 # =====================================================================
 
 def test_sql_parameterization_and_readonly_safety():
+    from database.connection import DATABASE_PATH
+
     # Verify database file hash is unchanged across read-only operations
-    with open("data/raceintel.db", "rb") as f:
+    with open(DATABASE_PATH, "rb") as f:
         sha256_before = hashlib.sha256(f.read()).hexdigest()
 
     # Verify write commands fail under read-only URI
-    ro_conn = sqlite3.connect("file:data/raceintel.db?mode=ro", uri=True)
+    ro_conn = sqlite3.connect(f"file:{DATABASE_PATH.resolve().as_posix()}?mode=ro", uri=True)
     with pytest.raises(sqlite3.OperationalError):
         ro_conn.execute("INSERT INTO seasons (season_year) VALUES (2025);")
     ro_conn.close()
 
-    with open("data/raceintel.db", "rb") as f:
+    with open(DATABASE_PATH, "rb") as f:
         sha256_after = hashlib.sha256(f.read()).hexdigest()
     assert sha256_before == sha256_after
 
