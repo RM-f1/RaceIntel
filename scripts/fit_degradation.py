@@ -2,7 +2,7 @@
 import pandas as pd
 
 sys.path.insert(0, "src")
-from analytics.degradation import build_clean_laps, fit_degradation
+from raceintel.analytics.degradation import build_clean_laps, fit_degradation
 
 c = sqlite3.connect("data/raceintel.db")
 laps = pd.read_sql(

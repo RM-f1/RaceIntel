@@ -51,7 +51,7 @@ WIKI_ARTICLE_MAP = {
 }
 
 HEADERS = {
-    "User-Agent": "RaceIntel/1.0 (F1 Analytics Platform; mehra@example.com) python-requests"
+    "User-Agent": "RaceIntel/1.0 (F1 Analytics Platform; https://github.com/RM-f1/RaceIntel) python-requests"
 }
 
 ASSETS_DIR = Path("frontend/assets/drivers")

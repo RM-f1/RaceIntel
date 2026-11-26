@@ -1,5 +1,5 @@
-from analytics.race_report import generate_race_report
-from analytics.standings import get_driver_standings
+from raceintel.analytics.race_report import generate_race_report
+from raceintel.analytics.standings import get_driver_standings
 from database.connection import query_to_dataframe
 
 from raceintel.retrieval.chroma_client import ChromaClient

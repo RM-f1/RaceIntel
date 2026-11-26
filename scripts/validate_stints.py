@@ -3,7 +3,7 @@ import sqlite3
 import pandas as pd
 
 sys.path.insert(0, "src")
-from analytics.stints import derive_stints
+from raceintel.analytics.stints import derive_stints
 
 c = sqlite3.connect("data/raceintel.db")
 laps = pd.read_sql(

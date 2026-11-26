@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "evaluation": "RaceIntel evaluation v2 dataset",
-  "eval_file": "C:\\Users\\mehra\\OneDrive\\Desktop\\RaceIntel\\evaluation\\raceintel_eval_v2.json",
+  "eval_file": "evaluation/raceintel_eval_v2.json",
   "total": 75,
   "evaluated": 75,
   "passed": 75,

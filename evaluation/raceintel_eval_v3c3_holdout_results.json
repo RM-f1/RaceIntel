@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "evaluation": "RaceIntel Evaluation",
-  "eval_file": "C:\\Users\\mehra\\OneDrive\\Desktop\\RaceIntel\\evaluation\\raceintel_holdout_v1.json",
+  "eval_file": "evaluation/raceintel_holdout_v1.json",
   "total": 30,
   "evaluated": 30,
   "passed": 26,

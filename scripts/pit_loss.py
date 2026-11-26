@@ -1,18 +1,17 @@
-﻿"""Pit-loss estimate per race: green-flag stops only.
+﻿"""Pit-loss estimates per race.  Thin runner over analytics.pit_loss.
 
-loss = in_lap + out_lap - 2 * median(4 laps before, 4 laps after).
-Stops are dropped if any lap in the window is neutralised (field median
-lap time > 1.07x the rolling field median), or on wet/intermediate tyres.
+Prints: total stops measured, clean stops, per-circuit table,
+        not-reported circuits, and the 2022 vs 2024 comparison.
 """
-import sys, sqlite3
-import numpy as np
+
+import sys
+import sqlite3
+
 import pandas as pd
 
 sys.path.insert(0, "src")
-from analytics.stints import derive_stints
 
-SLOW = 1.07
-WET = {"INTERMEDIATE", "WET"}
+from raceintel.analytics.pit_loss import compute_pit_losses, per_circuit_summary, season_comparison
 
 c = sqlite3.connect("data/raceintel.db")
 laps = pd.read_sql(
@@ -25,21 +24,28 @@ laps = pd.read_sql(
        where ss.session_type = 'Race'""",
     c,
 )
+c.close()
 
+# ------------------------------------------------------------------
+# Count total and clean stops to verify 914
+# ------------------------------------------------------------------
+# Re-run the counting logic identically to the original script so the
+# total-measured / clean split is reproduced faithfully.
+import numpy as np
+from raceintel.analytics.stints import derive_stints
 
-def neutralised_laps(g):
-    t = g[g["lap_time_seconds"].notna()].groupby("lap_number")["lap_time_seconds"]
-    field = t.median()[t.count() >= 8]
-    ref = field.rolling(15, center=True, min_periods=5).median()
-    return set(field.index[field > SLOW * ref])
+SLOW = 1.07
+WET = {"INTERMEDIATE", "WET"}
 
-
-rows = []
-counts = {}
+counts: dict = {}
 for sid, g in laps.groupby("session_id"):
     year = int(g["season_year"].iloc[0])
     name = g["event_name"].iloc[0]
-    bad = neutralised_laps(g) | {1}
+    t = g[g["lap_time_seconds"].notna()].groupby("lap_number")["lap_time_seconds"]
+    field = t.median()[t.count() >= 8]
+    ref = field.rolling(15, center=True, min_periods=5).median()
+    bad = set(field.index[field > SLOW * ref]) | {1}
+
     stats = counts.setdefault((year, name), [0, 0])
     stints = derive_stints(g)
     for did, sg in stints.groupby("driver_id"):
@@ -61,29 +67,24 @@ for sid, g in laps.groupby("session_id"):
             if comp.get(in_lap) in WET or comp.get(out_lap) in WET:
                 continue
             stats[1] += 1
-            ref = float(np.median(np.concatenate([before.values, after.values])))
-            rows.append((year, name, did, in_lap, t_in + t_out - 2 * ref))
 
-df = pd.DataFrame(rows, columns=["season", "race", "driver_id", "in_lap", "pit_loss"])
+# ------------------------------------------------------------------
+# Main outputs via the library functions
+# ------------------------------------------------------------------
+df = compute_pit_losses(laps)
+per = per_circuit_summary(df, min_stops=10)
+comp = season_comparison(per)
+
 pd.set_option("display.width", 200)
-per = df.groupby(["season", "race"])["pit_loss"].agg(
-    stops="count",
-    p25=lambda s: s.quantile(0.25),
-    median="median",
-    p75=lambda s: s.quantile(0.75),
-)
 print("stops measured:", sum(v[0] for v in counts.values()), " clean:", len(df))
-print(per[per.stops >= 10].round(1).to_string())
+print(per.round(1).to_string())
 
 print("\nNot reported (fewer than 10 clean stops):")
 for (y, n), (m, k) in sorted(counts.items()):
     if k < 10:
         print(y, n, "measured", m, "clean", k)
 
-good = per[per.stops >= 10]["median"].unstack(0)
-if {2022, 2024} <= set(good.columns):
-    both = good[[2022, 2024]].dropna()
-    both["diff"] = both[2024] - both[2022]
+if not comp.empty:
     print("\nSame circuit, both seasons:")
-    print(both.round(1).to_string())
-    print("median abs diff (s):", round(both["diff"].abs().median(), 2))
+    print(comp.round(1).to_string())
+    print("median abs diff (s):", round(comp["diff"].abs().median(), 2))
