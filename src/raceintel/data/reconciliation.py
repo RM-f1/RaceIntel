@@ -27,7 +27,9 @@ from raceintel.services.event_aliases import (
 
 logger = logging.getLogger(__name__)
 
-DEFAULT_DB_PATH = PROJECT_ROOT / "data" / "raceintel.db"
+from database.connection import resolve_database_path
+
+DEFAULT_DB_PATH = resolve_database_path()
 
 
 @dataclass

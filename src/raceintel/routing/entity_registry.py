@@ -23,7 +23,9 @@ from raceintel.services.event_aliases import (
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[3]
-DEFAULT_DB_PATH = PROJECT_ROOT / "data" / "raceintel.db"
+from database.connection import resolve_database_path
+
+DEFAULT_DB_PATH = resolve_database_path()
 
 
 @dataclass
