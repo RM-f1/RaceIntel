@@ -61,4 +61,11 @@ def pytest_runtest_setup(item):
 def requires_data():
     """Fixture that skips when built database and fixture are both absent."""
     if not _data_is_present():
-        pytest.skip("requires built database or tests/fixtures/ci.db")
+        pytest.skip("requires built database or tests/fixtures/ci.db")
+
+# ragas/datasets are not in requirements-dev.txt; skip RAGAS tests where they are absent (e.g. CI).
+import importlib.util
+
+collect_ignore = []
+if importlib.util.find_spec("datasets") is None:
+    collect_ignore += ["test_evaluation_v2.py", "test_ragas_cache.py"]
