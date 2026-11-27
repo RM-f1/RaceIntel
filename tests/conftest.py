@@ -69,3 +69,24 @@ import importlib.util
 collect_ignore = []
 if importlib.util.find_spec("datasets") is None:
     collect_ignore += ["test_evaluation_v2.py", "test_ragas_cache.py"]
+
+# Tests that need the full local database, Chroma index or frontend assets.
+# CI runs against tests/fixtures/ci.db only, so these are skipped there.
+_FULL_DATA_ONLY = {
+    "test_phase_5c.py::test_rag_race_round_recap_and_narrative_completeness_real_corpus",
+    "test_phase_6_1_multi_season.py::test_domain_guard_multi_season_awareness",
+    "test_phase_6_2_2_sprint_analytics.py::test_chinese_sprint_winner_and_rag_retrieval",
+    "test_phase_6_2_2_sprint_analytics.py::test_driver_sprint_performance_rag_retrieval",
+    "test_phase_6_2_2_sprint_analytics.py::test_chromadb_sprint_indexing_idempotency",
+    "test_phase_6_2_2_sprint_analytics.py::test_chromadb_no_duplicate_document_ids",
+    "test_phase_6_2_dashboard.py::test_driver_photo_local_cache_integrity",
+    "test_phase_6_2_dashboard.py::test_driver_photo_fallback_handling",
+    "test_evaluation_v2.py::test_ragas_pilot_cache_reuse",
+    "test_chronology_and_regression_repair.py::test_domainguard_event_without_year_french",
+}
+
+
+def pytest_collection_modifyitems(config, items):
+    for item in items:
+        if f"{item.path.name}::{item.name}" in _FULL_DATA_ONLY:
+            item.add_marker(pytest.mark.requires_full_data)
